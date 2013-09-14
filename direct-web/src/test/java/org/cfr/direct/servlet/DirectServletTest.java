@@ -30,116 +30,117 @@ import com.softwarementors.extjs.djn.config.GlobalConfiguration;
 
 public class DirectServletTest extends EasyMockTestCase {
 
-    private ServletConfig servletConfig;
+	private ServletConfig servletConfig;
 
-    private DirectServlet servlet;
+	private DirectServlet servlet;
 
-    private ContextLoader contextLoader;
+	private ContextLoader contextLoader;
 
-    private DirectContext directContext;
+	private DirectContext directContext;
 
-    private List<IDirectHandler> directHandlers;
+	private List<IDirectHandler> directHandlers;
 
-    @Override
-    public void setUp() throws Exception {
-        super.setUp();
-        String jsApiFolderPath = null;
-        File currentFile = FileUtils.toFile(this.getClass().getResource("."));
-        while (jsApiFolderPath == null) {
-            currentFile = currentFile.getParentFile();
-            if (currentFile.getName().equals("target")) {
-                jsApiFolderPath = currentFile.getAbsolutePath();
-            }
-        }
+	@Override
+	public void setUp() throws Exception {
+		super.setUp();
+		String jsApiFolderPath = null;
+		File currentFile = FileUtils.toFile(this.getClass().getResource("."));
+		while (jsApiFolderPath == null) {
+			currentFile = currentFile.getParentFile();
+			if (currentFile.getName().equals("target")) {
+				jsApiFolderPath = currentFile.getAbsolutePath();
+			}
+		}
 
-        ServletContext servletContext = mock(ServletContext.class);
-        EasyMock.expect(servletContext.getRealPath("jsApiFolder")).andReturn(jsApiFolderPath);
+		ServletContext servletContext = mock(ServletContext.class);
+		EasyMock.expect(servletContext.getRealPath("jsApiFolder")).andReturn(jsApiFolderPath);
 
-        servletConfig = mock(ServletConfig.class);
-        EasyMock.expect(servletConfig.getServletContext()).andReturn(servletContext).anyTimes();
-        EasyMock.expect(servletConfig.getInitParameter(DirectServlet.API_JS_FOLDER_KEY)).andReturn("jsApiFolder").anyTimes();
-        EasyMock.expect(servletConfig.getInitParameter(DirectServlet.PROVIDER_PATH_KEY)).andReturn("providersurl").anyTimes();
-        EasyMock.expect(servletConfig.getInitParameter(DirectServlet.CONTEXT_NAME_KEY)).andReturn("contextName").anyTimes();
+		servletConfig = mock(ServletConfig.class);
+		EasyMock.expect(servletConfig.getServletContext()).andReturn(servletContext).anyTimes();
+		EasyMock.expect(servletConfig.getInitParameter(DirectServlet.API_JS_FOLDER_KEY)).andReturn("jsApiFolder").anyTimes();
+		EasyMock.expect(servletConfig.getInitParameter(DirectServlet.PROVIDER_PATH_KEY)).andReturn("providersurl").anyTimes();
+		EasyMock.expect(servletConfig.getInitParameter(DirectServlet.CONTEXT_NAME_KEY)).andReturn("contextName").anyTimes();
 
-        WebApplicationContext context = mock(WebApplicationContext.class);
+		WebApplicationContext context = mock(WebApplicationContext.class);
 
-        contextLoader = mock(ContextLoader.class);
-        EasyMock.expect(contextLoader.initWebApplicationContext(servletContext)).andReturn(context).anyTimes();
+		contextLoader = mock(ContextLoader.class);
+		EasyMock.expect(contextLoader.initWebApplicationContext(servletContext)).andReturn(context).anyTimes();
 
-        final DefaultListableBeanFactory beanFactory = mock(DefaultListableBeanFactory.class);
-        //        WebApplicationContext webApplicationContext = mock(WebApplicationContext.class);
-        //        EasyMock.expect(webApplicationContext.getAutowireCapableBeanFactory()).andReturn(beanFactory).anyTimes();
-        //        EasyMock.expect(ContextLoader.getCurrentWebApplicationContext().getAutowireCapableBeanFactory()).andReturn(beanFactory).anyTimes();
+		final DefaultListableBeanFactory beanFactory = mock(DefaultListableBeanFactory.class);
+		//        WebApplicationContext webApplicationContext = mock(WebApplicationContext.class);
+		//        EasyMock.expect(webApplicationContext.getAutowireCapableBeanFactory()).andReturn(beanFactory).anyTimes();
+		//        EasyMock.expect(ContextLoader.getCurrentWebApplicationContext().getAutowireCapableBeanFactory()).andReturn(beanFactory).anyTimes();
 
-        servlet = new DirectServlet() {
+		servlet = new DirectServlet() {
 
-            /**
-             * 
-             */
-            private static final long serialVersionUID = -7369636151684573001L;
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = -7369636151684573001L;
 
-            //FIXME Find a real solution to mock the factory
-            @Override
-            protected DefaultListableBeanFactory createBeanFactory() {
-                return beanFactory;
-            }
+			//FIXME Find a real solution to mock the factory
+			@Override
+			protected DefaultListableBeanFactory createBeanFactory() {
+				return beanFactory;
+			}
 
-            @Override
-            protected ContextLoader createContextLoader() {
-                return contextLoader;
-            }
+			@Override
+			protected ContextLoader createContextLoader() {
+				return contextLoader;
+			}
 
-            @Override
-            protected DirectContext createDirectContext() {
-                return directContext;
-            }
-        };
+			@Override
+			protected DirectContext createDirectContext() {
+				return directContext;
+			}
+		};
 
-        IDirectHandler handler = mock(IDirectHandler.class);
+		IDirectHandler handler = mock(IDirectHandler.class);
 
-        directHandlers = new ArrayList<IDirectHandler>();
-        directHandlers.add(handler);
+		directHandlers = new ArrayList<IDirectHandler>();
+		directHandlers.add(handler);
 
-        directContext = mock(DirectContext.class);
-        DirectConfiguration configuration = mock(DirectConfiguration.class);
-        GlobalConfiguration globalConfiguration = mock(GlobalConfiguration.class);
+		directContext = mock(DirectContext.class);
+		DirectConfiguration configuration = mock(DirectConfiguration.class);
+		GlobalConfiguration globalConfiguration = mock(GlobalConfiguration.class);
 
-        EasyMock.expect(configuration.getGlobalConfiguration()).andReturn(globalConfiguration).anyTimes();
-        EasyMock.expect(directContext.getDirectConfiguration()).andReturn(configuration).anyTimes();
-        EasyMock.expect(directContext.getApiConfigurations()).andReturn(new ArrayList<ApiConfiguration>()).anyTimes();
-        EasyMock.expect(directContext.getDirectHandlers()).andReturn(directHandlers).anyTimes();
+		EasyMock.expect(configuration.getGlobalConfiguration()).andReturn(globalConfiguration).anyTimes();
+		EasyMock.expect(directContext.getDirectConfiguration()).andReturn(configuration).anyTimes();
+		EasyMock.expect(directContext.getApiConfigurations()).andReturn(new ArrayList<ApiConfiguration>()).anyTimes();
+		EasyMock.expect(directContext.getDirectHandlers()).andReturn(directHandlers).anyTimes();
 
-        Registry registry = mock(Registry.class);
+		Registry registry = mock(Registry.class);
 
-        EasyMock.expect(directContext.getRegistry()).andReturn(registry).anyTimes();
-    }
+		EasyMock.expect(directContext.getRegistry()).andReturn(registry).anyTimes();
+	}
 
-    @Test
-    public void destroyTest() throws ServletException {
-        replay();
+	@Test
+	public void destroyTest() throws ServletException {
+		replay();
 
-        servlet.init(servletConfig);
-        servlet.destroy();
-        verify();
-    }
+		servlet.init(servletConfig);
+		servlet.destroy();
+		verify();
+	}
 
-    @Test
-    public void postTest() throws Exception {
+	@Test
+	public void postTest() throws Exception {
 
-        HttpServletRequest request = mock(HttpServletRequest.class);
-        expect(request.getContentType()).andReturn("multipart/blablatest").anyTimes();
-        expect(request.getInputStream()).andReturn(new BufferedServletInputStream(new ByteArrayInputStream(new byte[] {}))).once();
-        expect(request.getMethod()).andReturn("post").anyTimes();
-        Enumeration<Object> header = mock(Enumeration.class);
-        expect(request.getHeaderNames()).andReturn(header).anyTimes();
+		HttpServletRequest request = mock(HttpServletRequest.class);
+		expect(request.getContentType()).andReturn("multipart/blablatest").anyTimes();
+		expect(request.getInputStream()).andReturn(new BufferedServletInputStream(new ByteArrayInputStream(new byte[] {}))).once();
+		expect(request.getMethod()).andReturn("post").anyTimes();
+		@SuppressWarnings("unchecked")
+		Enumeration<Object> header = mock(Enumeration.class);
+		expect(request.getHeaderNames()).andReturn(header).anyTimes();
 
-        HttpServletResponse response = mock(HttpServletResponse.class);
-        replay();
+		HttpServletResponse response = mock(HttpServletResponse.class);
+		replay();
 
-        servlet.init(servletConfig);
-        servlet.doPost(request, response);
-        verify();
+		servlet.init(servletConfig);
+		servlet.doPost(request, response);
+		verify();
 
-        //  assertEquals("Error while retrieve handlers", handlers, servlet.get);
-    }
+		//  assertEquals("Error while retrieve handlers", handlers, servlet.get);
+	}
 }

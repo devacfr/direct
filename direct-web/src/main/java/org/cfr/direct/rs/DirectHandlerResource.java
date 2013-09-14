@@ -27,102 +27,98 @@ import com.softwarementors.extjs.djn.router.RequestType;
 @Path("/directrs")
 public class DirectHandlerResource implements InitializingBean {
 
-    /** Action Context  */
-    @Autowired(required = true)
-    private DirectContext directContext;
+	/** Action Context  */
+	@Autowired(required = true)
+	private DirectContext directContext;
 
-    private long id = 1000; // It is good for formatting to get lots of ids with the same number of digits...
+	public DirectHandlerResource() {
+	}
 
-    public DirectHandlerResource() {
-    }
+	@Override
+	public void afterPropertiesSet() throws Exception {
 
-    @Override
-    public void afterPropertiesSet() throws Exception {
+		Path path = this.getClass()
+				.getAnnotation(Path.class);
+		directContext.init("", this.getClass()
+				.getSimpleName(), this.getClass()
+				.getSimpleName(), path.value());
+	}
 
-        Path path = this.getClass()
-                .getAnnotation(Path.class);
-        directContext.init("", this.getClass()
-                .getSimpleName(), this.getClass()
-                .getSimpleName(), path.value());
-    }
+	/**
+	 * JSON method using POST Method
+	 * 
+	 * @param uriInfo
+	 * @return
+	 */
+	@POST
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	public String handleJSONPost(@Context UriInfo uriInfo, String json) {
 
-    /**
-     * JSON method using POST Method
-     * 
-     * @param uriInfo
-     * @return
-     */
-    @POST
-    @Produces(MediaType.APPLICATION_JSON)
-    @Consumes(MediaType.APPLICATION_JSON)
-    public String handleJSONPost(@Context UriInfo uriInfo, String json) {
+		return handle(json, uriInfo, RequestType.JSON);
+	}
 
-        return handle(json, uriInfo, RequestType.JSON);
-    }
+	/**
+	 * POLL method using GET Method
+	 * 
+	 * @param uriInfo
+	 * @return
+	 */
+	@GET
+	@Path("poll")
+	public String handlePollGet(@Context UriInfo uriInfo) {
 
-    /**
-     * POLL method using GET Method
-     * 
-     * @param uriInfo
-     * @return
-     */
-    @GET
-    @Path("poll")
-    public String handlePollGet(@Context UriInfo uriInfo) {
+		return handle("", uriInfo, RequestType.POLL);
+	}
 
-        return handle("", uriInfo, RequestType.POLL);
-    }
+	/**
+	 * POLL method using POST Method
+	 * 
+	 * @param uriInfo
+	 * @return
+	 */
+	@POST
+	@Path("poll")
+	public String handlePollPost(@Context UriInfo uriInfo) {
 
-    /**
-     * POLL method using POST Method
-     * 
-     * @param uriInfo
-     * @return
-     */
-    @POST
-    @Path("poll")
-    public String handlePollPost(@Context UriInfo uriInfo) {
+		return handle("", uriInfo, RequestType.POLL);
+	}
 
-        return handle("", uriInfo, RequestType.POLL);
-    }
+	/**
+	 * FileUpload method
+	 * 
+	 * @param input
+	 * @param uriInfo
+	 * @return
+	 */
+	@POST
+	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+	public String handleFormUrlEncodedPost(@Context UriInfo uriInfo, String input) {
 
-    /**
-     * FileUpload method
-     * 
-     * @param input
-     * @param uriInfo
-     * @return
-     */
-    @POST
-    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-    public String handleFormUrlEncodedPost(@Context UriInfo uriInfo, String input) {
+		return handle(input, uriInfo, RequestType.FORM_SIMPLE_POST);
+	}
 
-        return handle(input, uriInfo, RequestType.FORM_SIMPLE_POST);
-    }
+	protected String handle(String input, UriInfo uriInfo, RequestType requestType) {
+		BufferedReader reader = null;
+		PrintWriter writer = null;
+		try {
+			reader = new BufferedReader(new StringReader(input));
+			StringWriter stringWriter = new StringWriter();
+			writer = new PrintWriter(stringWriter);
+			IDirectHandlerContext handlerContext = new DirectJaxRsHandlerContext(directContext, requestType, uriInfo.getPath(), reader, writer);
+			for (IDirectHandler handler : directContext.getDirectHandlers()) {
+				handler.process(handlerContext);
+			}
+			return stringWriter.toString();
+		} finally {
+			IOUtils.closeQuietly(reader);
+			IOUtils.closeQuietly(writer);
+		}
+	}
 
-    protected String handle(String input, UriInfo uriInfo, RequestType requestType) {
-        BufferedReader reader = null;
-        PrintWriter writer = null;
-        try {
-            reader = new BufferedReader(new StringReader(input));
-            StringWriter stringWriter = new StringWriter();
-            writer = new PrintWriter(stringWriter);
-            IDirectHandlerContext handlerContext = new DirectJaxRsHandlerContext(directContext, requestType, uriInfo.getPath(), reader, writer);
-            for (IDirectHandler handler : directContext.getDirectHandlers()) {
-                handler.process(handlerContext);
-            }
-            return stringWriter.toString();
-        } finally {
-            IOUtils.closeQuietly(reader);
-            IOUtils.closeQuietly(writer);
-        }
-    }
 
-    private synchronized long getUniqueRequestId() {
-        return this.id++;
-    }
 
-    public void setDirectContext(DirectContext directContext) {
-        this.directContext = directContext;
-    }
+	public void setDirectContext(DirectContext directContext) {
+		this.directContext = directContext;
+	}
 }
