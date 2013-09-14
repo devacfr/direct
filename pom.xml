@@ -11,6 +11,7 @@
         <module>direct-core</module>
         <module>direct-testing</module>
         <module>direct-web</module>
+        <module>direct-example</module>
     </modules>
     <developers>
         <developer>
@@ -40,6 +41,7 @@
         <spring.version>3.1.2.RELEASE</spring.version>
         <jsr311.version>1.0</jsr311.version>
         <gson.version>1.5</gson.version>
+        <yuicompressor.version>2.4.2</yuicompressor.version>
 
         <!-- Test dependencies version -->
         <easymock.version>3.0</easymock.version>
@@ -108,9 +110,9 @@
                 <version>${jsr311.version}</version>
             </dependency>
             <dependency>
-                <groupId>com.yahoo</groupId>
+                <groupId>com.yahoo.platform.yui</groupId>
                 <artifactId>yuicompressor</artifactId>
-                <version>2.4.2</version>
+                <version>${yuicompressor.version}</version>
             </dependency>
             <dependency>
                 <groupId>junit</groupId>
