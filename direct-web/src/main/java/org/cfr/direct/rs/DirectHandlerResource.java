@@ -1,10 +1,5 @@
 package org.cfr.direct.rs;
 
-import java.io.BufferedReader;
-import java.io.PrintWriter;
-import java.io.StringReader;
-import java.io.StringWriter;
-
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -14,35 +9,21 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.UriInfo;
 
-import org.apache.commons.io.IOUtils;
-import org.cfr.direct.config.DirectContext;
-import org.cfr.direct.handler.IDirectHandler;
-import org.cfr.direct.handler.context.IDirectHandlerContext;
-import org.cfr.direct.rs.context.DirectJaxRsHandlerContext;
-import org.springframework.beans.factory.InitializingBean;
+import org.cfr.direct.IJaxRsDirectManager;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.softwarementors.extjs.djn.router.RequestType;
 
-@Path("/directrs")
-public class DirectHandlerResource implements InitializingBean {
+@Path("/direct")
+public class DirectHandlerResource  {
 
 	/** Action Context  */
 	@Autowired(required = true)
-	private DirectContext directContext;
+	private IJaxRsDirectManager directManager;
 
 	public DirectHandlerResource() {
 	}
 
-	@Override
-	public void afterPropertiesSet() throws Exception {
-
-		Path path = this.getClass()
-				.getAnnotation(Path.class);
-		directContext.init("", this.getClass()
-				.getSimpleName(), this.getClass()
-				.getSimpleName(), path.value());
-	}
 
 	/**
 	 * JSON method using POST Method
@@ -99,26 +80,11 @@ public class DirectHandlerResource implements InitializingBean {
 	}
 
 	protected String handle(String input, UriInfo uriInfo, RequestType requestType) {
-		BufferedReader reader = null;
-		PrintWriter writer = null;
-		try {
-			reader = new BufferedReader(new StringReader(input));
-			StringWriter stringWriter = new StringWriter();
-			writer = new PrintWriter(stringWriter);
-			IDirectHandlerContext handlerContext = new DirectJaxRsHandlerContext(directContext, requestType, uriInfo.getPath(), reader, writer);
-			for (IDirectHandler handler : directContext.getDirectHandlers()) {
-				handler.process(handlerContext);
-			}
-			return stringWriter.toString();
-		} finally {
-			IOUtils.closeQuietly(reader);
-			IOUtils.closeQuietly(writer);
-		}
+		return  directManager.handleProcess(input, uriInfo, requestType);
 	}
 
-
-
-	public void setDirectContext(DirectContext directContext) {
-		this.directContext = directContext;
+	public void setDirectManager(IJaxRsDirectManager directManager) {
+		this.directManager = directManager;
 	}
+
 }

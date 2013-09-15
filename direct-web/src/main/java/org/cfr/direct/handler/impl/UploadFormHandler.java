@@ -11,43 +11,43 @@ import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.cfr.direct.handler.context.IDirectHandlerContext;
 import org.cfr.direct.servlet.context.DirectHandlerContext;
-import org.springframework.stereotype.Component;
 
 import com.softwarementors.extjs.djn.router.RequestType;
 import com.softwarementors.extjs.djn.router.processor.standard.form.upload.UploadFormPostRequestProcessor;
 
-@Component
+
 public class UploadFormHandler extends BaseHandler {
 
-    private final ServletFileUpload uploader = UploadFormPostRequestProcessor.createFileUploader();
+	private final ServletFileUpload uploader = UploadFormPostRequestProcessor.createFileUploader();
 
-    public final static List<RequestType> acceptedRequestTypeList = Collections.unmodifiableList(Arrays.asList(RequestType.FORM_UPLOAD_POST));
+	public final static List<RequestType> acceptedRequestTypeList = Collections.unmodifiableList(Arrays.asList(RequestType.FORM_UPLOAD_POST));
 
-    @Override
-    public List<RequestType> getAcceptedRequestType() {
-        return acceptedRequestTypeList;
-    }
+	@Override
+	public List<RequestType> getAcceptedRequestType() {
+		return acceptedRequestTypeList;
+	}
 
-    @Override
-    protected void doProcess(IDirectHandlerContext handlerContext) throws Exception {
-        handlerContext.setResponseContentType(HTML_CONTENT_TYPE); // MUST be "text/html" for uploads to work!
-        UploadFormPostRequestProcessor processor = handlerContext.getContext().getRequestRouter().createUploadFromProcessor();
-        try {
-            //FIXME [vlagorce](DIRECT-7) This processor have to work with every kind of handlerContext
-            if (!(handlerContext instanceof DirectHandlerContext))
-                throw new IllegalAccessException("UploadFormHandler use UploadFormPostRequestProcessor wich need to read the request. "
-                        + handlerContext.getClass() + " don't provide " + HttpServletRequest.class);
+	@Override
+	protected void doProcess(IDirectHandlerContext handlerContext) throws Exception {
+		handlerContext.setResponseContentType(HTML_CONTENT_TYPE); // MUST be "text/html" for uploads to work!
+		UploadFormPostRequestProcessor processor = handlerContext.getContext().getRequestRouter().createUploadFromProcessor();
+		try {
+			//FIXME [vlagorce](DIRECT-7) This processor have to work with every kind of handlerContext
+			if (!(handlerContext instanceof DirectHandlerContext)) {
+				throw new IllegalAccessException("UploadFormHandler use UploadFormPostRequestProcessor wich need to read the request. "
+						+ handlerContext.getClass() + " don't provide " + HttpServletRequest.class);
+			}
 
-            handlerContext.getContext().getRequestRouter().processUploadFormPostRequest(processor,
-                    getFileItems(((DirectHandlerContext) handlerContext).getRequest()), handlerContext.getWriter());
-        } catch (FileUploadException e) {
-            processor.handleFileUploadException(e);
-        }
+			handlerContext.getContext().getRequestRouter().processUploadFormPostRequest(processor,
+					getFileItems(((DirectHandlerContext) handlerContext).getRequest()), handlerContext.getWriter());
+		} catch (FileUploadException e) {
+			processor.handleFileUploadException(e);
+		}
 
-    }
+	}
 
-    @SuppressWarnings("unchecked")
-    protected List<FileItem> getFileItems(HttpServletRequest request) throws FileUploadException {
-        return this.uploader.parseRequest(request);
-    }
+	@SuppressWarnings("unchecked")
+	protected List<FileItem> getFileItems(HttpServletRequest request) throws FileUploadException {
+		return this.uploader.parseRequest(request);
+	}
 }

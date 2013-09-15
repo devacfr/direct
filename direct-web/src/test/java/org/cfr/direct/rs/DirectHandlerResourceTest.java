@@ -1,98 +1,82 @@
 package org.cfr.direct.rs;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import javax.ws.rs.core.UriInfo;
 
-import org.cfr.direct.config.DirectContext;
-import org.cfr.direct.handler.IDirectHandler;
-import org.cfr.direct.handler.impl.DirectHandler;
+import org.cfr.direct.IJaxRsDirectManager;
 import org.cfr.direct.testing.EasyMockTestCase;
-import org.easymock.EasyMock;
 import org.junit.Test;
 
 public class DirectHandlerResourceTest extends EasyMockTestCase {
 
-    private DirectContext getMockFullDirectContext() {
-        DirectContext directContext = mock(DirectContext.class);
-        EasyMock.expect(directContext.getDirectHandlers()).andReturn(getMockDirectHandlers()).anyTimes();
+	private IJaxRsDirectManager getMockFullDirectManager() {
+		IJaxRsDirectManager directManager = mock(IJaxRsDirectManager.class);
+		return directManager;
+	}
 
-        return directContext;
-    }
+	@Test
+	public void initTest() throws Exception {
+		DirectHandlerResource resource = new DirectHandlerResource();
 
-    @Test
-    public void initTest() throws Exception {
-        DirectHandlerResource resource = new DirectHandlerResource();
+		resource.setDirectManager(getMockFullDirectManager());
+		replay();
+		//resource.afterPropertiesSet();
+		verify();
 
-        DirectContext directContext = getMockFullDirectContext();
+	}
 
-        resource.setDirectContext(directContext);
-        replay();
-        resource.afterPropertiesSet();
-        verify();
+	@Test
+	public void handleFormUrlEncodedPostTest() {
+		DirectHandlerResource resource = new DirectHandlerResource();
 
-    }
+		resource.setDirectManager(getMockFullDirectManager());
 
-    @Test
-    public void handleFormUrlEncodedPostTest() {
-        DirectHandlerResource resource = new DirectHandlerResource();
+		String input = "myInput";
+		UriInfo uriInfo = mock(UriInfo.class);
 
-        resource.setDirectContext(getMockFullDirectContext());
+		replay();
+		resource.handleFormUrlEncodedPost(uriInfo, input);
+		verify();
+	}
 
-        String input = "myInput";
-        UriInfo uriInfo = mock(UriInfo.class);
+	@Test
+	public void handleJSONPostTest() {
+		DirectHandlerResource resource = new DirectHandlerResource();
 
-        replay();
-        resource.handleFormUrlEncodedPost(uriInfo, input);
-        verify();
-    }
+		resource.setDirectManager(getMockFullDirectManager());
 
-    @Test
-    public void handleJSONPostTest() {
-        DirectHandlerResource resource = new DirectHandlerResource();
+		String json = "myInput";
+		UriInfo uriInfo = mock(UriInfo.class);
 
-        resource.setDirectContext(getMockFullDirectContext());
+		replay();
+		resource.handleJSONPost(uriInfo, json);
+		verify();
+	}
 
-        String json = "myInput";
-        UriInfo uriInfo = mock(UriInfo.class);
+	@Test
+	public void handlePollGetTest() {
+		DirectHandlerResource resource = new DirectHandlerResource();
 
-        replay();
-        resource.handleJSONPost(uriInfo, json);
-        verify();
-    }
+		resource.setDirectManager(getMockFullDirectManager());
 
-    @Test
-    public void handlePollGetTest() {
-        DirectHandlerResource resource = new DirectHandlerResource();
+		UriInfo uriInfo = mock(UriInfo.class);
 
-        resource.setDirectContext(getMockFullDirectContext());
+		replay();
+		resource.handlePollGet(uriInfo);
+		verify();
+	}
 
-        UriInfo uriInfo = mock(UriInfo.class);
+	@Test
+	public void handlePollPostTest() {
+		DirectHandlerResource resource = new DirectHandlerResource();
 
-        replay();
-        resource.handlePollGet(uriInfo);
-        verify();
-    }
+		resource.setDirectManager(getMockFullDirectManager());
 
-    @Test
-    public void handlePollPostTest() {
-        DirectHandlerResource resource = new DirectHandlerResource();
+		UriInfo uriInfo = mock(UriInfo.class);
 
-        resource.setDirectContext(getMockFullDirectContext());
+		replay();
+		resource.handlePollPost(uriInfo);
+		verify();
+	}
 
-        UriInfo uriInfo = mock(UriInfo.class);
 
-        replay();
-        resource.handlePollPost(uriInfo);
-        verify();
-    }
-
-    private List<IDirectHandler> getMockDirectHandlers() {
-        DirectHandler handler = mock(DirectHandler.class);
-        List<IDirectHandler> directHandlers = new ArrayList<IDirectHandler>();
-        directHandlers.add(handler);
-        return directHandlers;
-
-    }
 }

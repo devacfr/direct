@@ -8,7 +8,6 @@ import org.apache.commons.lang.StringUtils;
 import org.cfr.direct.action.IDirectAction;
 import org.cfr.direct.dispatcher.SpringDispatcher;
 import org.cfr.direct.handler.IDirectHandler;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.Assert;
 
 import com.softwarementors.extjs.djn.api.Registry;
@@ -23,207 +22,205 @@ import com.softwarementors.extjs.djn.scanner.Scanner;
  */
 public class DirectContext {
 
-    /**
-     * List of actions to be published in js Api
-     */
-    @Autowired(required = false)
-    private List<IDirectAction> directActions;
+	/**
+	 * List of actions to be published in js Api
+	 */
+	private List<IDirectAction> directActions;
 
-    @Autowired(required = false)
-    private List<IDirectHandler> directHandlers;
 
-    @Autowired(required = false)
-    private List<ApiConfiguration> apiConfigurations;
+	private List<IDirectHandler> directHandlers;
 
-    /**
-     * redefined configuration only used when application start to redefine GlobalConfiguration
-     */
-    private DirectConfiguration directConfiguration;
+	private List<ApiConfiguration> apiConfigurations;
 
-    /**
-     * directDispatcher class used to dispatch action's call
-     */
-    @Autowired(required = false)
-    private SpringDispatcher directDispatcher;
+	/**
+	 * redefined configuration only used when application start to redefine GlobalConfiguration
+	 */
+	private DirectConfiguration directConfiguration;
 
-    // Non-mutable => no need to worry about thread-safety => can be an 'instance' variable
-    private RequestRouter requestRouter;
+	/**
+	 * directDispatcher class used to dispatch action's call
+	 */
+	private SpringDispatcher directDispatcher;
 
-    private Registry registry;
+	// Non-mutable => no need to worry about thread-safety => can be an 'instance' variable
+	private RequestRouter requestRouter;
 
-    public DirectContext() {
-    }
+	private Registry registry;
 
-    /**
-     * Registry initialization
-     */
-    public void init(String jsDefaultApiPath, String namespace, String contextName, String providersUrl) {
+	public DirectContext() {
+	}
 
-        //
-        //        Assert.hasText(contextName, "contextName is required");
-        //
-        //        Assert.hasText(jsDefaultApiPath, "jsDefaultApiPath is required");
+	/**
+	 * Registry initialization
+	 */
+	public void init(String jsDefaultApiPath, String namespace, String contextName, String providersUrl) {
 
-        Assert.notEmpty(directHandlers, "No directHandler defined");
 
-        // config initilization
-        if (this.directConfiguration == null) {
-            Assert.hasText(providersUrl, "providersUrl is required");
-            this.directConfiguration = new DirectConfiguration(providersUrl);
-        } else if (StringUtils.isEmpty(directConfiguration.getProvidersUrl())) {
-            Assert.hasText(providersUrl, "providersUrl is required");
-            directConfiguration.setProvidersUrl(providersUrl);
-        }
+		Assert.notEmpty(directHandlers, "No directHandler defined");
 
-        String apiFile = contextName + ".js";
-        //build js api relative path
-        StringBuilder fullApiFileNameBuilder = new StringBuilder();
-        fullApiFileNameBuilder.append(jsDefaultApiPath);
-        fullApiFileNameBuilder.append(System.getProperty("file.separator"));
-        fullApiFileNameBuilder.append(apiFile);
+		// config initilization
+		if (this.directConfiguration == null) {
+			Assert.hasText(providersUrl, "providersUrl is required");
+			this.directConfiguration = new DirectConfiguration(providersUrl);
+		} else if (StringUtils.isEmpty(directConfiguration.getProvidersUrl())) {
+			Assert.hasText(providersUrl, "providersUrl is required");
+			directConfiguration.setProvidersUrl(providersUrl);
+		}
 
-        if (directActions == null)
-            directActions = Collections.emptyList();
+		String apiFile = contextName + ".js";
+		//build js api relative path
+		StringBuilder fullApiFileNameBuilder = new StringBuilder();
+		fullApiFileNameBuilder.append(jsDefaultApiPath);
+		fullApiFileNameBuilder.append(System.getProperty("file.separator"));
+		fullApiFileNameBuilder.append(apiFile);
 
-        if (directDispatcher == null)
-            this.directDispatcher = new SpringDispatcher(directActions);
+		if (directActions == null) {
+			directActions = Collections.emptyList();
+		}
 
-        if (apiConfigurations == null)
-            apiConfigurations = createApiConfigurations(contextName, apiFile, fullApiFileNameBuilder.toString(), namespace, "", directActions);
+		if (directDispatcher == null) {
+			this.directDispatcher = new SpringDispatcher(directActions);
+		}
 
-        if (registry == null)
-            registry = createRegistry(directConfiguration, apiConfigurations);
+		if (apiConfigurations == null) {
+			apiConfigurations = createApiConfigurations(contextName, apiFile, fullApiFileNameBuilder.toString(), namespace, "", directActions);
+		}
 
-        if (requestRouter == null)
-            requestRouter = createRequestRouter(registry, directConfiguration, directDispatcher);
+		if (registry == null) {
+			registry = createRegistry(directConfiguration, apiConfigurations);
+		}
 
-    }
+		if (requestRouter == null) {
+			requestRouter = createRequestRouter(registry, directConfiguration, directDispatcher);
+		}
 
-    protected Registry createRegistry(DirectConfiguration directConfiguration, List<ApiConfiguration> apiConfigs) {
-        Registry registry = new Registry(directConfiguration.getGlobalConfiguration());
+	}
 
-        Scanner scanner = new Scanner(registry);
-        scanner.scanAndRegisterApiConfigurations(apiConfigs);
+	protected Registry createRegistry(DirectConfiguration directConfiguration, List<ApiConfiguration> apiConfigs) {
+		Registry registry = new Registry(directConfiguration.getGlobalConfiguration());
 
-        return registry;
-    }
+		Scanner scanner = new Scanner(registry);
+		scanner.scanAndRegisterApiConfigurations(apiConfigs);
 
-    protected RequestRouter createRequestRouter(Registry registry, DirectConfiguration directConfiguration, Dispatcher dispatcher) {
-        return new RequestRouter(registry, directConfiguration.getGlobalConfiguration(), dispatcher);
-    }
+		return registry;
+	}
 
-    protected List<ApiConfiguration> createApiConfigurations(String name,
-                                                             String apiFile,
-                                                             String fullApiFileName,
-                                                             String apiNamespace,
-                                                             String actionsNamespace,
-                                                             List<IDirectAction> actions) {
+	protected RequestRouter createRequestRouter(Registry registry, DirectConfiguration directConfiguration, Dispatcher dispatcher) {
+		return new RequestRouter(registry, directConfiguration.getGlobalConfiguration(), dispatcher);
+	}
 
-        List<ApiConfiguration> apiConfigs = new ArrayList<ApiConfiguration>();
+	protected List<ApiConfiguration> createApiConfigurations(String name,
+			String apiFile,
+			String fullApiFileName,
+			String apiNamespace,
+			String actionsNamespace,
+			List<IDirectAction> actions) {
 
-        List<Class<?>> listActionClass = new ArrayList<Class<?>>(this.directActions.size());
-        for (IDirectAction action : this.directActions) {
-            listActionClass.add(action.getClass());
-        }
-        apiConfigs.add(new ApiConfiguration(name, apiFile, fullApiFileName, apiNamespace + '.' + name, "", listActionClass));
-        return apiConfigs;
-    }
+		List<ApiConfiguration> apiConfigs = new ArrayList<ApiConfiguration>();
 
-    /**
-     * @return the directActions
-     */
-    public List<IDirectAction> getDirectActions() {
-        return directActions;
-    }
+		List<Class<?>> listActionClass = new ArrayList<Class<?>>(this.directActions.size());
+		for (IDirectAction action : this.directActions) {
+			listActionClass.add(action.getClass());
+		}
+		apiConfigs.add(new ApiConfiguration(name, apiFile, fullApiFileName, apiNamespace + '.' + name, "", listActionClass));
+		return apiConfigs;
+	}
 
-    /**
-     * @param directActions the directActions to set
-     */
-    public void setActions(List<IDirectAction> directActions) {
-        this.directActions = directActions;
-    }
+	/**
+	 * @return the directActions
+	 */
+	public List<IDirectAction> getDirectActions() {
+		return directActions;
+	}
 
-    /**
-     * @return the directHandlers
-     */
-    public List<IDirectHandler> getDirectHandlers() {
-        return directHandlers;
-    }
+	/**
+	 * @param directActions the directActions to set
+	 */
+	public void setActions(List<IDirectAction> directActions) {
+		this.directActions = directActions;
+	}
 
-    /**
-     * @param directHandlers the directHandlers to set
-     */
-    public void setDirectHandlers(List<IDirectHandler> directHandlers) {
-        this.directHandlers = directHandlers;
-    }
+	/**
+	 * @return the directHandlers
+	 */
+	public List<IDirectHandler> getDirectHandlers() {
+		return directHandlers;
+	}
 
-    /**
-     * @return the apiConfigurations
-     */
-    public List<ApiConfiguration> getApiConfigurations() {
-        return apiConfigurations;
-    }
+	/**
+	 * @param directHandlers the directHandlers to set
+	 */
+	public void setDirectHandlers(List<IDirectHandler> directHandlers) {
+		this.directHandlers = directHandlers;
+	}
 
-    /**
-     * @param apiConfigurations the apiConfigurations to set
-     */
-    public void setApiConfigurations(List<ApiConfiguration> apiConfigurations) {
-        this.apiConfigurations = apiConfigurations;
-    }
+	/**
+	 * @return the apiConfigurations
+	 */
+	public List<ApiConfiguration> getApiConfigurations() {
+		return apiConfigurations;
+	}
 
-    /**
-     * @return the directConfiguration
-     */
-    public DirectConfiguration getDirectConfiguration() {
-        return directConfiguration;
-    }
+	/**
+	 * @param apiConfigurations the apiConfigurations to set
+	 */
+	public void setApiConfigurations(List<ApiConfiguration> apiConfigurations) {
+		this.apiConfigurations = apiConfigurations;
+	}
 
-    /**
-     * @param directConfiguration the directConfiguration to set
-     */
-    public void setDirectConfiguration(DirectConfiguration directConfiguration) {
-        this.directConfiguration = directConfiguration;
-    }
+	/**
+	 * @return the directConfiguration
+	 */
+	public DirectConfiguration getDirectConfiguration() {
+		return directConfiguration;
+	}
 
-    /**
-     * @return the directDispatcher
-     */
-    public SpringDispatcher getDirectDispatcher() {
-        return directDispatcher;
-    }
+	/**
+	 * @param directConfiguration the directConfiguration to set
+	 */
+	public void setDirectConfiguration(DirectConfiguration directConfiguration) {
+		this.directConfiguration = directConfiguration;
+	}
 
-    /**
-     * @param directDispatcher the directDispatcher to set
-     */
-    public void setDirectDispatcher(SpringDispatcher directDispatcher) {
-        this.directDispatcher = directDispatcher;
-    }
+	/**
+	 * @return the directDispatcher
+	 */
+	public SpringDispatcher getDirectDispatcher() {
+		return directDispatcher;
+	}
 
-    /**
-     * @return the requestRouter
-     */
-    public RequestRouter getRequestRouter() {
-        return requestRouter;
-    }
+	/**
+	 * @param directDispatcher the directDispatcher to set
+	 */
+	public void setDirectDispatcher(SpringDispatcher directDispatcher) {
+		this.directDispatcher = directDispatcher;
+	}
 
-    /**
-     * @param requestRouter the requestRouter to set
-     */
-    public void setRequestRouter(RequestRouter requestRouter) {
-        this.requestRouter = requestRouter;
-    }
+	/**
+	 * @return the requestRouter
+	 */
+	public RequestRouter getRequestRouter() {
+		return requestRouter;
+	}
 
-    /**
-     * @return the registry
-     */
-    public Registry getRegistry() {
-        return registry;
-    }
+	/**
+	 * @param requestRouter the requestRouter to set
+	 */
+	public void setRequestRouter(RequestRouter requestRouter) {
+		this.requestRouter = requestRouter;
+	}
 
-    /**
-     * @param registry the registry to set
-     */
-    public void setRegistry(Registry registry) {
-        this.registry = registry;
-    }
+	/**
+	 * @return the registry
+	 */
+	public Registry getRegistry() {
+		return registry;
+	}
+
+	/**
+	 * @param registry the registry to set
+	 */
+	public void setRegistry(Registry registry) {
+		this.registry = registry;
+	}
 }

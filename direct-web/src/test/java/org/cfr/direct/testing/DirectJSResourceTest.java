@@ -22,129 +22,129 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 @ContextConfiguration(locations = { "classpath:direct-jaxrs-test-beans-definition.xml" })
 public class DirectJSResourceTest extends BaseJAXRSResourceTest {
 
-    private static final Logger LOGGER = Logger.getLogger(DirectJSResourceTest.class);
+	private static final Logger LOGGER = Logger.getLogger(DirectJSResourceTest.class);
 
-    @Override
-    protected Set<Class<?>> getJAXRSResourceToTest() {
-        Set<Class<?>> rrcs = new HashSet<Class<?>>();
-        rrcs.add(DirectJSResource.class);
-        return rrcs;
-    }
+	@Override
+	protected Set<Class<?>> getJAXRSResourceToTest() {
+		Set<Class<?>> rrcs = new HashSet<Class<?>>();
+		rrcs.add(DirectJSResource.class);
+		return rrcs;
+	}
 
-    @Test
-    public void getFILE_EJN_ASSERT_Test() throws Exception {
+	@Test
+	public void getFILE_EJN_ASSERT_Test() throws Exception {
 
-        ClientResource resource = getClient("/javascript/" + DirectJSResource.FILE_EJN_ASSERT);
+		ClientResource resource = getClient("/javascript/" + DirectJSResource.FILE_EJN_ASSERT);
 
-        String response = IOUtils.toString(resource.get().getStream(), "UTF-8");
+		String response = IOUtils.toString(resource.get().getStream(), "UTF-8");
 
-        LOGGER.info(response);
+		LOGGER.info(response);
 
-        String expected = readFile(DirectJSResource.PATH_EJN_ASSERT);
+		String expected = readFile(DirectJSResource.PATH_EJN_ASSERT);
 
-        assertEquals(expected, response);
-    }
+		assertEquals(expected, response);
+	}
 
-    @Test
-    public void getFILE_DJN_REMOTE_CALL_SUPPORT_Test() throws Exception {
+	@Test
+	public void getFILE_DJN_REMOTE_CALL_SUPPORT_Test() throws Exception {
 
-        ClientResource resource = getClient("/javascript/" + DirectJSResource.FILE_DJN_REMOTE_CALL_SUPPORT);
+		ClientResource resource = getClient("/javascript/" + DirectJSResource.FILE_DJN_REMOTE_CALL_SUPPORT);
 
-        String response = IOUtils.toString(resource.get().getStream(), "UTF-8");
+		String response = IOUtils.toString(resource.get().getStream(), "UTF-8");
 
-        LOGGER.info(response);
+		LOGGER.info(response);
 
-        String expected = readFile(DirectJSResource.PATH_DJN_REMOTE_CALL_SUPPORT);
+		String expected = readFile(DirectJSResource.PATH_DJN_REMOTE_CALL_SUPPORT);
 
-        assertEquals(expected, response);
-    }
+		assertEquals(expected, response);
+	}
 
-    @Test
-    public void getFILE_DIRECT_API_Test() throws Exception {
+	@Test
+	public void getFILE_DIRECT_API_Test() throws Exception {
 
-        ClientResource resource = getClient("/javascript/" + DirectJSResource.FILE_DIRECT_API);
+		ClientResource resource = getClient("/javascript/" + DirectJSResource.FILE_DIRECT_API);
 
-        String response = IOUtils.toString(resource.get().getStream(), "UTF-8");
+		String response = IOUtils.toString(resource.get().getStream(), "UTF-8");
 
-        LOGGER.info(response);
+		LOGGER.info(response);
 
-        assertTrue(response.contains("Ext.namespace(\"DirectHandlerResource.DirectHandlerResource\");"));
-        assertTrue(response.contains("DirectHandlerResource.DirectHandlerResource.PROVIDER_BASE_URL=window.location.protocol+\"//\"+window.location.host+\"/\"+(window.location.pathname.split(\"/\").length>2?window.location.pathname.split(\"/\")[1]+\"/\":\"\")+\"/directrs\";"));
-        assertTrue(response.contains("DirectHandlerResource.DirectHandlerResource.POLLING_URLS={};"));
-        assertTrue(response.contains("DirectHandlerResource.DirectHandlerResource.REMOTING_API={url:DirectHandlerResource.DirectHandlerResource.PROVIDER_BASE_URL,type:\"remoting\",actions:{MyAction:[{name:\"myMethod\",len:1,formHandler:false}]}};"));
-    }
+		assertTrue(response.contains("Ext.namespace(\"DirectHandlerResource.DirectHandlerResource\");"));
+		assertTrue(response.contains("DirectHandlerResource.DirectHandlerResource.PROVIDER_BASE_URL=window.location.protocol+\"//\"+window.location.host+\"/\"+(window.location.pathname.split(\"/\").length>2?window.location.pathname.split(\"/\")[1]+\"/\":\"\")+\"/direct\";"));
+		assertTrue(response.contains("DirectHandlerResource.DirectHandlerResource.POLLING_URLS={};"));
+		assertTrue(response.contains("DirectHandlerResource.DirectHandlerResource.REMOTING_API={url:DirectHandlerResource.DirectHandlerResource.PROVIDER_BASE_URL,type:\"remoting\",actions:{MyAction:[{name:\"myMethod\",len:1,formHandler:false}]}};"));
+	}
 
-    @Test
-    public void getFILE_DIRECT_DEBUG_API_Test() throws Exception {
+	@Test
+	public void getFILE_DIRECT_DEBUG_API_Test() throws Exception {
 
-        ClientResource resource = getClient("/javascript/" + DirectJSResource.FILE_DIRECT_DEBUG_API);
+		ClientResource resource = getClient("/javascript/" + DirectJSResource.FILE_DIRECT_DEBUG_API);
 
-        String response = IOUtils.toString(resource.get().getStream());
+		String response = IOUtils.toString(resource.get().getStream());
 
-        LOGGER.info(response);
+		LOGGER.info(response);
 
-        assertTrue(response.contains("Ext.namespace( 'DirectHandlerResource.DirectHandlerResource')"));
-        assertTrue(response.contains("DirectHandlerResource.DirectHandlerResource.PROVIDER_BASE_URL=window.location.protocol + '//' + window.location.host + '/' + (window.location.pathname.split('/').length>2 ? window.location.pathname.split('/')[1]+ '/' : '')  + '/directrs';"));
-        assertTrue(response.contains("    MyAction: ["));
-    }
+		assertTrue(response.contains("Ext.namespace( 'DirectHandlerResource.DirectHandlerResource')"));
+		assertTrue(response.contains("DirectHandlerResource.DirectHandlerResource.PROVIDER_BASE_URL=window.location.protocol + '//' + window.location.host + '/' + (window.location.pathname.split('/').length>2 ? window.location.pathname.split('/')[1]+ '/' : '')  + '/direct';"));
+		assertTrue(response.contains("    MyAction: ["));
+	}
 
-    @Test
-    public void getUNKNOW_FILE_Test() throws Exception {
+	@Test
+	public void getUNKNOW_FILE_Test() throws Exception {
 
-        ClientResource resource = getClient("/javascript/" + "unknowfile");
+		ClientResource resource = getClient("/javascript/" + "unknowfile");
 
-        String response = IOUtils.toString(resource.get().getStream());
-        LOGGER.info(response);
+		String response = IOUtils.toString(resource.get().getStream());
+		LOGGER.info(response);
 
-        String expected = DirectJSResource.NO_JS_FILE + "unknowfile";
+		String expected = DirectJSResource.NO_JS_FILE + "unknowfile";
 
-        assertEquals(expected, response);
-    }
+		assertEquals(expected, response);
+	}
 
-    @Test(expected = ResourceException.class)
-    public void getEmptyFileNameTest() throws Exception {
+	@Test(expected = ResourceException.class)
+	public void getEmptyFileNameTest() throws Exception {
 
-        ClientResource resource = getClient("/");
+		ClientResource resource = getClient("/");
 
-        resource.get();
+		resource.get();
 
-    }
+	}
 
-    @Test
-    public void multipleGetTest() throws Exception {
+	@Test
+	public void multipleGetTest() throws Exception {
 
-        ClientResource resource = getClient("/javascript/" + DirectJSResource.FILE_EJN_ASSERT);
+		ClientResource resource = getClient("/javascript/" + DirectJSResource.FILE_EJN_ASSERT);
 
-        String response = IOUtils.toString(resource.get().getStream());
+		String response = IOUtils.toString(resource.get().getStream());
 
-        LOGGER.info(response);
+		LOGGER.info(response);
 
-        resource = getClient("/javascript/" + DirectJSResource.FILE_DJN_REMOTE_CALL_SUPPORT);
+		resource = getClient("/javascript/" + DirectJSResource.FILE_DJN_REMOTE_CALL_SUPPORT);
 
-        response = IOUtils.toString(resource.get().getStream());
+		response = IOUtils.toString(resource.get().getStream());
 
-        LOGGER.info(response);
+		LOGGER.info(response);
 
-        resource = getClient("/javascript/" + "unknowfile");
+		resource = getClient("/javascript/" + "unknowfile");
 
-        response = IOUtils.toString(resource.get().getStream());
+		response = IOUtils.toString(resource.get().getStream());
 
-        LOGGER.info(response);
+		LOGGER.info(response);
 
-    }
+	}
 
-    private String readFile(String filePath) {
-        InputStream stream = null;
-        ResourceLoader resourceLoader = new DefaultResourceLoader();
-        try {
-            stream = resourceLoader.getResource(filePath).getInputStream();
+	private String readFile(String filePath) {
+		InputStream stream = null;
+		ResourceLoader resourceLoader = new DefaultResourceLoader();
+		try {
+			stream = resourceLoader.getResource(filePath).getInputStream();
 
-            return IOUtils.toString(stream, "UTF-8");
-        } catch (IOException ioe) {
-            LOGGER.error(ExceptionUtils.getFullStackTrace(ioe));
-            throw new IllegalStateException("Unable to load " + filePath, ioe);
-        } finally {
-            IOUtils.closeQuietly(stream);
-        }
-    }
+			return IOUtils.toString(stream, "UTF-8");
+		} catch (IOException ioe) {
+			LOGGER.error(ExceptionUtils.getFullStackTrace(ioe));
+			throw new IllegalStateException("Unable to load " + filePath, ioe);
+		} finally {
+			IOUtils.closeQuietly(stream);
+		}
+	}
 }

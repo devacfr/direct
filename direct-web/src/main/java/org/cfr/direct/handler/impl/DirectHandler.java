@@ -9,11 +9,9 @@ import java.util.List;
 import org.apache.commons.io.IOUtils;
 import org.cfr.direct.config.DirectContext;
 import org.cfr.direct.handler.context.IDirectHandlerContext;
-import org.springframework.stereotype.Component;
 
 import com.softwarementors.extjs.djn.router.RequestType;
 
-@Component
 public class DirectHandler extends BaseHandler {
 
 	public final static List<RequestType> acceptedRequestTypeList = Collections.unmodifiableList(Arrays.asList(RequestType.FORM_SIMPLE_POST,

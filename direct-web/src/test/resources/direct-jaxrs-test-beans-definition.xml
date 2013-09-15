@@ -16,13 +16,11 @@
 
 	<bean id="myAction" class="org.cfr.direct.testing.MyAction" />
 
-	<bean id="directConfiguration" class="org.cfr.direct.config.DirectConfiguration" />
 
-	<bean id="directContext" class="org.cfr.direct.config.DirectContext">
-		<property name="directConfiguration" ref="directConfiguration"/>
+	<bean id="directManager" class="org.cfr.direct.impl.JaxrsDirectManager">
 	</bean>
 
 	<bean id="directHandlerResource" class="org.cfr.direct.rs.DirectHandlerResource" />
-	
 	<bean id="directJSResource" class="org.cfr.direct.rs.DirectJSResource" />
+	
 </beans>

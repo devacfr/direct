@@ -21,47 +21,47 @@ import org.restlet.resource.ClientResource;
 
 public class DirectHandlerResourceTest extends BaseJAXRSResourceTest {
 
-    private static final Logger LOGGER = Logger.getLogger(DirectHandlerResourceTest.class);
+	private static final Logger LOGGER = Logger.getLogger(DirectHandlerResourceTest.class);
 
-    private DirectContext directContext;
+	private DirectContext directContext;
 
-    @Override
-    protected Set<Class<?>> getJAXRSResourceToTest() {
-        Set<Class<?>> rrcs = new HashSet<Class<?>>();
-        rrcs.add(DirectHandlerResource.class);
-        return rrcs;
-    }
+	@Override
+	protected Set<Class<?>> getJAXRSResourceToTest() {
+		Set<Class<?>> rrcs = new HashSet<Class<?>>();
+		rrcs.add(DirectHandlerResource.class);
+		return rrcs;
+	}
 
-    @Override
-    public void setUp() throws Exception {
-        super.setUp();
-        directContext = mock(DirectContext.class);
+	@Override
+	public void setUp() throws Exception {
+		super.setUp();
+		directContext = mock(DirectContext.class);
 
-        List<IDirectHandler> handlers = new ArrayList<IDirectHandler>();
+		List<IDirectHandler> handlers = new ArrayList<IDirectHandler>();
 
-        DirectHandler handler = mock(DirectHandler.class);
-        handlers.add(handler);
-        EasyMock.expect(directContext.getDirectHandlers()).andReturn(handlers);
+		DirectHandler handler = mock(DirectHandler.class);
+		handlers.add(handler);
+		EasyMock.expect(directContext.getDirectHandlers()).andReturn(handlers);
 
-    }
+	}
 
-    //    handleFormUrlEncodedPost(String, UriInfo)
-    //    handleJSONGet(UriInfo)
-    //    handleJSONPost(UriInfo)
-    //    handlePollGet(UriInfo)
-    //    handlePollPost(UriInfo)
+	//    handleFormUrlEncodedPost(String, UriInfo)
+	//    handleJSONGet(UriInfo)
+	//    handleJSONPost(UriInfo)
+	//    handlePollGet(UriInfo)
+	//    handlePollPost(UriInfo)
 
-    @Test
-    public void handleJSONPostTest() throws Exception {
+	@Test
+	public void handleJSONPostTest() throws Exception {
 
-        ClientResource resource = getClient("/directrs");
+		ClientResource resource = getClient("/direct");
 
-        Representation representation = resource.post(new StringRepresentation(
-                "{'action':'MyAction','method':'myMethod','data':['handleJSONPostTest'],'tid':4,'type':'rpc'}", MediaType.APPLICATION_JSON));
-        //String response = IOUtils.toString(resource.get().getStream());
+		Representation representation = resource.post(new StringRepresentation(
+				"{'action':'MyAction','method':'myMethod','data':['handleJSONPostTest'],'tid':4,'type':'rpc'}", MediaType.APPLICATION_JSON));
+		//String response = IOUtils.toString(resource.get().getStream());
 
-        String response = IOUtils.toString(representation.getStream());
-        LOGGER.info(response);
+		String response = IOUtils.toString(representation.getStream());
+		LOGGER.info(response);
 
-    }
+	}
 }
