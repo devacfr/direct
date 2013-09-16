@@ -38,12 +38,12 @@
 	}
 
 	var scriptEls = document.getElementsByTagName('script'), path = scriptEls[scriptEls.length - 1].src, rtl = getQueryParam('rtl'), theme = getQueryParam('theme')
-			|| 'neptune', includeCSS = !hasOption('nocss', path), neptune = (theme === 'neptune'), repoDevMode = getCookieValue('ExtRepoDevMode'), suffix = [], i = 3, neptunePath;
+			|| 'neptune', includeCSS = !hasOption('nocss', path), neptune = (theme === 'neptune'), repoDevMode = getCookieValue('ExtRepoDevMode'), suffix = [], i = 2, neptunePath;
 
 	rtl = rtl && rtl.toString() === 'true';
 
 	while (i--) {
-		path = '/direct-example/ext';
+		path = path.substring(0, path.lastIndexOf('/'));
 	}
 
 	if (theme && theme !== 'classic') {
@@ -57,10 +57,10 @@
 
 	if (includeCSS) {
 		document.write('<link rel="stylesheet" type="text/css" href="' + path
-				+ '/resources/css/ext-all' + suffix + '-debug.css"/>');
+				+ '/ext/resources/css/ext-all' + suffix + '-debug.css"/>');
 	}
-	document.write('<script type="text/javascript" src="' + path + '/ext-all'
-			+ (rtl ? '-rtl' : '') + '.js"></script>');
+	document.write('<script type="text/javascript" src="' + path
+			+ '/ext/ext-all-dev' + (rtl ? '-rtl' : '') + '.js"></script>');
 
 	if (neptune) {
 		// since document.write('<script>') does not block execution in IE, we
@@ -78,8 +78,9 @@
 		// To work around this we use the _beforereadyhandler hook to load the
 		// neptune
 		// overrides dynamically after Ext has been defined.
-		neptunePath = path + '/ext-theme-neptune'
-				+ (repoDevMode ? '-debug' : '') + '.js';
+		neptunePath = (repoDevMode ? path + '/..' : path)
+				+ '/ext/ext-theme-neptune' + (repoDevMode ? '-dev' : '')
+				+ '.js';
 
 		if (repoDevMode && window.ActiveXObject) {
 			Ext = {

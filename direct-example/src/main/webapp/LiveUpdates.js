@@ -31,6 +31,7 @@ Ext
 					.addProvider(
 							Ext.app.REMOTING_API,
 							{
+								interval : 1000,
 								type : 'polling',
 								url : Ext.app.POLLING_URLS.liveUpdate,
 								baseParams : {

@@ -8,28 +8,26 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang.StringUtils;
 import org.cfr.direct.IServletDirectFactory;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.InitializingBean;
+import org.springframework.util.Assert;
 import org.springframework.web.HttpRequestHandler;
 
 import com.softwarementors.extjs.djn.EncodingUtils;
 import com.softwarementors.extjs.djn.Timer;
 import com.softwarementors.extjs.djn.router.RequestType;
 
-public class HttpDirectRequestHandler implements HttpRequestHandler {
+public class HttpDirectRequestHandler implements HttpRequestHandler, InitializingBean {
 
 	private final IServletDirectFactory directManager;
 
-	private String jsApiPath;
 
-	private String namespace;
-
-	private String name;
-
-	private String providersUrl;
-
-	@Autowired
 	public HttpDirectRequestHandler(final IServletDirectFactory directManager) {
 		this.directManager = directManager;
+	}
+
+	@Override
+	public void afterPropertiesSet() throws Exception {
+		Assert.notNull(directManager, "directManager is required");
 	}
 
 
@@ -58,36 +56,6 @@ public class HttpDirectRequestHandler implements HttpRequestHandler {
 
 	}
 
-	public String getJsApiPath() {
-		return jsApiPath;
-	}
 
-	public void setJsApiPath(String jsApiPath) {
-		this.jsApiPath = jsApiPath;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public String getNamespace() {
-		return namespace;
-	}
-
-	public void setNamespace(String namespace) {
-		this.namespace = namespace;
-	}
-
-	public String getProvidersUrl() {
-		return providersUrl;
-	}
-
-	public void setProvidersUrl(String providersUrl) {
-		this.providersUrl = providersUrl;
-	}
 
 }
