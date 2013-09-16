@@ -9,7 +9,7 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.UriInfo;
 
-import org.cfr.direct.IJaxRsDirectManager;
+import org.cfr.direct.IJaxRsDirectFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.softwarementors.extjs.djn.router.RequestType;
@@ -19,7 +19,7 @@ public class DirectHandlerResource  {
 
 	/** Action Context  */
 	@Autowired(required = true)
-	private IJaxRsDirectManager directManager;
+	private IJaxRsDirectFactory directManager;
 
 	public DirectHandlerResource() {
 	}
@@ -83,7 +83,7 @@ public class DirectHandlerResource  {
 		return  directManager.handleProcess(input, uriInfo, requestType);
 	}
 
-	public void setDirectManager(IJaxRsDirectManager directManager) {
+	public void setDirectManager(IJaxRsDirectFactory directManager) {
 		this.directManager = directManager;
 	}
 

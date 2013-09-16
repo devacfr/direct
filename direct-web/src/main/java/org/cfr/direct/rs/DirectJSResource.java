@@ -10,7 +10,7 @@ import javax.ws.rs.Produces;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.exception.ExceptionUtils;
-import org.cfr.direct.IJaxRsDirectManager;
+import org.cfr.direct.IJaxRsDirectFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,7 +38,7 @@ public class DirectJSResource {
 
 	/** Action Context  */
 	@Autowired(required = true)
-	private IJaxRsDirectManager directManager;
+	private IJaxRsDirectFactory directManager;
 
 	@GET
 	@Produces(value = "text/javascript")
@@ -80,7 +80,7 @@ public class DirectJSResource {
 		}
 	}
 
-	public void setDirectManager(IJaxRsDirectManager directManager) {
+	public void setDirectManager(IJaxRsDirectFactory directManager) {
 		this.directManager = directManager;
 	}
 }

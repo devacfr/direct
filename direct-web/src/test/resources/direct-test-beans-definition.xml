@@ -11,6 +11,6 @@
 	
 	<bean id="myAction" class="org.cfr.direct.testing.MyAction" />
 	
-	<bean id="directManager" class="org.cfr.direct.impl.ServletDirectManager"/>
+	<bean id="directFactory" class="org.cfr.direct.impl.ServletDirectFactory"/>
 	
 </beans>

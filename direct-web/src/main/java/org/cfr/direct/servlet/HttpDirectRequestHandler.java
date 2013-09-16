@@ -7,7 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang.StringUtils;
-import org.cfr.direct.IServletDirectManager;
+import org.cfr.direct.IServletDirectFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.HttpRequestHandler;
 
@@ -17,7 +17,7 @@ import com.softwarementors.extjs.djn.router.RequestType;
 
 public class HttpDirectRequestHandler implements HttpRequestHandler {
 
-	private final IServletDirectManager directManager;
+	private final IServletDirectFactory directManager;
 
 	private String jsApiPath;
 
@@ -28,7 +28,7 @@ public class HttpDirectRequestHandler implements HttpRequestHandler {
 	private String providersUrl;
 
 	@Autowired
-	public HttpDirectRequestHandler(final IServletDirectManager directManager) {
+	public HttpDirectRequestHandler(final IServletDirectFactory directManager) {
 		this.directManager = directManager;
 	}
 

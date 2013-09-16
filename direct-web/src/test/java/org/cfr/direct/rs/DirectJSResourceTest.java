@@ -3,7 +3,7 @@ package org.cfr.direct.rs;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.cfr.direct.IJaxRsDirectManager;
+import org.cfr.direct.IJaxRsDirectFactory;
 import org.cfr.direct.config.DirectConfiguration;
 import org.cfr.direct.testing.EasyMockTestCase;
 import org.easymock.EasyMock;
@@ -89,7 +89,7 @@ public class DirectJSResourceTest extends EasyMockTestCase {
 
 		EasyMock.expect(directConfiguration.getGlobalConfiguration()).andReturn(globalConfiguration).anyTimes();
 
-		IJaxRsDirectManager directManager = mock(IJaxRsDirectManager.class);
+		IJaxRsDirectFactory directManager = mock(IJaxRsDirectFactory.class);
 
 
 		DirectJSResource resource = new DirectJSResource();
@@ -126,7 +126,7 @@ public class DirectJSResourceTest extends EasyMockTestCase {
 
 		EasyMock.expect(directConfiguration.getGlobalConfiguration()).andReturn(globalConfiguration).anyTimes();
 
-		IJaxRsDirectManager directManager = mock(IJaxRsDirectManager.class);
+		IJaxRsDirectFactory directManager = mock(IJaxRsDirectFactory.class);
 
 		DirectJSResource resource = new DirectJSResource();
 		resource.setDirectManager(directManager);

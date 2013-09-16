@@ -2,14 +2,14 @@ package org.cfr.direct.rs;
 
 import javax.ws.rs.core.UriInfo;
 
-import org.cfr.direct.IJaxRsDirectManager;
+import org.cfr.direct.IJaxRsDirectFactory;
 import org.cfr.direct.testing.EasyMockTestCase;
 import org.junit.Test;
 
 public class DirectHandlerResourceTest extends EasyMockTestCase {
 
-	private IJaxRsDirectManager getMockFullDirectManager() {
-		IJaxRsDirectManager directManager = mock(IJaxRsDirectManager.class);
+	private IJaxRsDirectFactory getMockFullDirectManager() {
+		IJaxRsDirectFactory directManager = mock(IJaxRsDirectFactory.class);
 		return directManager;
 	}
 
