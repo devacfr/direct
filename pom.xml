@@ -7,6 +7,13 @@
     <packaging>pom</packaging>
     <name>Framework Direct</name>
     <description>Framework enhance directjngine Project fonctionality</description>
+    
+    <parent>
+        <groupId>org.cfr</groupId>
+        <artifactId>maven-config</artifactId>
+        <version>1-SNAPSHOT</version>
+    </parent>
+    
     <modules>
         <module>direct-core</module>
         <module>direct-testing</module>
@@ -21,9 +28,6 @@
             <timezone>Europe/Zurich</timezone>
         </developer>
     </developers>
-    <prerequisites>
-        <maven>3.0.4</maven>
-    </prerequisites>
     <scm>
         <connection>scm:https://github.com/devacfr/direct.git</connection>
         <developerConnection>scm:git:https://github.com/devacfr/direct.git</developerConnection>
@@ -31,43 +35,14 @@
     </scm>
     <properties>
         <!-- External dependencies versions. -->
-        <commons-io.version>2.1</commons-io.version>
-        <commons-lang.version>2.4</commons-lang.version>
         <directjngine.version>2.2</directjngine.version>
-        <log4j.version>1.2.14</log4j.version>
-        <slf4j.version>1.5.8</slf4j.version>
-        <restlet.version>2.0.4</restlet.version>
-        <servlet.version>2.5</servlet.version>
-        <spring.version>3.1.2.RELEASE</spring.version>
-        <jsr311.version>1.0</jsr311.version>
         <gson.version>1.5</gson.version>
         <yuicompressor.version>2.4.2</yuicompressor.version>
 
-        <!-- Test dependencies version -->
-        <easymock.version>3.0</easymock.version>
-        <junit.version>4.8.1</junit.version>
-        <junit-addons.version>1.4</junit-addons.version>
-
-        <!-- External plugin dependencies versions. -->
-        <maven-compiler-plugin.version>2.3.2</maven-compiler-plugin.version>
-        <maven-release-plugin.version>2.0</maven-release-plugin.version>
-        <maven-resources-plugin.version>2.4.3</maven-resources-plugin.version>
-        <maven-source-plugin.version>2.1.2</maven-source-plugin.version>
-        <maven-surefire-plugin.version>2.13</maven-surefire-plugin.version>
     </properties>
 
     <dependencyManagement>
         <dependencies>
-            <dependency>
-                <groupId>commons-io</groupId>
-                <artifactId>commons-io</artifactId>
-                <version>${commons-io.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>commons-lang</groupId>
-                <artifactId>commons-lang</artifactId>
-                <version>${commons-lang.version}</version>
-            </dependency>
             <dependency>
                 <groupId>com.softwarementors.extjs</groupId>
                 <artifactId>directjngine</artifactId>
@@ -80,31 +55,6 @@
                 </exclusions>
             </dependency>
             <dependency>
-                <groupId>log4j</groupId>
-                <artifactId>log4j</artifactId>
-                <version>${log4j.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>javax.servlet</groupId>
-                <artifactId>servlet-api</artifactId>
-                <version>${servlet.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.springframework</groupId>
-                <artifactId>spring-web</artifactId>
-                <version>${spring.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.slf4j</groupId>
-                <artifactId>slf4j-api</artifactId>
-                <version>${slf4j.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.slf4j</groupId>
-                <artifactId>slf4j-log4j12</artifactId>
-                <version>${slf4j.version}</version>
-            </dependency>
-            <dependency>
                 <groupId>javax.ws.rs</groupId>
                 <artifactId>jsr311-api</artifactId>
                 <version>${jsr311.version}</version>
@@ -114,74 +64,6 @@
                 <artifactId>yuicompressor</artifactId>
                 <version>${yuicompressor.version}</version>
             </dependency>
-            <dependency>
-                <groupId>junit</groupId>
-                <artifactId>junit</artifactId>
-                <version>${junit.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>junit-addons</groupId>
-                <artifactId>junit-addons</artifactId>
-                <version>${junit-addons.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.easymock</groupId>
-                <artifactId>easymock</artifactId>
-                <version>${easymock.version}</version>
-            </dependency>
         </dependencies>
     </dependencyManagement>
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>${maven-compiler-plugin.version}</version>
-                <configuration>
-                    <encoding>UTF-8</encoding>
-                    <source>1.6</source>
-                    <target>1.6</target>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-source-plugin</artifactId>
-                <version>${maven-source-plugin.version}</version>
-                <executions>
-                    <execution>
-                        <id>attach-sources</id>
-                        <phase>verify</phase>
-                        <goals>
-                            <goal>jar</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-release-plugin</artifactId>
-                <version>${maven-release-plugin.version}</version>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-resources-plugin</artifactId>
-                <version>${maven-resources-plugin.version}</version>
-                <configuration>
-                    <encoding>UTF-8</encoding>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-surefire-plugin</artifactId>
-                <version>${maven-surefire-plugin.version}</version>
-                <configuration>
-                    <!-- BUGFIX in directjngine 1.3 in method RegisteredCode#getDebugCodeBuilder -->
-                    <enableAssertions>false</enableAssertions>
-                    <includes>
-                        <include>**/*Test.java</include>
-                    </includes>
-                </configuration>
-            </plugin>
-        </plugins>
-    </build>
 </project>
