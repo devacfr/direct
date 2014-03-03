@@ -7,6 +7,7 @@ import org.cfr.direct.action.IDirectAction;
 import org.cfr.direct.dispatcher.SpringDispatcher;
 import org.cfr.direct.handler.IDirectHandler;
 import org.cfr.direct.handler.impl.DirectHandler;
+import org.cfr.direct.handler.impl.DirectRequestRouter;
 import org.cfr.direct.testing.EasyMockTestCase;
 import org.easymock.EasyMock;
 import org.junit.Test;
@@ -14,7 +15,6 @@ import org.junit.Test;
 import com.softwarementors.extjs.djn.api.Registry;
 import com.softwarementors.extjs.djn.config.ApiConfiguration;
 import com.softwarementors.extjs.djn.config.GlobalConfiguration;
-import com.softwarementors.extjs.djn.router.RequestRouter;
 
 public class DirectContextTest extends EasyMockTestCase {
 
@@ -47,7 +47,8 @@ public class DirectContextTest extends EasyMockTestCase {
 
         context.setDirectHandlers(getMockDirectHandlers());
 
-        RequestRouter requestRouter = mock(RequestRouter.class);
+        DirectRequestRouter requestRouter = mock(DirectRequestRouter.class);
+
         context.setRequestRouter(requestRouter);
 
         replay();
@@ -58,6 +59,7 @@ public class DirectContextTest extends EasyMockTestCase {
         assertNotNull(context.getDirectDispatcher());
         assertNotNull(context.getDirectConfiguration());
         assertTrue(context.getApiConfigurations().size() == 1);
+
     }
 
     /**
@@ -91,7 +93,8 @@ public class DirectContextTest extends EasyMockTestCase {
         context.setDirectHandlers(directHandlers);
         Registry registry = mock(Registry.class);
         context.setRegistry(registry);
-        RequestRouter requestRouter = mock(RequestRouter.class);
+        DirectRequestRouter requestRouter = mock(DirectRequestRouter.class);
+
         context.setRequestRouter(requestRouter);
 
         replay();
@@ -149,6 +152,7 @@ public class DirectContextTest extends EasyMockTestCase {
         assertEquals(directHandlers, context.getDirectHandlers());
         assertTrue(context.getDirectActions().size() == 1);
         assertTrue(context.getApiConfigurations().size() == 1);
+
     }
 
     @Test
@@ -186,6 +190,7 @@ public class DirectContextTest extends EasyMockTestCase {
         assertEquals(configuration, context.getDirectConfiguration());
         assertTrue(context.getDirectActions().size() == 1);
         assertTrue(context.getApiConfigurations().size() == 1);
+
     }
 
     @Test

@@ -9,16 +9,16 @@ import javax.servlet.http.HttpServletResponse;
 import org.cfr.direct.config.DirectContext;
 import org.cfr.direct.handler.context.IDirectHandlerContext;
 import org.cfr.direct.handler.impl.DirectHandlerException;
+import org.cfr.direct.handler.impl.DirectRequestRouter;
 import org.cfr.direct.handler.impl.UploadFormHandler;
+import org.cfr.direct.handler.processor.form.UploadFormPostRequestProcessor;
 import org.cfr.direct.rs.context.DirectJaxRsHandlerContext;
 import org.cfr.direct.servlet.context.DirectHandlerContext;
 import org.cfr.direct.testing.EasyMockTestCase;
 import org.easymock.EasyMock;
 import org.junit.Test;
 
-import com.softwarementors.extjs.djn.router.RequestRouter;
 import com.softwarementors.extjs.djn.router.RequestType;
-import com.softwarementors.extjs.djn.router.processor.standard.form.upload.UploadFormPostRequestProcessor;
 
 public class UploadFormHandlerTest extends EasyMockTestCase {
 
@@ -36,7 +36,7 @@ public class UploadFormHandlerTest extends EasyMockTestCase {
 
         context = mock(DirectContext.class);
 
-        RequestRouter requestRouter = mock(RequestRouter.class);
+        DirectRequestRouter requestRouter = mock(DirectRequestRouter.class);
 
         EasyMock.expect(context.getRequestRouter()).andReturn(requestRouter).anyTimes();
 
@@ -52,7 +52,8 @@ public class UploadFormHandlerTest extends EasyMockTestCase {
     public void constructorUploadFormHandlerTest() {
         UploadFormHandler handler = new UploadFormHandler();
         assertNotNull("RequestType list must be at least an empty list", handler.getAcceptedRequestType());
-        assertEquals("RequestType number for UploadFormHandler", expectedTypes.size(), handler.getAcceptedRequestType().size());
+        assertEquals("RequestType number for UploadFormHandler", expectedTypes.size(), handler.getAcceptedRequestType()
+                .size());
         for (RequestType expectedType : expectedTypes) {
             assertTrue("UploadFormHandler must support " + expectedType.name(), handler.acceptRequest(expectedType));
         }

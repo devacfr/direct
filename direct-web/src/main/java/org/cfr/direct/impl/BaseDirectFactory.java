@@ -20,211 +20,188 @@ import org.springframework.beans.factory.support.DefaultListableBeanFactory;
 import org.springframework.util.Assert;
 import org.springframework.util.CollectionUtils;
 
+import com.softwarementors.extjs.djn.gson.GsonBuilderConfigurator;
 import com.softwarementors.extjs.djn.jscodegen.CodeFileGenerator;
 
-public class BaseDirectFactory implements IDirectFactory, BeanFactoryAware,InitializingBean {
+public class BaseDirectFactory implements IDirectFactory, BeanFactoryAware, InitializingBean {
 
+    protected final Logger logger = LoggerFactory.getLogger(this.getClass());
 
-	protected  final Logger logger = LoggerFactory.getLogger(this.getClass());
+    /** spring beanName prefix key */
+    private static final String PREFIX_SPRING_BEAN_NAME_DIRECTCONTEXT = "org.cfr.direct.directContext.";
 
+    /**
+     * Action Context
+     */
+    private DirectContext directContext;
 
-	/** spring beanName prefix key */
-	private static final String PREFIX_SPRING_BEAN_NAME_DIRECTCONTEXT = "org.cfr.direct.directContext.";
+    /**
+     * List of actions to be published in js Api
+     */
+    @Autowired
+    private List<IDirectAction> directActions;
 
-	/**
-	 * Action Context
-	 */
-	private DirectContext directContext;
+    private String jsDefaultApiPath = org.apache.commons.lang.StringUtils.EMPTY;
 
+    private String namespace;
 
-	/**
-	 * List of actions to be published in js Api
-	 */
-	@Autowired
-	private List<IDirectAction> directActions;
+    private String name;
 
+    private String providersUrl;
 
-	private String jsDefaultApiPath = org.apache.commons.lang.StringUtils.EMPTY;
+    private DefaultListableBeanFactory beanFactory;
 
-	private String namespace;
+    private boolean defaultCreateSourceFiles;
 
-	private String name;
+    private boolean debug;
 
-	private String providersUrl;
+    private Class<? extends GsonBuilderConfigurator> gsonBuilderConfiguratorClass;
 
-	private DefaultListableBeanFactory beanFactory;
+    public void init() throws Exception {
+        Assert.hasText(namespace, "namespace is required");
+        Assert.hasText(name, "name is required");
+        Assert.hasText(providersUrl, "providersUrl is required");
 
-	private boolean defaultCreateSourceFiles;
+        // create directContext if not exist
+        if (directContext == null) {
+            directContext = createDirectContext();
+        }
+        directContext.setDirectHandlers(createDirectHandlers());
+        directContext.setActions(this.directActions);
 
-	private boolean debug;
+        // Autowired directContext
+        beanFactory.autowireBeanProperties(this.directContext, AutowireCapableBeanFactory.AUTOWIRE_NO, false);
+        beanFactory.initializeBean(this.directContext, PREFIX_SPRING_BEAN_NAME_DIRECTCONTEXT + name);
 
+        DirectConfiguration configuration = directContext.createDirectConfiguration(providersUrl);
+        directContext.setDirectConfiguration(configuration);
 
+        if (this.gsonBuilderConfiguratorClass != null) {
+            configuration.setGsonBuilderConfiguratorClass(this.gsonBuilderConfiguratorClass);
+        }
 
+        configuration.setDebug(isDebug());
+        configuration.setCreateSourceFiles(isDefaultCreateSourceFiles());
 
+        directContext.init(jsDefaultApiPath, namespace, name, providersUrl);
 
+        if (!CollectionUtils.isEmpty(directContext.getRegistry().getApis())) {
+            CodeFileGenerator.updateSource(directContext.getRegistry(), directContext.getDirectConfiguration()
+                    .isCreateSourceFiles());
 
-	public void init() throws Exception {
-		Assert.hasText(namespace, "namespace is required");
-		Assert.hasText(name, "name is required");
-		Assert.hasText(providersUrl, "providersUrl is required");
+        }
+    }
 
+    @Override
+    public void afterPropertiesSet() throws Exception {
+        init();
+    }
 
+    @Override
+    public void setGsonBuilderConfiguratorClass(Class<? extends GsonBuilderConfigurator> gsonBuilderConfiguratorClass) {
+        this.gsonBuilderConfiguratorClass = gsonBuilderConfiguratorClass;
+    }
 
-		// create directContext if not exist
-		if (directContext == null) {
-			directContext = createDirectContext();
-		}
-		directContext.setDirectHandlers(createDirectHandlers());
-		directContext.setActions(this.directActions);
+    @Override
+    public Class<? extends GsonBuilderConfigurator> getGsonBuilderConfiguratorClass() {
+        return gsonBuilderConfiguratorClass;
+    }
 
-		// Autowired directContext
-		beanFactory.autowireBeanProperties(this.directContext, AutowireCapableBeanFactory.AUTOWIRE_NO, false);
-		beanFactory.initializeBean(this.directContext, PREFIX_SPRING_BEAN_NAME_DIRECTCONTEXT + name);
+    protected List<IDirectHandler> createDirectHandlers() {
+        return BaseHandler.DefaultDirectHandlers;
+    }
 
+    public DirectContext getDirectContext() {
+        return directContext;
+    }
 
-		directContext.init(jsDefaultApiPath, namespace, name, providersUrl);
-		DirectConfiguration configuration = directContext.getDirectConfiguration();
-		configuration.setDebug(isDebug());
-		configuration.setCreateSourceFiles(isDefaultCreateSourceFiles());
+    /**
+     * {@inheritDoc}
+     */
 
-		if (!CollectionUtils.isEmpty(directContext.getRegistry()
-				.getApis())) {
-			CodeFileGenerator.updateSource(directContext.getRegistry(), directContext.getDirectConfiguration()
-					.isCreateSourceFiles());
+    protected String getDefaultJsApiPath() {
+        return jsDefaultApiPath;
+    }
 
-		}
-	}
+    /**
+     * {@inheritDoc}
+     */
+    protected void setDefaultJsApiPath(String jsApiPath) {
+        this.jsDefaultApiPath = jsApiPath;
+    }
 
-	@Override
-	public void afterPropertiesSet() throws Exception {
-		/*
-		 String JsFolder = ServletUtils.getParameter(servletConfig, DirectServlet.API_JS_FOLDER_KEY, "");
-		String contextName = servletConfig.getServletName();
-		if (servletConfig.getInitParameter(CONTEXT_NAME_KEY) != null) {
-			contextName = servletConfig.getInitParameter(CONTEXT_NAME_KEY);
-		}
-		String providersUrl = "/" + contextName;
-		if (servletConfig.getInitParameter(PROVIDER_PATH_KEY) != null) {
-			providersUrl = servletConfig.getInitParameter(PROVIDER_PATH_KEY);
-		}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String getName() {
+        return name;
+    }
 
-		String ns = contextName;
-		if (servletConfig.getInitParameter(PROVIDER_NAMESPACE_KEY) != null) {
-			ns = servletConfig.getInitParameter(PROVIDER_NAMESPACE_KEY);
-		}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void setName(String name) {
+        this.name = name;
+    }
 
-		ServletContext servletContext = servletConfig.getServletContext();
-		String jsApiPath = servletContext.getRealPath(JsFolder);
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String getNamespace() {
+        return namespace;
+    }
 
-		try {
-			directManager.init(jsApiPath, ns, contextName, providersUrl);
-		} catch (Exception e) {
-			throw new ServletException("Unable to create DirectJNgine API files", e);
-		}
-		 */
-		init();
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void setNamespace(String namespace) {
+        this.namespace = namespace;
+    }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String getProvidersUrl() {
+        return providersUrl;
+    }
 
-	protected List<IDirectHandler> createDirectHandlers() {
-		return BaseHandler.DefaultDirectHandlers;
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void setProvidersUrl(String providersUrl) {
+        this.providersUrl = providersUrl;
+    }
 
+    protected DirectContext createDirectContext() {
+        return new DirectContext();
+    }
 
+    @Override
+    public void setBeanFactory(BeanFactory beanFactory) throws BeansException {
+        this.beanFactory = (DefaultListableBeanFactory) beanFactory;
+    }
 
-	public DirectContext getDirectContext() {
-		return directContext;
-	}
+    protected boolean isDefaultCreateSourceFiles() {
+        return defaultCreateSourceFiles;
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
+    protected void setDefaultCreateSourceFiles(boolean createSourceFiles) {
+        this.defaultCreateSourceFiles = createSourceFiles;
+    }
 
-	protected String getDefaultJsApiPath() {
-		return jsDefaultApiPath;
-	}
+    @Override
+    public boolean isDebug() {
+        return debug;
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	protected void setDefaultJsApiPath(String jsApiPath) {
-		this.jsDefaultApiPath = jsApiPath;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public String getName() {
-		return name;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public String getNamespace() {
-		return namespace;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void setNamespace(String namespace) {
-		this.namespace = namespace;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public String getProvidersUrl() {
-		return providersUrl;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void setProvidersUrl(String providersUrl) {
-		this.providersUrl = providersUrl;
-	}
-
-
-	protected DirectContext createDirectContext() {
-		return new DirectContext();
-	}
-
-	@Override
-	public void setBeanFactory(BeanFactory beanFactory) throws BeansException {
-		this.beanFactory = (DefaultListableBeanFactory) beanFactory;
-	}
-
-	protected boolean isDefaultCreateSourceFiles() {
-		return defaultCreateSourceFiles;
-	}
-
-	protected void setDefaultCreateSourceFiles(boolean createSourceFiles) {
-		this.defaultCreateSourceFiles = createSourceFiles;
-	}
-
-
-	@Override
-	public boolean isDebug() {
-		return debug;
-	}
-
-	@Override
-	public void setDebug(boolean debug) {
-		this.debug = debug;
-	}
+    @Override
+    public void setDebug(boolean debug) {
+        this.debug = debug;
+    }
 }

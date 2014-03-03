@@ -1,52 +1,59 @@
 package org.cfr.direct;
 
+import com.softwarementors.extjs.djn.gson.GsonBuilderConfigurator;
 
 public interface IDirectFactory {
 
+    /**
+     * 
+     * @return
+     */
+    String getName();
 
+    /**
+     * 
+     * @param name
+     */
+    void setName(String name);
 
+    /**
+     * 
+     * @return
+     */
+    String getNamespace();
 
-	/**
-	 * 
-	 * @return
-	 */
-	String getName();
+    /**
+     * 
+     * @param namespace
+     */
+    void setNamespace(String namespace);
 
-	/**
-	 * 
-	 * @param name
-	 */
-	void setName(String name);
+    /**
+     * 
+     * @return
+     */
+    String getProvidersUrl();
 
-	/**
-	 * 
-	 * @return
-	 */
-	String getNamespace();
+    /**
+     * 
+     * @param providersUrl
+     */
+    void setProvidersUrl(String providersUrl);
 
-	/**
-	 * 
-	 * @param namespace
-	 */
-	void setNamespace(String namespace);
+    boolean isDebug();
 
-	/**
-	 * 
-	 * @return
-	 */
-	String getProvidersUrl();
+    void setDebug(boolean debug);
 
-	/**
-	 * 
-	 * @param providersUrl
-	 */
-	void setProvidersUrl(String providersUrl);
+    /**
+     * 
+     * @param gsonBuilderConfiguratorClass
+     */
+    void setGsonBuilderConfiguratorClass(Class<? extends GsonBuilderConfigurator> gsonBuilderConfiguratorClass);
 
-
-	boolean isDebug();
-
-
-	void setDebug(boolean debug);
-
+    /**
+     * 
+     * @return
+     */
+    Class<? extends GsonBuilderConfigurator> getGsonBuilderConfiguratorClass();
 
 }

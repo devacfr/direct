@@ -7,13 +7,13 @@
     <packaging>pom</packaging>
     <name>Framework Direct</name>
     <description>Framework enhance directjngine Project fonctionality</description>
-    
+
     <parent>
         <groupId>org.cfr</groupId>
         <artifactId>maven-config</artifactId>
         <version>1-SNAPSHOT</version>
     </parent>
-    
+
     <modules>
         <module>direct-core</module>
         <module>direct-testing</module>
@@ -34,6 +34,9 @@
         <url>http://github.com/devacfr/direct</url>
     </scm>
     <properties>
+
+        <org.cfr.commons.version>1.0.0-SNAPSHOT</org.cfr.commons.version>
+
         <!-- External dependencies versions. -->
         <directjngine.version>2.2</directjngine.version>
         <gson.version>1.5</gson.version>
@@ -43,6 +46,11 @@
 
     <dependencyManagement>
         <dependencies>
+            <dependency>
+                <groupId>org.cfr.commons</groupId>
+                <artifactId>commons-util</artifactId>
+                <version>${org.cfr.commons.version}</version>
+            </dependency>
             <dependency>
                 <groupId>com.softwarementors.extjs</groupId>
                 <artifactId>directjngine</artifactId>

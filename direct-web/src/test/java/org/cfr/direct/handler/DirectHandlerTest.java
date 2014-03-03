@@ -15,13 +15,13 @@ import org.cfr.direct.config.DirectContext;
 import org.cfr.direct.handler.context.IDirectHandlerContext;
 import org.cfr.direct.handler.impl.DirectHandler;
 import org.cfr.direct.handler.impl.DirectHandlerException;
+import org.cfr.direct.handler.impl.DirectRequestRouter;
 import org.cfr.direct.servlet.ServletUtil;
 import org.cfr.direct.servlet.context.DirectHandlerContext;
 import org.cfr.direct.testing.EasyMockTestCase;
 import org.easymock.EasyMock;
 import org.junit.Test;
 
-import com.softwarementors.extjs.djn.router.RequestRouter;
 import com.softwarementors.extjs.djn.router.RequestType;
 
 public class DirectHandlerTest extends EasyMockTestCase {
@@ -38,7 +38,7 @@ public class DirectHandlerTest extends EasyMockTestCase {
     public void setUp() throws Exception {
         super.setUp();
         context = mock(DirectContext.class);
-        RequestRouter requestRouter = mock(RequestRouter.class);
+        DirectRequestRouter requestRouter = mock(DirectRequestRouter.class);
 
         EasyMock.expect(context.getRequestRouter()).andReturn(requestRouter).anyTimes();
 
@@ -52,7 +52,8 @@ public class DirectHandlerTest extends EasyMockTestCase {
     public void constructorDirectHandlerTest() {
         DirectHandler handler = new DirectHandler();
         assertNotNull("RequestType list must be at least an empty list", handler.getAcceptedRequestType());
-        assertEquals("RequestType number for DirectHandler", expectedTypes.size(), handler.getAcceptedRequestType().size());
+        assertEquals("RequestType number for DirectHandler", expectedTypes.size(), handler.getAcceptedRequestType()
+                .size());
         for (RequestType expectedType : expectedTypes) {
             assertTrue("DirectHandler must support " + expectedType.name(), handler.acceptRequest(expectedType));
         }
@@ -82,7 +83,8 @@ public class DirectHandlerTest extends EasyMockTestCase {
     public void wrongRequestTypeTest() {
         DirectHandler handler = new DirectHandler();
         replay();
-        IDirectHandlerContext handlerContext = new DirectHandlerContext(null, RequestType.FORM_UPLOAD_POST, request, response);
+        IDirectHandlerContext handlerContext = new DirectHandlerContext(null, RequestType.FORM_UPLOAD_POST, request,
+                response);
         handler.process(handlerContext);
     }
 
