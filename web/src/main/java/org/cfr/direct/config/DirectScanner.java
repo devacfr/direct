@@ -8,6 +8,9 @@ import java.util.Map;
 
 import org.cfr.commons.util.Assert;
 import org.cfr.direct.handler.processor.form.Form;
+import org.cfr.matcha.api.direct.DirectFormPostMethod;
+import org.cfr.matcha.api.direct.DirectMethod;
+import org.cfr.matcha.api.direct.DirectPollMethod;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -17,10 +20,6 @@ import com.softwarementors.extjs.djn.api.RegisteredApi;
 import com.softwarementors.extjs.djn.api.RegisteredPollMethod;
 import com.softwarementors.extjs.djn.api.Registry;
 import com.softwarementors.extjs.djn.config.ApiConfigurationException;
-import com.softwarementors.extjs.djn.config.annotations.DirectAction;
-import com.softwarementors.extjs.djn.config.annotations.DirectFormPostMethod;
-import com.softwarementors.extjs.djn.config.annotations.DirectMethod;
-import com.softwarementors.extjs.djn.config.annotations.DirectPollMethod;
 import com.softwarementors.extjs.djn.scanner.Scanner;
 
 /**
@@ -259,11 +258,12 @@ public class DirectScanner extends Scanner {
         assert api != null;
         assert actionClass != null;
 
-        DirectAction actionAnnotation = actionClass.getAnnotation(DirectAction.class);
+        // remove DirectAction dependency
+        //DirectAction actionAnnotation = actionClass.getAnnotation(DirectAction.class);
         List<String> actionNames = new ArrayList<String>();
-        if (actionAnnotation != null) {
-            Collections.addAll(actionNames, actionAnnotation.action());
-        }
+        //        if (actionAnnotation != null) {
+        //            Collections.addAll(actionNames, actionAnnotation.action());
+        //        }
 
         if (actionNames.isEmpty()) {
             actionNames.add(ClassUtils.getSimpleName(actionClass));

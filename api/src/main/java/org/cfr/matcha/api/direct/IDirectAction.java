@@ -1,5 +1,4 @@
-package org.cfr.direct.action;
-
+package org.cfr.matcha.api.direct;
 
 /**
  * Interface using to autowire action in DirectDomain. 
@@ -7,6 +6,7 @@ package org.cfr.direct.action;
  * 
  * @author vlagorce
  */
+@Deprecated
 public interface IDirectAction {
 
 }

@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.cfr.direct.action.IDirectAction;
+import org.cfr.matcha.api.direct.IDirectAction;
 
 import com.softwarementors.extjs.djn.api.RegisteredMethod;
 import com.softwarementors.extjs.djn.router.dispatcher.DispatcherBase;
@@ -32,7 +32,8 @@ public class SpringDispatcher extends DispatcherBase {
         if (mapActions.containsKey(instanceClass)) {
             actionInstance = mapActions.get(instanceClass);
         } else {
-            throw new IllegalStateException("No instance in the dispatcher for the requested directAction class " + instanceClass);
+            throw new IllegalStateException("No instance in the dispatcher for the requested directAction class "
+                    + instanceClass);
         }
 
         return actionInstance;

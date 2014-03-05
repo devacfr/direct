@@ -1,6 +1,6 @@
 package org.cfr.direct.dispatcher;
 
-import org.cfr.direct.action.IDirectAction;
+import org.cfr.matcha.api.direct.IDirectAction;
 
 import com.softwarementors.extjs.djn.config.annotations.DirectMethod;
 

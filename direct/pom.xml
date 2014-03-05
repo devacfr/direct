@@ -6,11 +6,15 @@
         <artifactId>matcha-parent</artifactId>
         <version>1.0.0-SNAPSHOT</version>
     </parent>
-    <artifactId>matcha-core</artifactId>
-    <name>Spring Module Ext Direct Core</name>
-    <description>Core module for Spring Module for Ext Direct</description>
+    <artifactId>matcha-direct</artifactId>
+    <name>Direct implementation module</name>
+    <description></description>
     <packaging>jar</packaging>
     <dependencies>
+        <dependency>
+            <groupId>javax.inject</groupId>
+            <artifactId>javax.inject</artifactId>
+        </dependency>
         <dependency>
             <groupId>com.softwarementors.extjs</groupId>
             <artifactId>directjngine</artifactId>

@@ -15,7 +15,8 @@
     </parent>
 
     <modules>
-        <module>core</module>
+        <module>api</module>
+        <module>direct</module>
         <module>testing</module>
         <module>web</module>
         <module>example</module>
@@ -39,6 +40,7 @@
 
         <!-- External dependencies versions. -->
         <directjngine.version>2.2</directjngine.version>
+        <javax.inject.version>1</javax.inject.version>
         <gson.version>1.5</gson.version>
         <yuicompressor.version>2.4.2</yuicompressor.version>
 
@@ -61,6 +63,16 @@
                         <artifactId>log4j</artifactId>
                     </exclusion>
                 </exclusions>
+            </dependency>
+            <dependency>
+                <groupId>javax.inject</groupId>
+                <artifactId>javax.inject</artifactId>
+                <version>${javax.inject}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.google.code.gson</groupId>
+                <artifactId>gson</artifactId>
+                <version>${gson.version}</version>
             </dependency>
             <dependency>
                 <groupId>javax.ws.rs</groupId>

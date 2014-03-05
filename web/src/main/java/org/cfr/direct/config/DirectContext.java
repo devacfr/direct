@@ -5,10 +5,10 @@ import java.util.Collections;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
-import org.cfr.direct.action.IDirectAction;
 import org.cfr.direct.dispatcher.SpringDispatcher;
 import org.cfr.direct.handler.IDirectHandler;
 import org.cfr.direct.handler.impl.DirectRequestRouter;
+import org.cfr.matcha.api.direct.IDirectAction;
 import org.springframework.util.Assert;
 
 import com.softwarementors.extjs.djn.api.Registry;

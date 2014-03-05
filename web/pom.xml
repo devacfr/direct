@@ -25,7 +25,7 @@
         </dependency>
         <dependency>
             <groupId>org.cfr.matcha</groupId>
-            <artifactId>matcha-core</artifactId>
+            <artifactId>matcha-api</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
@@ -36,7 +36,6 @@
         <dependency>
             <groupId>com.google.code.gson</groupId>
             <artifactId>gson</artifactId>
-            <version>${gson.version}</version>
         </dependency>
         <dependency>
             <groupId>commons-fileupload</groupId>
@@ -75,8 +74,8 @@
 
         <!-- Test Dependency -->
         <dependency>
-            <groupId>org.cfr.direct</groupId>
-            <artifactId>direct-testing</artifactId>
+            <groupId>org.cfr.matcha</groupId>
+            <artifactId>matcha-testing</artifactId>
             <version>${project.version}</version>
             <scope>test</scope>
         </dependency>

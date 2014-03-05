@@ -6,8 +6,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.cfr.direct.action.IDirectAction;
 import org.cfr.direct.testing.EasyMockTestCase;
+import org.cfr.matcha.api.direct.IDirectAction;
 import org.easymock.EasyMock;
 import org.junit.Test;
 import org.springframework.util.ReflectionUtils;

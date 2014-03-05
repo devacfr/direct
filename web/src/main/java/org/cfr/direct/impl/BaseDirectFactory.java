@@ -3,11 +3,11 @@ package org.cfr.direct.impl;
 import java.util.List;
 
 import org.cfr.direct.IDirectFactory;
-import org.cfr.direct.action.IDirectAction;
 import org.cfr.direct.config.DirectConfiguration;
 import org.cfr.direct.config.DirectContext;
 import org.cfr.direct.handler.IDirectHandler;
 import org.cfr.direct.handler.impl.BaseHandler;
+import org.cfr.matcha.api.direct.IDirectAction;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeansException;
