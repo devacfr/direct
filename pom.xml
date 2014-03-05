@@ -1,12 +1,12 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <groupId>org.cfr.direct</groupId>
-    <artifactId>direct-parent</artifactId>
+    <groupId>org.cfr.matcha</groupId>
+    <artifactId>matcha-parent</artifactId>
     <version>1.0.0-SNAPSHOT</version>
     <packaging>pom</packaging>
-    <name>Framework Direct</name>
-    <description>Framework enhance directjngine Project fonctionality</description>
+    <name>matcha Framework</name>
+    <description>Framework allowing work with Extjs.</description>
 
     <parent>
         <groupId>org.cfr</groupId>
@@ -29,9 +29,9 @@
         </developer>
     </developers>
     <scm>
-        <connection>scm:https://github.com/devacfr/direct.git</connection>
-        <developerConnection>scm:git:https://github.com/devacfr/direct.git</developerConnection>
-        <url>http://github.com/devacfr/direct</url>
+        <connection>scm:https://github.com/devacfr/matcha.git</connection>
+        <developerConnection>scm:git:https://github.com/devacfr/matcha.git</developerConnection>
+        <url>http://github.com/devacfr/matcha</url>
     </scm>
     <properties>
 
