@@ -15,10 +15,10 @@
     </parent>
 
     <modules>
-        <module>direct-core</module>
-        <module>direct-testing</module>
-        <module>direct-web</module>
-        <module>direct-example</module>
+        <module>core</module>
+        <module>testing</module>
+        <module>web</module>
+        <module>example</module>
     </modules>
     <developers>
         <developer>
