@@ -12,10 +12,10 @@
 			    http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd">
 
 	<context:annotation-config />
-	<context:component-scan base-package="org.cfr.web.direct.action" />
+	<context:component-scan base-package="org.cfr.matcha.direct" />
 
 
-	<bean id="directFactory" class="org.cfr.direct.impl.ServletDirectFactory">
+	<bean id="directFactory" class="org.cfr.matcha.direct.ServletDirectFactory">
 		<property name="debug" value="true" />
 		<property name="jsApiPath" value="/" />
 		<property name="name" value="app" />
@@ -23,7 +23,7 @@
 		<property name="providersUrl" value="/service/direct" />
 	</bean>
 
-	<bean id="Direct" class="org.cfr.direct.servlet.HttpDirectRequestHandler">
+	<bean id="Direct" class="org.cfr.matcha.direct.servlet.HttpDirectRequestHandler">
 		<constructor-arg ref="directFactory" />
 	</bean>
 

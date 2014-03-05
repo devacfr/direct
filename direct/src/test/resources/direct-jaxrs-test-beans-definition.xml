@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:jaxws="http://cxf.apache.org/jaxws" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:context="http://www.springframework.org/schema/context"
+    xmlns:util="http://www.springframework.org/schema/util" xmlns:soap="http://cxf.apache.org/bindings/soap"
+    xsi:schemaLocation="
+                http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+                http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd
+                http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+                http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd 
+			    http://cxf.apache.org/bindings/soap http://cxf.apache.org/schemas/configuration/soap.xsd
+			    http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd">
+
+    <context:annotation-config />
+    <context:component-scan base-package="org.cfr.matcha" />
+
+    <bean id="myAction" class="org.cfr.direct.testing.MyAction" />
+
+
+    <bean id="directFactory" class="org.cfr.matcha.direct.JaxrsDirectFactory">
+        <property name="namespace" value="App" />
+        <property name="name" value="Direct" />
+        <property name="providersUrl" value="/direct" />
+    </bean>
+
+    <bean id="directHandlerResource" class="org.cfr.matcha.direct.rs.DirectHandlerResource" />
+    <bean id="directJSResource" class="org.cfr.matcha.direct.rs.DirectJSResource" />
+
+</beans>

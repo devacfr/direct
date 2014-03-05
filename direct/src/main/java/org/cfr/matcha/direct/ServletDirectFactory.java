@@ -1,0 +1,61 @@
+package org.cfr.matcha.direct;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.cfr.matcha.direct.config.DirectContext;
+import org.cfr.matcha.direct.handler.IDirectHandler;
+import org.cfr.matcha.direct.handler.context.IDirectHandlerContext;
+import org.cfr.matcha.direct.servlet.context.DirectHandlerContext;
+import org.springframework.util.Assert;
+
+import com.softwarementors.extjs.djn.router.RequestType;
+
+public class ServletDirectFactory extends BaseDirectFactory implements IServletDirectFactory {
+
+
+
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void init() throws Exception {
+		Assert.hasText(getDefaultJsApiPath(), "defaultJsApiPath is required");
+		super.init();
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void handleProcess(HttpServletRequest request, HttpServletResponse response, RequestType type) {
+		DirectContext directContext = getDirectContext();
+		IDirectHandlerContext handlerContext = new DirectHandlerContext(directContext, type, request, response);
+		for (IDirectHandler handler : directContext.getDirectHandlers()) {
+			handler.process(handlerContext);
+		}
+		handlerContext = null;
+	}
+
+	@Override
+	public String getJsApiPath() {
+		return getDefaultJsApiPath();
+	}
+
+	@Override
+	public void setJsApiPath(String jsApiPath) {
+		this.setDefaultJsApiPath(jsApiPath);
+	}
+
+	@Override
+	public boolean isCreateSourceFiles() {
+		return this.isDefaultCreateSourceFiles();
+	}
+
+	@Override
+	public void setCreateSourceFiles(boolean createSourceFiles) {
+		this.setDefaultCreateSourceFiles(createSourceFiles);
+	}
+
+}

@@ -7,10 +7,10 @@ import java.io.IOException;
 import java.util.Map;
 
 import org.apache.commons.fileupload.FileItem;
-import org.cfr.direct.handler.processor.form.Form;
 import org.cfr.matcha.api.direct.DirectAction;
 import org.cfr.matcha.api.direct.DirectFormPostMethod;
 import org.cfr.matcha.api.direct.IDirectAction;
+import org.cfr.matcha.api.form.Form;
 import org.springframework.stereotype.Component;
 
 @Component
