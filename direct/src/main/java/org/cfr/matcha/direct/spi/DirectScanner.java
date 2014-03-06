@@ -1,4 +1,4 @@
-package org.cfr.matcha.direct.config;
+package org.cfr.matcha.direct.spi;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -248,13 +248,7 @@ public class DirectScanner extends Scanner {
     private List<RegisteredAction> createActionsFromJavaClass(RegisteredApi api, Class<?> actionClass) {
         assert api != null;
         assert actionClass != null;
-
-        // remove DirectAction dependency
-        //DirectAction actionAnnotation = actionClass.getAnnotation(DirectAction.class);
         List<String> actionNames = new ArrayList<String>();
-        //        if (actionAnnotation != null) {
-        //            Collections.addAll(actionNames, actionAnnotation.action());
-        //        }
 
         if (actionNames.isEmpty()) {
             actionNames.add(ClassUtils.getSimpleName(actionClass));

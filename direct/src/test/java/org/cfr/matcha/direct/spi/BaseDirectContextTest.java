@@ -1,27 +1,34 @@
-package org.cfr.matcha.direct.config;
+package org.cfr.matcha.direct.spi;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import org.cfr.direct.testing.EasyMockTestCase;
-import org.cfr.matcha.api.direct.IDirectAction;
-import org.cfr.matcha.direct.config.DirectConfiguration;
-import org.cfr.matcha.direct.config.DirectContext;
-import org.cfr.matcha.direct.dispatcher.SpringDispatcher;
+import org.cfr.matcha.direct.di.IInjector;
 import org.cfr.matcha.direct.handler.IDirectHandler;
 import org.cfr.matcha.direct.handler.impl.DirectHandler;
 import org.cfr.matcha.direct.handler.impl.DirectRequestRouter;
 import org.easymock.EasyMock;
+import org.junit.Before;
 import org.junit.Test;
 
+import com.google.common.collect.Lists;
 import com.softwarementors.extjs.djn.api.Registry;
 import com.softwarementors.extjs.djn.config.ApiConfiguration;
-import com.softwarementors.extjs.djn.config.GlobalConfiguration;
 
-public class DirectContextTest extends EasyMockTestCase {
+public class BaseDirectContextTest extends EasyMockTestCase {
+
+    private IInjector injector;
+
+    @Override
+    @Before
+    public void setUp() throws Exception {
+        super.setUp();
+        injector = mock(IInjector.class);
+    }
 
     /**
-     * providersUrl is mandatory one exception is expected
+     * JsApiPath is mandatory one exception is expected
      * 
      * @throws Exception
      */
@@ -30,8 +37,14 @@ public class DirectContextTest extends EasyMockTestCase {
         String providersUrl = "";
         String contextName = "contextName";
 
-        DirectContext context = new DirectContext();
-        context.init("", "ns", contextName, providersUrl);
+        BaseDirectContext context = new BaseDirectContext();
+        context.setInjector(injector);
+        context.setNamespace("ns");
+        context.setName(contextName);
+        context.setProvidersUrl(providersUrl);
+        context.setJsApiPath("");
+
+        context.init();
     }
 
     /**
@@ -45,21 +58,26 @@ public class DirectContextTest extends EasyMockTestCase {
         String contextName = "contextName";
         String jsDefaultApiPath = "jsDefaultApiPath";
 
-        DirectContext context = new DirectContext();
+        BaseDirectContext context = new BaseDirectContext();
+        context.setInjector(injector);
+        context.setJsApiPath(jsDefaultApiPath);
+        context.setNamespace("ns");
+        context.setName(contextName);
+        context.setProvidersUrl(providersUrl);
 
         context.setDirectHandlers(getMockDirectHandlers());
 
-        DirectRequestRouter requestRouter = mock(DirectRequestRouter.class);
+        IRequestRouter requestRouter = mock(IRequestRouter.class);
 
         context.setRequestRouter(requestRouter);
 
         replay();
 
-        context.init(jsDefaultApiPath, "ns", contextName, providersUrl);
+        context.init();
 
         verify();
         assertNotNull(context.getDirectDispatcher());
-        assertNotNull(context.getDirectConfiguration());
+        assertNotNull(context.getGlobalConfiguration());
         assertTrue(context.getApiConfigurations().size() == 1);
 
     }
@@ -75,21 +93,23 @@ public class DirectContextTest extends EasyMockTestCase {
         String contextName = "contextName";
         String jsDefaultApiPath = "jsDefaultApiPath";
 
-        List<IDirectAction> actions = new ArrayList<IDirectAction>();
+        List<Object> actions = new ArrayList<Object>();
 
-        DirectConfiguration configuration = mock(DirectConfiguration.class);
-
-        IDirectAction action = mock(IDirectAction.class);
+        Object action = mock(Object.class);
         actions.add(action);
 
-        SpringDispatcher dispatcher = mock(SpringDispatcher.class);
+        DefaultDispatcher dispatcher = mock(DefaultDispatcher.class);
 
-        DirectContext context = new DirectContext();
+        BaseDirectContext context = new BaseDirectContext();
+        context.setInjector(injector);
+        context.setJsApiPath(jsDefaultApiPath);
+        context.setNamespace("ns");
+        context.setName(contextName);
+        context.setProvidersUrl(providersUrl);
 
         context.setActions(actions);
         List<ApiConfiguration> apiConfiguration = getMockApiConfigurations();
         context.setApiConfigurations(apiConfiguration);
-        context.setDirectConfiguration(configuration);
         context.setDirectDispatcher(dispatcher);
         List<IDirectHandler> directHandlers = getMockDirectHandlers();
         context.setDirectHandlers(directHandlers);
@@ -101,14 +121,13 @@ public class DirectContextTest extends EasyMockTestCase {
 
         replay();
 
-        context.init(jsDefaultApiPath, "ns", contextName, providersUrl);
+        context.init();
         assertNotNull(context.getApiConfigurations().iterator().next().getClasses());
 
         verify();
 
         assertEquals(actions, context.getDirectActions());
         assertEquals(apiConfiguration, context.getApiConfigurations());
-        assertEquals(configuration, context.getDirectConfiguration());
         assertEquals(dispatcher, context.getDirectDispatcher());
         assertEquals(directHandlers, context.getDirectHandlers());
         assertEquals(registry, context.getRegistry());
@@ -121,36 +140,32 @@ public class DirectContextTest extends EasyMockTestCase {
         String contextName = "contextName";
         String jsDefaultApiPath = "jsDefaultApiPath";
 
-        List<IDirectAction> actions = new ArrayList<IDirectAction>();
+        List<Object> actions = new ArrayList<Object>();
 
-        GlobalConfiguration globalConfiguration = mock(GlobalConfiguration.class);
-        DirectConfiguration configuration = mock(DirectConfiguration.class);
-
-        EasyMock.expect(configuration.getGlobalConfiguration()).andReturn(globalConfiguration).anyTimes();
-        EasyMock.expect(configuration.getProvidersUrl()).andReturn(providersUrl);
-
-        IDirectAction action = mock(IDirectAction.class);
+        Object action = mock(Object.class);
         actions.add(action);
 
         DirectHandler handler = mock(DirectHandler.class);
         List<IDirectHandler> directHandlers = new ArrayList<IDirectHandler>();
         directHandlers.add(handler);
 
-        DirectContext context = new DirectContext();
-        //   context.setProvidersUrl(null);
-        context.setDirectConfiguration(configuration);
+        BaseDirectContext context = new BaseDirectContext();
+        context.setInjector(injector);
+        context.setJsApiPath(jsDefaultApiPath);
+        context.setNamespace("ns");
+        context.setName(contextName);
+        context.setProvidersUrl(providersUrl);
 
         context.setActions(actions);
         context.setDirectHandlers(directHandlers);
 
         replay();
 
-        context.init(jsDefaultApiPath, "ns", contextName, providersUrl);
+        context.init();
 
         verify();
 
         assertNotNull(context.getDirectDispatcher());
-        assertEquals(configuration, context.getDirectConfiguration());
         assertEquals(directHandlers, context.getDirectHandlers());
         assertTrue(context.getDirectActions().size() == 1);
         assertTrue(context.getApiConfigurations().size() == 1);
@@ -163,19 +178,18 @@ public class DirectContextTest extends EasyMockTestCase {
         String contextName = "contextName";
         String jsDefaultApiPath = "jsDefaultApiPath";
 
-        List<IDirectAction> actions = new ArrayList<IDirectAction>();
+        List<Object> actions = new ArrayList<Object>();
 
-        GlobalConfiguration globalConfiguration = mock(GlobalConfiguration.class);
-        DirectConfiguration configuration = mock(DirectConfiguration.class);
-
-        EasyMock.expect(configuration.getGlobalConfiguration()).andReturn(globalConfiguration).anyTimes();
-
-        IDirectAction action = mock(IDirectAction.class);
+        Object action = mock(Object.class);
         actions.add(action);
 
-        DirectContext context = new DirectContext();
-        context.setDirectConfiguration(configuration);
+        BaseDirectContext context = new BaseDirectContext();
+        context.setInjector(injector);
         context.setActions(actions);
+        context.setJsApiPath(jsDefaultApiPath);
+        context.setNamespace("ns");
+        context.setName(contextName);
+        context.setProvidersUrl(providersUrl);
 
         DirectHandler handler = mock(DirectHandler.class);
         List<IDirectHandler> directHandlers = new ArrayList<IDirectHandler>();
@@ -184,12 +198,11 @@ public class DirectContextTest extends EasyMockTestCase {
 
         replay();
 
-        context.init(jsDefaultApiPath, "ns", contextName, providersUrl);
+        context.init();
 
         verify();
 
         assertNotNull(context.getDirectDispatcher());
-        assertEquals(configuration, context.getDirectConfiguration());
         assertTrue(context.getDirectActions().size() == 1);
         assertTrue(context.getApiConfigurations().size() == 1);
 
@@ -201,12 +214,14 @@ public class DirectContextTest extends EasyMockTestCase {
         String contextName = "contextName";
         String jsDefaultApiPath = "jsDefaultApiPath";
 
-        List<IDirectAction> actions = new ArrayList<IDirectAction>();
+        List<Object> actions = Lists.newArrayList(mock(Object.class));
 
-        IDirectAction action = mock(IDirectAction.class);
-        actions.add(action);
-
-        DirectContext context = new DirectContext();
+        BaseDirectContext context = new BaseDirectContext();
+        context.setInjector(injector);
+        context.setJsApiPath(jsDefaultApiPath);
+        context.setNamespace("ns");
+        context.setName(contextName);
+        context.setProvidersUrl(providersUrl);
 
         context.setActions(actions);
 
@@ -217,13 +232,11 @@ public class DirectContextTest extends EasyMockTestCase {
 
         replay();
 
-        context.init(jsDefaultApiPath, "ns", contextName, providersUrl);
+        context.init();
 
         verify();
 
         assertNotNull(context.getDirectDispatcher());
-        assertNotNull(context.getDirectConfiguration());
-
         assertTrue(context.getDirectActions().size() == 1);
 
         assertTrue(context.getApiConfigurations().size() == 1);
@@ -235,8 +248,14 @@ public class DirectContextTest extends EasyMockTestCase {
         String contextName = "contextName";
         String jsDefaultApiPath = "jsDefaultApiPath";
 
-        DirectContext context = new DirectContext();
+        BaseDirectContext context = new BaseDirectContext();
+        context.setInjector(injector);
         context.setApiConfigurations(getMockApiConfigurations());
+
+        context.setJsApiPath(jsDefaultApiPath);
+        context.setNamespace("ns");
+        context.setName(contextName);
+        context.setProvidersUrl(providersUrl);
 
         DirectHandler handler = mock(DirectHandler.class);
         List<IDirectHandler> directHandlers = new ArrayList<IDirectHandler>();
@@ -245,12 +264,11 @@ public class DirectContextTest extends EasyMockTestCase {
 
         replay();
 
-        context.init(jsDefaultApiPath, "ns", contextName, providersUrl);
+        context.init();
 
         verify();
 
         assertNotNull(context.getDirectDispatcher());
-        assertNotNull(context.getDirectConfiguration());
 
         List<ApiConfiguration> apiConfigurations = context.getApiConfigurations();
         assertTrue(apiConfigurations.size() == 1);
@@ -262,16 +280,16 @@ public class DirectContextTest extends EasyMockTestCase {
         String contextName = "contextName";
         String jsDefaultApiPath = "jsDefaultApiPath";
 
-        List<IDirectAction> actions = new ArrayList<IDirectAction>();
-        IDirectAction action = mock(IDirectAction.class);
-        actions.add(action);
+        List<Object> actions = Lists.newArrayList(mock(Object.class));
 
-        List<IDirectAction> actions2 = new ArrayList<IDirectAction>();
-        IDirectAction action2 = mock(IDirectAction.class);
-        actions2.add(action2);
-
-        DirectContext context = new DirectContext();
+        BaseDirectContext context = new BaseDirectContext();
+        context.setInjector(injector);
         context.setActions(actions);
+
+        context.setJsApiPath(jsDefaultApiPath);
+        context.setNamespace("ns");
+        context.setName(contextName);
+        context.setProvidersUrl(providersUrl);
 
         DirectHandler handler = mock(DirectHandler.class);
         List<IDirectHandler> directHandlers = new ArrayList<IDirectHandler>();
@@ -280,12 +298,11 @@ public class DirectContextTest extends EasyMockTestCase {
 
         replay();
 
-        context.init(jsDefaultApiPath, "ns", contextName, providersUrl);
+        context.init();
 
         verify();
 
         assertNotNull(context.getDirectDispatcher());
-        assertNotNull(context.getDirectConfiguration());
         assertTrue(context.getApiConfigurations().size() == 1);
     }
 
@@ -301,8 +318,7 @@ public class DirectContextTest extends EasyMockTestCase {
         ApiConfiguration api = mock(ApiConfiguration.class);
 
         List<Class<?>> actionClasses = new ArrayList<Class<?>>();
-        //IDirectAction action = mock(IDirectAction.class);
-        actionClasses.add(IDirectAction.class);
+        actionClasses.add(Object.class);
         EasyMock.expect(api.getClasses()).andReturn(actionClasses);
         EasyMock.expect(api.getName()).andReturn("MockApiName").anyTimes();
         EasyMock.expect(api.getApiNamespace()).andReturn("MockApiNamespace").anyTimes();

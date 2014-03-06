@@ -3,17 +3,17 @@ package org.cfr.web.direct.action;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.inject.Named;
+
 import org.apache.commons.fileupload.FileItem;
 import org.cfr.matcha.api.direct.DirectAction;
 import org.cfr.matcha.api.direct.DirectFormPostMethod;
 import org.cfr.matcha.api.direct.DirectMethod;
-import org.cfr.matcha.api.direct.IDirectAction;
 import org.cfr.matcha.api.form.Form;
-import org.springframework.stereotype.Component;
 
-@Component
+@Named
 @DirectAction
-public class Profile implements IDirectAction {
+public class Profile {
 
     // Dynamic data: the data itself is a dynamic map, so we can return arbitrary data!
     public static class LocationInfo {

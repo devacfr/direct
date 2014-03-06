@@ -3,6 +3,8 @@ package org.cfr.matcha.direct.rs;
 import java.io.IOException;
 import java.io.InputStream;
 
+import javax.inject.Inject;
+import javax.inject.Named;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -10,13 +12,12 @@ import javax.ws.rs.Produces;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.exception.ExceptionUtils;
-import org.cfr.matcha.direct.IJaxRsDirectFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.DefaultResourceLoader;
 import org.springframework.core.io.ResourceLoader;
 
+@Named
 @Path("/direct/javascript/{jsFileName}")
 public class DirectJSResource {
 
@@ -37,8 +38,8 @@ public class DirectJSResource {
     public static final String NO_JS_FILE = "No js file found with name: ";
 
     /** Action Context  */
-    @Autowired(required = true)
-    private IJaxRsDirectFactory directManager;
+    @Inject
+    private IJaxRsDirectApplication directManager;
 
     @GET
     @Produces(value = "text/javascript")
@@ -78,7 +79,7 @@ public class DirectJSResource {
         }
     }
 
-    public void setDirectManager(IJaxRsDirectFactory directManager) {
+    public void setDirectManager(IJaxRsDirectApplication directManager) {
         this.directManager = directManager;
     }
 }

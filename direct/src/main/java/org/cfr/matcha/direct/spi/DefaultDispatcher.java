@@ -1,32 +1,33 @@
-package org.cfr.matcha.direct.dispatcher;
+package org.cfr.matcha.direct.spi;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.cfr.matcha.api.direct.IDirectAction;
+import javax.annotation.Nonnull;
 
+import com.google.common.collect.Maps;
 import com.softwarementors.extjs.djn.api.RegisteredMethod;
 import com.softwarementors.extjs.djn.router.dispatcher.DispatcherBase;
 
-public class SpringDispatcher extends DispatcherBase {
+public class DefaultDispatcher extends DispatcherBase {
 
-    private Map<Class<? extends IDirectAction>, IDirectAction> mapActions;
+    private Map<Class<? extends Object>, Object> mapActions;
 
-    public SpringDispatcher(Map<Class<? extends IDirectAction>, IDirectAction> mapActions) {
+    public DefaultDispatcher(Map<Class<? extends Object>, Object> mapActions) {
         this.mapActions = mapActions;
     }
 
-    public SpringDispatcher(List<IDirectAction> actions) {
-        mapActions = new HashMap<Class<? extends IDirectAction>, IDirectAction>(actions.size());
-        for (IDirectAction action : actions) {
-            mapActions.put(action.getClass(), action);
+    public DefaultDispatcher(@Nonnull final List<Object> actions) {
+        mapActions = Maps.newHashMap();
+        for (Object action : actions) {
+            Class<? extends Object> cls = action.getClass();
+            mapActions.put(cls, action);
         }
     }
 
     @Override
     protected Object getInvokeInstanceForNonStaticMethod(RegisteredMethod method) throws Exception {
-        IDirectAction actionInstance = null;
+        Object actionInstance = null;
         Class<?> instanceClass = method.getActionClass();
 
         if (mapActions.containsKey(instanceClass)) {

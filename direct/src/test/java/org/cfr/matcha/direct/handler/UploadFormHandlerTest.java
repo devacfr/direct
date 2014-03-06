@@ -7,7 +7,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.cfr.direct.testing.EasyMockTestCase;
-import org.cfr.matcha.direct.config.DirectContext;
 import org.cfr.matcha.direct.handler.context.IDirectHandlerContext;
 import org.cfr.matcha.direct.handler.impl.DirectHandlerException;
 import org.cfr.matcha.direct.handler.impl.DirectRequestRouter;
@@ -15,6 +14,7 @@ import org.cfr.matcha.direct.handler.impl.UploadFormHandler;
 import org.cfr.matcha.direct.handler.processor.form.UploadFormPostRequestProcessor;
 import org.cfr.matcha.direct.rs.context.DirectJaxRsHandlerContext;
 import org.cfr.matcha.direct.servlet.context.DirectHandlerContext;
+import org.cfr.matcha.direct.spi.BaseDirectContext;
 import org.easymock.EasyMock;
 import org.junit.Test;
 
@@ -24,7 +24,7 @@ public class UploadFormHandlerTest extends EasyMockTestCase {
 
     private static List<RequestType> expectedTypes = Arrays.asList(RequestType.FORM_UPLOAD_POST);
 
-    private DirectContext context;
+    private BaseDirectContext context;
 
     private HttpServletRequest request;
 
@@ -34,7 +34,7 @@ public class UploadFormHandlerTest extends EasyMockTestCase {
     public void setUp() throws Exception {
         super.setUp();
 
-        context = mock(DirectContext.class);
+        context = mock(BaseDirectContext.class);
 
         DirectRequestRouter requestRouter = mock(DirectRequestRouter.class);
 

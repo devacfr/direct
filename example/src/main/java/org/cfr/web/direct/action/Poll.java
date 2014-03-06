@@ -5,15 +5,15 @@ import java.util.Date;
 import java.util.Map;
 import java.util.Random;
 
+import javax.inject.Named;
+
 import org.cfr.matcha.api.direct.DirectAction;
 import org.cfr.matcha.api.direct.DirectPollMethod;
-import org.cfr.matcha.api.direct.IDirectAction;
 import org.joda.time.DateTime;
-import org.springframework.stereotype.Component;
 
-@Component
+@Named
 @DirectAction
-public class Poll implements IDirectAction {
+public class Poll {
 
     @DirectPollMethod(event = "message")
     public String handleMessagePoll(Map<String, String> parameters) {

@@ -1,4 +1,4 @@
-package org.cfr.matcha.direct.dispatcher;
+package org.cfr.matcha.direct.spi;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -7,34 +7,32 @@ import java.util.List;
 import java.util.Map;
 
 import org.cfr.direct.testing.EasyMockTestCase;
-import org.cfr.matcha.api.direct.IDirectAction;
 import org.easymock.EasyMock;
 import org.junit.Test;
 import org.springframework.util.ReflectionUtils;
 
+import com.google.common.collect.Lists;
 import com.softwarementors.extjs.djn.api.RegisteredAction;
 import com.softwarementors.extjs.djn.api.RegisteredStandardMethod;
 
-public class DirectSpringDispatcherTest extends EasyMockTestCase {
+public class DefaultDispatcherTest extends EasyMockTestCase {
 
     @Test
     public void constructWithListTest() {
-        List<IDirectAction> actions = new ArrayList<IDirectAction>();
-        IDirectAction action = mock(IDirectAction.class);
-        actions.add(action);
+        List<Object> actions = Lists.newArrayList(mock(Object.class));
         replay();
-        new SpringDispatcher(actions);
+        new DefaultDispatcher(actions);
         verify();
     }
 
     @Test
     public void constructWithMapTest() {
-        Map<Class<? extends IDirectAction>, IDirectAction> mapActions = new HashMap<Class<? extends IDirectAction>, IDirectAction>();
-        IDirectAction action = mock(IDirectAction.class);
+        Map<Class<? extends Object>, Object> mapActions = new HashMap<Class<? extends Object>, Object>();
+        Object action = mock(Object.class);
         mapActions.put(action.getClass(), action);
 
         replay();
-        new SpringDispatcher(mapActions);
+        new DefaultDispatcher(mapActions);
         verify();
 
     }
@@ -43,7 +41,7 @@ public class DirectSpringDispatcherTest extends EasyMockTestCase {
     @Test
     public void getActionInstanceTest() {
 
-        List<IDirectAction> actions = new ArrayList<IDirectAction>();
+        List<Object> actions = new ArrayList<Object>();
         MyAction action = new MyAction();
         actions.add(action);
 
@@ -59,12 +57,12 @@ public class DirectSpringDispatcherTest extends EasyMockTestCase {
         expect(registeredStandardMethod.getActionClass()).andReturn(actionClass);
 
         replay();
-        SpringDispatcher dispatcher = new SpringDispatcher(actions);
+        DefaultDispatcher dispatcher = new DefaultDispatcher(actions);
 
         Object retrievedAction = dispatcher.dispatch(registeredStandardMethod, new Object[] { "parameter" });
         verify();
 
-        assertEquals("class org.cfr.matcha.direct.dispatcher.MyActioncalled with data parameter", retrievedAction);
+        assertEquals("class org.cfr.matcha.direct.spi.MyActioncalled with data parameter", retrievedAction);
 
     }
 

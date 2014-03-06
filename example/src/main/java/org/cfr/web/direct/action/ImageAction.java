@@ -6,16 +6,16 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.Map;
 
+import javax.inject.Named;
+
 import org.apache.commons.fileupload.FileItem;
 import org.cfr.matcha.api.direct.DirectAction;
 import org.cfr.matcha.api.direct.DirectFormPostMethod;
-import org.cfr.matcha.api.direct.IDirectAction;
 import org.cfr.matcha.api.form.Form;
-import org.springframework.stereotype.Component;
 
-@Component
+@Named
 @DirectAction
-public class ImageAction implements IDirectAction {
+public class ImageAction {
 
     @DirectFormPostMethod
     public Result uploadFile(Form formParameters, Map<String, FileItem> fileFields) throws IOException {

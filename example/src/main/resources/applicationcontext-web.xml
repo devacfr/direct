@@ -15,16 +15,26 @@
 	<context:component-scan base-package="org.cfr.matcha.direct" />
 
 
-	<bean id="directFactory" class="org.cfr.matcha.direct.ServletDirectFactory">
+	<bean id="ServletDirectContext" class="org.cfr.matcha.direct.servlet.ServletDirectContext" init-method="init">
 		<property name="debug" value="true" />
 		<property name="jsApiPath" value="/" />
 		<property name="name" value="app" />
 		<property name="namespace" value="Ext" />
 		<property name="providersUrl" value="/service/direct" />
+        <property name="createSourceFiles" value="false"/>
+        <property name="minify" value="false" />
+        <property name="actions">
+            <list>
+                <bean class="org.cfr.web.direct.action.ImageAction" />
+                <bean class="org.cfr.web.direct.action.Poll" />
+                <bean class="org.cfr.web.direct.action.Profile" />
+                <bean class="org.cfr.web.direct.action.TestAction" />
+            </list>
+        </property>
 	</bean>
 
 	<bean id="Direct" class="org.cfr.matcha.direct.servlet.HttpDirectRequestHandler">
-		<constructor-arg ref="directFactory" />
+		<constructor-arg ref="ServletDirectContext" />
 	</bean>
 
 

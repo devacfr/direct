@@ -11,6 +11,7 @@ import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileUploadException;
 import org.cfr.matcha.direct.handler.processor.form.FormPostRequestProcessor;
 import org.cfr.matcha.direct.handler.processor.form.UploadFormPostRequestProcessor;
+import org.cfr.matcha.direct.spi.IRequestRouter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -21,7 +22,12 @@ import com.softwarementors.extjs.djn.router.processor.RequestException;
 import com.softwarementors.extjs.djn.router.processor.poll.PollRequestProcessor;
 import com.softwarementors.extjs.djn.router.processor.standard.json.JsonRequestProcessor;
 
-public class DirectRequestRouter {
+/**
+ * 
+ * @author devacfr
+ *
+ */
+public class DirectRequestRouter implements IRequestRouter {
 
     private static final Logger logger = LoggerFactory.getLogger(DirectRequestRouter.class);
 
@@ -37,16 +43,28 @@ public class DirectRequestRouter {
         this.globalConfiguration = globalConfiguration;
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public void processSimpleFormPostRequest(Reader reader, Writer writer) throws IOException {
         FormPostRequestProcessor processor = new FormPostRequestProcessor(this.registry, this.dispatcher,
                 this.globalConfiguration);
         processor.process(reader, writer);
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public UploadFormPostRequestProcessor createUploadFromProcessor() {
         return new UploadFormPostRequestProcessor(this.registry, this.dispatcher, this.globalConfiguration);
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public void processUploadFormPostRequest(UploadFormPostRequestProcessor processor, List<FileItem> fileItems,
                                              Writer writer) throws IOException {
         assert processor != null;
@@ -54,24 +72,38 @@ public class DirectRequestRouter {
         processor.process(fileItems, writer);
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public void processJsonRequest(Reader reader, Writer writer) throws IOException {
         new JsonRequestProcessor(this.registry, this.dispatcher, this.globalConfiguration).process(reader, writer);
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public void processPollRequest(Reader reader, Writer writer, String pathInfo) throws IOException {
         new PollRequestProcessor(this.registry, this.dispatcher, this.globalConfiguration).process(reader,
             writer,
             pathInfo);
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public void handleFileUploadException(UploadFormPostRequestProcessor processor, FileUploadException e) {
         assert e != null;
 
         processor.handleFileUploadException(e);
     }
 
-    public static final String SOURCE_NAME_PREFIX = "/src";
-
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public void processSourceRequest(BufferedReader reader, PrintWriter writer, String pathInfo) {
         assert reader != null;
         assert writer != null;

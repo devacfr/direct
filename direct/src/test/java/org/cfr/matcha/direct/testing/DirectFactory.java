@@ -1,4 +1,4 @@
-package org.cfr.matcha.direct.rs;
+package org.cfr.matcha.direct.testing;
 
 import java.util.Map;
 

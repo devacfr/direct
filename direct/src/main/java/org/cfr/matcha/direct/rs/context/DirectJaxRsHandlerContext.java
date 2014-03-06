@@ -4,8 +4,8 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 
-import org.cfr.matcha.direct.config.DirectContext;
 import org.cfr.matcha.direct.handler.context.impl.BaseHandlerContext;
+import org.cfr.matcha.direct.spi.BaseDirectContext;
 
 import com.softwarementors.extjs.djn.router.RequestType;
 
@@ -17,7 +17,7 @@ public class DirectJaxRsHandlerContext extends BaseHandlerContext {
 
 	private final String pathInfo;
 
-	public DirectJaxRsHandlerContext(DirectContext context, RequestType requestType, String pathInfo, BufferedReader reader, PrintWriter writer) {
+	public DirectJaxRsHandlerContext(BaseDirectContext context, RequestType requestType, String pathInfo, BufferedReader reader, PrintWriter writer) {
 		super(context, requestType);
 		this.reader = reader;
 		this.writer = writer;

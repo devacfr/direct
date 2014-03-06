@@ -5,8 +5,8 @@ import java.io.IOException;
 import java.io.PrintWriter;
 
 import org.cfr.direct.testing.EasyMockTestCase;
-import org.cfr.matcha.direct.config.DirectContext;
 import org.cfr.matcha.direct.rs.context.DirectJaxRsHandlerContext;
+import org.cfr.matcha.direct.spi.BaseDirectContext;
 import org.junit.Test;
 
 import com.softwarementors.extjs.djn.router.RequestType;
@@ -15,7 +15,7 @@ public class HandlerContextTest extends EasyMockTestCase {
 
     @Test
     public void constructorTest() throws IOException {
-        DirectContext context = mock(DirectContext.class);
+        BaseDirectContext context = mock(BaseDirectContext.class);
         RequestType requestType = RequestType.JSON;
         String pathInfo = "pathInfo";
         BufferedReader reader = mock(BufferedReader.class);

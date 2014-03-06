@@ -1,83 +1,91 @@
 package org.cfr.matcha.direct.rs;
 
+import java.io.FileNotFoundException;
+
 import javax.ws.rs.core.UriInfo;
 
 import org.cfr.direct.testing.EasyMockTestCase;
-import org.cfr.matcha.direct.IJaxRsDirectFactory;
-import org.cfr.matcha.direct.rs.DirectHandlerResource;
 import org.junit.Test;
+import org.springframework.util.Log4jConfigurer;
 
 public class DirectHandlerResourceTest extends EasyMockTestCase {
 
-	private IJaxRsDirectFactory getMockFullDirectManager() {
-		IJaxRsDirectFactory directManager = mock(IJaxRsDirectFactory.class);
-		return directManager;
-	}
+    static {
+        try {
+            Log4jConfigurer.initLogging("classpath:log4j.xml");
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
 
-	@Test
-	public void initTest() throws Exception {
-		DirectHandlerResource resource = new DirectHandlerResource();
+    private IJaxRsDirectApplication getMockFullDirectManager() {
+        IJaxRsDirectApplication directManager = mock(IJaxRsDirectApplication.class);
+        return directManager;
+    }
 
-		resource.setDirectManager(getMockFullDirectManager());
-		replay();
-		//resource.afterPropertiesSet();
-		verify();
+    @Test
+    public void initTest() throws Exception {
+        DirectHandlerResource resource = new DirectHandlerResource();
 
-	}
+        resource.setDirectManager(getMockFullDirectManager());
+        replay();
+        //resource.afterPropertiesSet();
+        verify();
 
-	@Test
-	public void handleFormUrlEncodedPostTest() {
-		DirectHandlerResource resource = new DirectHandlerResource();
+    }
 
-		resource.setDirectManager(getMockFullDirectManager());
+    @Test
+    public void handleFormUrlEncodedPostTest() {
+        DirectHandlerResource resource = new DirectHandlerResource();
 
-		String input = "myInput";
-		UriInfo uriInfo = mock(UriInfo.class);
+        resource.setDirectManager(getMockFullDirectManager());
 
-		replay();
-		resource.handleFormUrlEncodedPost(uriInfo, input);
-		verify();
-	}
+        String input = "myInput";
+        UriInfo uriInfo = mock(UriInfo.class);
 
-	@Test
-	public void handleJSONPostTest() {
-		DirectHandlerResource resource = new DirectHandlerResource();
+        replay();
+        resource.handleFormUrlEncodedPost(uriInfo, input);
+        verify();
+    }
 
-		resource.setDirectManager(getMockFullDirectManager());
+    @Test
+    public void handleJSONPostTest() {
+        DirectHandlerResource resource = new DirectHandlerResource();
 
-		String json = "myInput";
-		UriInfo uriInfo = mock(UriInfo.class);
+        resource.setDirectManager(getMockFullDirectManager());
 
-		replay();
-		resource.handleJSONPost(uriInfo, json);
-		verify();
-	}
+        String json = "myInput";
+        UriInfo uriInfo = mock(UriInfo.class);
 
-	@Test
-	public void handlePollGetTest() {
-		DirectHandlerResource resource = new DirectHandlerResource();
+        replay();
+        resource.handleJSONPost(uriInfo, json);
+        verify();
+    }
 
-		resource.setDirectManager(getMockFullDirectManager());
+    @Test
+    public void handlePollGetTest() {
+        DirectHandlerResource resource = new DirectHandlerResource();
 
-		UriInfo uriInfo = mock(UriInfo.class);
+        resource.setDirectManager(getMockFullDirectManager());
 
-		replay();
-		resource.handlePollGet(uriInfo);
-		verify();
-	}
+        UriInfo uriInfo = mock(UriInfo.class);
 
-	@Test
-	public void handlePollPostTest() {
-		DirectHandlerResource resource = new DirectHandlerResource();
+        replay();
+        resource.handlePollGet(uriInfo);
+        verify();
+    }
 
-		resource.setDirectManager(getMockFullDirectManager());
+    @Test
+    public void handlePollPostTest() {
+        DirectHandlerResource resource = new DirectHandlerResource();
 
-		UriInfo uriInfo = mock(UriInfo.class);
+        resource.setDirectManager(getMockFullDirectManager());
 
-		replay();
-		resource.handlePollPost(uriInfo);
-		verify();
-	}
+        UriInfo uriInfo = mock(UriInfo.class);
 
+        replay();
+        resource.handlePollPost(uriInfo);
+        verify();
+    }
 
 }

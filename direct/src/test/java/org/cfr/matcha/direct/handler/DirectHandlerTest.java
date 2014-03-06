@@ -12,13 +12,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.cfr.direct.testing.EasyMockTestCase;
-import org.cfr.matcha.direct.config.DirectContext;
 import org.cfr.matcha.direct.handler.context.IDirectHandlerContext;
 import org.cfr.matcha.direct.handler.impl.DirectHandler;
 import org.cfr.matcha.direct.handler.impl.DirectHandlerException;
 import org.cfr.matcha.direct.handler.impl.DirectRequestRouter;
 import org.cfr.matcha.direct.servlet.ServletUtil;
 import org.cfr.matcha.direct.servlet.context.DirectHandlerContext;
+import org.cfr.matcha.direct.spi.BaseDirectContext;
 import org.easymock.EasyMock;
 import org.junit.Test;
 
@@ -28,7 +28,7 @@ public class DirectHandlerTest extends EasyMockTestCase {
 
     private static List<RequestType> expectedTypes = DirectHandler.acceptedRequestTypeList;
 
-    private DirectContext context;
+    private BaseDirectContext context;
 
     private HttpServletRequest request;
 
@@ -37,7 +37,7 @@ public class DirectHandlerTest extends EasyMockTestCase {
     @Override
     public void setUp() throws Exception {
         super.setUp();
-        context = mock(DirectContext.class);
+        context = mock(BaseDirectContext.class);
         DirectRequestRouter requestRouter = mock(DirectRequestRouter.class);
 
         EasyMock.expect(context.getRequestRouter()).andReturn(requestRouter).anyTimes();

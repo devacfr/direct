@@ -4,17 +4,17 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import javax.inject.Named;
+
 import org.cfr.matcha.api.direct.DirectAction;
 import org.cfr.matcha.api.direct.DirectMethod;
-import org.cfr.matcha.api.direct.IDirectAction;
-import org.springframework.stereotype.Component;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
-@Component
+@Named
 @DirectAction
-public class TestAction implements IDirectAction {
+public class TestAction {
 
     @DirectMethod
     public String doEcho(String data) {

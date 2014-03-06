@@ -1,9 +1,10 @@
-package org.cfr.matcha.direct.dispatcher;
+package org.cfr.matcha.direct.spi;
 
+import org.cfr.matcha.api.direct.DirectAction;
 import org.cfr.matcha.api.direct.DirectMethod;
-import org.cfr.matcha.api.direct.IDirectAction;
 
-public class MyAction implements IDirectAction {
+@DirectAction
+public class MyAction {
 
     @DirectMethod
     public String myMethod(String test) {

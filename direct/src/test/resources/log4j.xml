@@ -9,11 +9,8 @@
         </layout>
     </appender>
 
-    <logger name="org.cfr.direct">
-        <level value="WARN" />
-    </logger>
     <logger name="org.springframework">
-        <level value="WARN" />
+        <level value="INFO" />
     </logger>
     <root>
         <level value="DEBUG" />

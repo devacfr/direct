@@ -1,9 +1,13 @@
 package org.cfr.direct.testing;
 
-import org.cfr.matcha.api.direct.DirectMethod;
-import org.cfr.matcha.api.direct.IDirectAction;
+import javax.inject.Named;
 
-public class MyAction implements IDirectAction {
+import org.cfr.matcha.api.direct.DirectAction;
+import org.cfr.matcha.api.direct.DirectMethod;
+
+@DirectAction
+@Named
+public class MyAction {
 
     @DirectMethod
     public String myMethod(String test) {

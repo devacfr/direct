@@ -7,8 +7,8 @@ import java.io.PrintWriter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.cfr.matcha.direct.config.DirectContext;
 import org.cfr.matcha.direct.handler.context.impl.BaseHandlerContext;
+import org.cfr.matcha.direct.spi.BaseDirectContext;
 
 import com.softwarementors.extjs.djn.router.RequestType;
 
@@ -20,7 +20,7 @@ public class DirectHandlerContext extends BaseHandlerContext {
 
 
 
-	public DirectHandlerContext(DirectContext context, RequestType requestType, HttpServletRequest request, HttpServletResponse response) {
+	public DirectHandlerContext(BaseDirectContext context, RequestType requestType, HttpServletRequest request, HttpServletResponse response) {
 		super(context, requestType);
 		this.request = request;
 		this.response = response;

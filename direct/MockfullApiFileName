@@ -1,0 +1,5 @@
+Ext.namespace("MockApiNamespace");
+Ext.namespace("MockactionsNamespace");
+MockApiNamespace.PROVIDER_BASE_URL=window.location.protocol+"//"+window.location.host+"/"+(window.location.pathname.split("/").length>2?window.location.pathname.split("/")[1]+"/":"")+"providersUrl";
+MockApiNamespace.POLLING_URLS={};
+MockApiNamespace.REMOTING_API={url:MockApiNamespace.PROVIDER_BASE_URL,type:"remoting",namespace:MockactionsNamespace,actions:{Object:[]}};

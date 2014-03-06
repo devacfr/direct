@@ -1,13 +1,13 @@
 package org.cfr.matcha.direct.handler.context.impl;
 
-import org.cfr.matcha.direct.config.DirectContext;
 import org.cfr.matcha.direct.handler.context.IDirectHandlerContext;
+import org.cfr.matcha.direct.spi.BaseDirectContext;
 
 import com.softwarementors.extjs.djn.router.RequestType;
 
 public abstract class BaseHandlerContext implements IDirectHandlerContext {
 
-    private DirectContext context;
+    private BaseDirectContext context;
 
     private RequestType requestType;
 
@@ -15,7 +15,7 @@ public abstract class BaseHandlerContext implements IDirectHandlerContext {
         super();
     }
 
-    public BaseHandlerContext(final DirectContext context, final RequestType requestType) {
+    public BaseHandlerContext(final BaseDirectContext context, final RequestType requestType) {
         this();
         this.context = context;
         this.requestType = requestType;
@@ -25,7 +25,7 @@ public abstract class BaseHandlerContext implements IDirectHandlerContext {
      * @return the context
      */
     @Override
-    public DirectContext getContext() {
+    public BaseDirectContext getContext() {
         return context;
     }
 

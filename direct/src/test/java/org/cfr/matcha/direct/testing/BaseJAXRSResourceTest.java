@@ -6,7 +6,6 @@ import javax.ws.rs.core.Application;
 
 import org.apache.log4j.Logger;
 import org.cfr.direct.testing.EasyMockTestCase;
-import org.cfr.matcha.direct.rs.DirectFactory;
 import org.junit.After;
 import org.junit.runner.RunWith;
 import org.restlet.Component;
@@ -72,7 +71,6 @@ public abstract class BaseJAXRSResourceTest extends EasyMockTestCase implements 
         application.add(new TestApplication());
 
         DirectFactory objectFactory = new DirectFactory();
-
         objectFactory.setApplicationContext(applicationContext);
         application.setObjectFactory(objectFactory);
 

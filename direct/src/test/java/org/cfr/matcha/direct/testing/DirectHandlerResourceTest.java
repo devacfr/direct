@@ -7,10 +7,10 @@ import java.util.Set;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.log4j.Logger;
-import org.cfr.matcha.direct.config.DirectContext;
 import org.cfr.matcha.direct.handler.IDirectHandler;
 import org.cfr.matcha.direct.handler.impl.DirectHandler;
 import org.cfr.matcha.direct.rs.DirectHandlerResource;
+import org.cfr.matcha.direct.spi.BaseDirectContext;
 import org.easymock.EasyMock;
 import org.junit.Test;
 import org.restlet.data.MediaType;
@@ -23,7 +23,7 @@ public class DirectHandlerResourceTest extends BaseJAXRSResourceTest {
 
 	private static final Logger LOGGER = Logger.getLogger(DirectHandlerResourceTest.class);
 
-	private DirectContext directContext;
+	private BaseDirectContext directContext;
 
 	@Override
 	protected Set<Class<?>> getJAXRSResourceToTest() {
@@ -35,7 +35,7 @@ public class DirectHandlerResourceTest extends BaseJAXRSResourceTest {
 	@Override
 	public void setUp() throws Exception {
 		super.setUp();
-		directContext = mock(DirectContext.class);
+		directContext = mock(BaseDirectContext.class);
 
 		List<IDirectHandler> handlers = new ArrayList<IDirectHandler>();
 
