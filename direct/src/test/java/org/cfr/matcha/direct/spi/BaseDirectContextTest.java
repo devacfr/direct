@@ -20,6 +20,8 @@ public class BaseDirectContextTest extends EasyMockTestCase {
 
     private IInjector injector;
 
+    private String jsApiPath = "target/";
+
     @Override
     @Before
     public void setUp() throws Exception {
@@ -42,7 +44,7 @@ public class BaseDirectContextTest extends EasyMockTestCase {
         context.setNamespace("ns");
         context.setName(contextName);
         context.setProvidersUrl(providersUrl);
-        context.setJsApiPath("");
+        context.setJsApiPath(jsApiPath);
 
         context.init();
     }
@@ -56,11 +58,10 @@ public class BaseDirectContextTest extends EasyMockTestCase {
     public void initSetNoActionTest() throws Exception {
         String providersUrl = "providersUrl";
         String contextName = "contextName";
-        String jsDefaultApiPath = "jsDefaultApiPath";
 
         BaseDirectContext context = new BaseDirectContext();
         context.setInjector(injector);
-        context.setJsApiPath(jsDefaultApiPath);
+        context.setJsApiPath(jsApiPath);
         context.setNamespace("ns");
         context.setName(contextName);
         context.setProvidersUrl(providersUrl);
@@ -91,7 +92,6 @@ public class BaseDirectContextTest extends EasyMockTestCase {
     public void setterTest() throws Exception {
         String providersUrl = "providersUrl";
         String contextName = "contextName";
-        String jsDefaultApiPath = "jsDefaultApiPath";
 
         List<Object> actions = new ArrayList<Object>();
 
@@ -102,7 +102,7 @@ public class BaseDirectContextTest extends EasyMockTestCase {
 
         BaseDirectContext context = new BaseDirectContext();
         context.setInjector(injector);
-        context.setJsApiPath(jsDefaultApiPath);
+        context.setJsApiPath(jsApiPath);
         context.setNamespace("ns");
         context.setName(contextName);
         context.setProvidersUrl(providersUrl);
@@ -138,7 +138,6 @@ public class BaseDirectContextTest extends EasyMockTestCase {
     public void configurationSettedTest() throws Exception {
         String providersUrl = "providersUrl";
         String contextName = "contextName";
-        String jsDefaultApiPath = "jsDefaultApiPath";
 
         List<Object> actions = new ArrayList<Object>();
 
@@ -151,7 +150,7 @@ public class BaseDirectContextTest extends EasyMockTestCase {
 
         BaseDirectContext context = new BaseDirectContext();
         context.setInjector(injector);
-        context.setJsApiPath(jsDefaultApiPath);
+        context.setJsApiPath(jsApiPath);
         context.setNamespace("ns");
         context.setName(contextName);
         context.setProvidersUrl(providersUrl);
@@ -176,7 +175,6 @@ public class BaseDirectContextTest extends EasyMockTestCase {
     public void missingProviderConfigurationTest() throws Exception {
         String providersUrl = "providersUrl";
         String contextName = "contextName";
-        String jsDefaultApiPath = "jsDefaultApiPath";
 
         List<Object> actions = new ArrayList<Object>();
 
@@ -186,7 +184,7 @@ public class BaseDirectContextTest extends EasyMockTestCase {
         BaseDirectContext context = new BaseDirectContext();
         context.setInjector(injector);
         context.setActions(actions);
-        context.setJsApiPath(jsDefaultApiPath);
+        context.setJsApiPath(jsApiPath);
         context.setNamespace("ns");
         context.setName(contextName);
         context.setProvidersUrl(providersUrl);
@@ -212,13 +210,12 @@ public class BaseDirectContextTest extends EasyMockTestCase {
     public void initSetOneApiFromOneActionTest() throws Exception {
         String providersUrl = "providersUrl";
         String contextName = "contextName";
-        String jsDefaultApiPath = "jsDefaultApiPath";
 
         List<Object> actions = Lists.newArrayList(mock(Object.class));
 
         BaseDirectContext context = new BaseDirectContext();
         context.setInjector(injector);
-        context.setJsApiPath(jsDefaultApiPath);
+        context.setJsApiPath(jsApiPath);
         context.setNamespace("ns");
         context.setName(contextName);
         context.setProvidersUrl(providersUrl);
@@ -246,13 +243,12 @@ public class BaseDirectContextTest extends EasyMockTestCase {
     public void initByApiConfigurationTest() throws Exception {
         String providersUrl = "providersUrl";
         String contextName = "contextName";
-        String jsDefaultApiPath = "jsDefaultApiPath";
 
         BaseDirectContext context = new BaseDirectContext();
         context.setInjector(injector);
         context.setApiConfigurations(getMockApiConfigurations());
 
-        context.setJsApiPath(jsDefaultApiPath);
+        context.setJsApiPath(jsApiPath);
         context.setNamespace("ns");
         context.setName(contextName);
         context.setProvidersUrl(providersUrl);
@@ -278,7 +274,6 @@ public class BaseDirectContextTest extends EasyMockTestCase {
     public void initSetMultiApisTest() throws Exception {
         String providersUrl = "providersUrl";
         String contextName = "contextName";
-        String jsDefaultApiPath = "jsDefaultApiPath";
 
         List<Object> actions = Lists.newArrayList(mock(Object.class));
 
@@ -286,7 +281,7 @@ public class BaseDirectContextTest extends EasyMockTestCase {
         context.setInjector(injector);
         context.setActions(actions);
 
-        context.setJsApiPath(jsDefaultApiPath);
+        context.setJsApiPath(jsApiPath);
         context.setNamespace("ns");
         context.setName(contextName);
         context.setProvidersUrl(providersUrl);
@@ -322,7 +317,7 @@ public class BaseDirectContextTest extends EasyMockTestCase {
         EasyMock.expect(api.getClasses()).andReturn(actionClasses);
         EasyMock.expect(api.getName()).andReturn("MockApiName").anyTimes();
         EasyMock.expect(api.getApiNamespace()).andReturn("MockApiNamespace").anyTimes();
-        EasyMock.expect(api.getFullApiFileName()).andReturn("MockfullApiFileName").anyTimes();
+        EasyMock.expect(api.getFullApiFileName()).andReturn(jsApiPath + "MockfullApiFileName").anyTimes();
         EasyMock.expect(api.getActionsNamespace()).andReturn("MockactionsNamespace").anyTimes();
         EasyMock.expect(api.getApiFile()).andReturn("content-api.js").anyTimes();
         List<ApiConfiguration> apis = new ArrayList<ApiConfiguration>();
