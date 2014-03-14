@@ -1,14 +1,14 @@
 Matcha Framework
 ======
 
-Matcha is a Java connector implementation for [Ext JS](http://sencha.com) supporting [Ext Direct](http://www.sencha.com/products/extjs/extdirect/) tehcnology and providing utility classes allowing to communicate with [Ext.data.Store](http://docs.sencha.com/extjs/#!/api/Ext.data.Store), [Ext.grid.Panel](http://docs.sencha.com/extjs/#!/api/Ext.form.Panel), [Ext.form.Panel](http://docs.sencha.com/extjs/#!/api/Ext.form.Panel)...
+Matcha is a Java connector implementation for [Ext JS](http://sencha.com) supporting [Ext Direct](http://www.sencha.com/products/extjs/extdirect/) technology and providing utility classes allowing to communicate with [Ext.data.Store](http://docs.sencha.com/extjs/#!/api/Ext.data.Store), [Ext.grid.Panel](http://docs.sencha.com/extjs/#!/api/Ext.form.Panel), [Ext.form.Panel](http://docs.sencha.com/extjs/#!/api/Ext.form.Panel)...
 
 Matcha uses the [JSR-330](https://jcp.org/en/jsr/detail?id=330) dependency injection as basis and, [Guice 3.0](https://code.google.com/p/google-guice/) and [Spring Framework 3.1.x](http://projects.spring.io/spring-framework/) as extension.
 
 Matcha is a Java Maven project and is composed of four main modules:
 
 * **matcha-api** module contains all classes allowing facilitate communication with the Ext JS client-side application.
-* **matcha-direct**, **matcha-direct-guice**, **matcha-direct-spring** modules are a implementation of Ext Direct API for Ext JS. It is based on [directjngine](https://code.google.com/p/directjngine/) but propose a better integration with different DI, accepts form parameter multi values, for example checkbox and soon on.
+* **matcha-direct**, **matcha-direct-guice**, **matcha-direct-spring** modules are a implementation of Ext Direct API for Ext JS. It is based on [directjngine](https://code.google.com/p/directjngine/) but proposes a better integration with different DI and HTTP server-side implementation as [Java Servlet API](http://www.oracle.com/technetwork/java/index-jsp-135475.html), [JAX-RS](https://jax-rs-spec.java.net/), [Restlet](http://restlet.org/), and simplify configuration, accepts form parameter multi values for example checkbox and so on.
 * **matcha-example** module proposes different use cases and integration facilitating the understanding.
 * **matcha-testing** is a module facilitating the unit testing or integration testing  creation.
  
