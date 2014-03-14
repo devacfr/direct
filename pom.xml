@@ -1,0 +1,91 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>org.cfr.matcha</groupId>
+    <artifactId>matcha-parent</artifactId>
+    <version>1.0.0-SNAPSHOT</version>
+    <packaging>pom</packaging>
+    <name>matcha Framework</name>
+    <description>Framework allowing work with Extjs.</description>
+
+    <parent>
+        <groupId>org.cfr</groupId>
+        <artifactId>maven-config</artifactId>
+        <version>1-SNAPSHOT</version>
+    </parent>
+
+    <modules>
+        <module>api</module>
+        <module>direct</module>
+        <module>direct-guice</module>
+        <module>direct-spring</module>
+        <module>testing</module>
+        <module>example</module>
+        
+    </modules>
+    <developers>
+        <developer>
+            <id>cfriedri</id>
+            <name>christophe friederich</name>
+            <email>christophefriedrich@mac.com</email>
+            <timezone>Europe/Zurich</timezone>
+        </developer>
+    </developers>
+    <scm>
+        <connection>scm:https://github.com/devacfr/matcha.git</connection>
+        <developerConnection>scm:git:https://github.com/devacfr/matcha.git</developerConnection>
+        <url>http://github.com/devacfr/matcha</url>
+    </scm>
+    <properties>
+
+        <org.cfr.commons.version>1.0.0-SNAPSHOT</org.cfr.commons.version>
+
+        <!-- External dependencies versions. -->
+        <directjngine.version>2.2</directjngine.version>
+        <javax.inject.version>1</javax.inject.version>
+        <gson.version>1.5</gson.version>
+        <yuicompressor.version>2.4.2</yuicompressor.version>
+
+    </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.cfr.commons</groupId>
+                <artifactId>commons-util</artifactId>
+                <version>${org.cfr.commons.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.softwarementors.extjs</groupId>
+                <artifactId>directjngine</artifactId>
+                <version>${directjngine.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>log4j</groupId>
+                        <artifactId>log4j</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+            <dependency>
+                <groupId>javax.inject</groupId>
+                <artifactId>javax.inject</artifactId>
+                <version>${javax.inject.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.google.code.gson</groupId>
+                <artifactId>gson</artifactId>
+                <version>${gson.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>javax.ws.rs</groupId>
+                <artifactId>jsr311-api</artifactId>
+                <version>${jsr311.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.yahoo.platform.yui</groupId>
+                <artifactId>yuicompressor</artifactId>
+                <version>${yuicompressor.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+</project>
