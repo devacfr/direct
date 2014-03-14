@@ -14,12 +14,13 @@ import javax.ws.rs.core.UriInfo;
 import com.softwarementors.extjs.djn.router.RequestType;
 
 @Named
-@Path("/direct")
+@Path(IJaxRsDirectApplication.PROVIDER_URL)
 public class DirectHandlerResource {
 
     /** Action Context  */
     @Inject
-    private IJaxRsDirectApplication directManger;
+    @Named("DirectApplication")
+    private IJaxRsDirectApplication directApplication;
 
     public DirectHandlerResource() {
     }
@@ -79,11 +80,11 @@ public class DirectHandlerResource {
     }
 
     protected String handle(String input, UriInfo uriInfo, RequestType requestType) {
-        return directManger.handleProcess(input, uriInfo, requestType);
+        return directApplication.handleProcess(input, uriInfo, requestType);
     }
 
-    public void setDirectManager(IJaxRsDirectApplication directManager) {
-        this.directManger = directManager;
+    public void setDirectApplication(IJaxRsDirectApplication directManager) {
+        this.directApplication = directManager;
     }
 
 }

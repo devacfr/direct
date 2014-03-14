@@ -33,7 +33,7 @@
         </property>
 	</bean>
 
-	<bean id="Direct" class="org.cfr.matcha.direct.servlet.HttpDirectRequestHandler">
+	<bean id="Direct" class="org.cfr.matcha.direct.di.spi.spring.HttpDirectRequestHandler">
 		<constructor-arg ref="ServletDirectContext" />
 	</bean>
 

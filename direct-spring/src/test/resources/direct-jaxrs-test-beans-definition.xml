@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+    xmlns:util="http://www.springframework.org/schema/util"
+    xsi:schemaLocation="
+                http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+                http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+                http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
+
+    <context:annotation-config />
+
+    <bean class="org.cfr.matcha.direct.MyAction"/>
+
+
+    <bean id="JaxrsDirectApplication" class="org.cfr.matcha.direct.spring.DefaultJaxRsDirectApplication"
+        init-method="init">
+        <property name="namespace" value="App" />
+        <property name="name" value="Direct" />
+        
+    </bean>
+
+
+</beans>

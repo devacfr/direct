@@ -91,7 +91,7 @@ public class DirectJSResourceTest extends EasyMockTestCase {
         IJaxRsDirectApplication directManager = mock(IJaxRsDirectApplication.class);
 
         DirectJSResource resource = new DirectJSResource();
-        resource.setDirectManager(directManager);
+        resource.setDirectApplication(directManager);
 
         String fileName = DirectJSResource.FILE_DIRECT_API;
 
@@ -127,7 +127,7 @@ public class DirectJSResourceTest extends EasyMockTestCase {
         IJaxRsDirectApplication directManager = mock(IJaxRsDirectApplication.class);
 
         DirectJSResource resource = new DirectJSResource();
-        resource.setDirectManager(directManager);
+        resource.setDirectApplication(directManager);
 
         String fileName = DirectJSResource.FILE_DIRECT_DEBUG_API;
 

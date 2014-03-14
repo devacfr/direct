@@ -1,5 +1,6 @@
 package org.cfr.matcha.direct;
 
+import java.util.Collection;
 import java.util.List;
 
 import javax.annotation.Nonnull;
@@ -19,14 +20,16 @@ import com.softwarementors.extjs.djn.router.dispatcher.Dispatcher;
  */
 public interface IDirectContext {
 
+    void init() throws Exception;
+
     IRequestRouter getRequestRouter();
 
     IRequestRouter createRequestRouter(@Nonnull Registry registry, @Nonnull GlobalConfiguration configuration,
-                                            @Nonnull Dispatcher dispatcher);
+                                       @Nonnull Dispatcher dispatcher);
 
     List<ApiConfiguration> createApiConfigurations(@Nonnull String name, @Nonnull String apiFile,
                                                    @Nonnull String fullApiFileName, @Nonnull String apiNamespace,
-                                                   @Nonnull String actionsNamespace, @Nonnull List<?> actions);
+                                                   @Nonnull String actionsNamespace, @Nonnull Collection<?> actions);
 
     List<IDirectHandler> createDirectHandlers();
 }

@@ -4,10 +4,11 @@ import javax.ws.rs.core.UriInfo;
 
 import org.cfr.matcha.direct.IDirectContext;
 
-
 import com.softwarementors.extjs.djn.router.RequestType;
 
 public interface IJaxRsDirectApplication extends IDirectContext {
+
+    public static final String PROVIDER_URL = "/direct";
 
     /**
      * 

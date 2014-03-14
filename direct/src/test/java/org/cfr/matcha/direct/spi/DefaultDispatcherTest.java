@@ -7,9 +7,10 @@ import java.util.List;
 import java.util.Map;
 
 import org.cfr.direct.testing.EasyMockTestCase;
+import org.cfr.matcha.direct.MyAction;
 import org.easymock.EasyMock;
+import org.easymock.internal.ReflectionUtils;
 import org.junit.Test;
-import org.springframework.util.ReflectionUtils;
 
 import com.google.common.collect.Lists;
 import com.softwarementors.extjs.djn.api.RegisteredAction;
@@ -62,7 +63,7 @@ public class DefaultDispatcherTest extends EasyMockTestCase {
         Object retrievedAction = dispatcher.dispatch(registeredStandardMethod, new Object[] { "parameter" });
         verify();
 
-        assertEquals("class org.cfr.matcha.direct.spi.MyActioncalled with data parameter", retrievedAction);
+        assertEquals("class org.cfr.matcha.direct.MyActioncalled with data parameter", retrievedAction);
 
     }
 

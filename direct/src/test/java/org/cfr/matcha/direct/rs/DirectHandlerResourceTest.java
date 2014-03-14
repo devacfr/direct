@@ -4,9 +4,9 @@ import java.io.FileNotFoundException;
 
 import javax.ws.rs.core.UriInfo;
 
+import org.cfr.commons.util.log.Log4jConfigurer;
 import org.cfr.direct.testing.EasyMockTestCase;
 import org.junit.Test;
-import org.springframework.util.Log4jConfigurer;
 
 public class DirectHandlerResourceTest extends EasyMockTestCase {
 
@@ -27,7 +27,7 @@ public class DirectHandlerResourceTest extends EasyMockTestCase {
     public void initTest() throws Exception {
         DirectHandlerResource resource = new DirectHandlerResource();
 
-        resource.setDirectManager(getMockFullDirectManager());
+        resource.setDirectApplication(getMockFullDirectManager());
         replay();
         //resource.afterPropertiesSet();
         verify();
@@ -38,7 +38,7 @@ public class DirectHandlerResourceTest extends EasyMockTestCase {
     public void handleFormUrlEncodedPostTest() {
         DirectHandlerResource resource = new DirectHandlerResource();
 
-        resource.setDirectManager(getMockFullDirectManager());
+        resource.setDirectApplication(getMockFullDirectManager());
 
         String input = "myInput";
         UriInfo uriInfo = mock(UriInfo.class);
@@ -52,7 +52,7 @@ public class DirectHandlerResourceTest extends EasyMockTestCase {
     public void handleJSONPostTest() {
         DirectHandlerResource resource = new DirectHandlerResource();
 
-        resource.setDirectManager(getMockFullDirectManager());
+        resource.setDirectApplication(getMockFullDirectManager());
 
         String json = "myInput";
         UriInfo uriInfo = mock(UriInfo.class);
@@ -66,7 +66,7 @@ public class DirectHandlerResourceTest extends EasyMockTestCase {
     public void handlePollGetTest() {
         DirectHandlerResource resource = new DirectHandlerResource();
 
-        resource.setDirectManager(getMockFullDirectManager());
+        resource.setDirectApplication(getMockFullDirectManager());
 
         UriInfo uriInfo = mock(UriInfo.class);
 
@@ -79,7 +79,7 @@ public class DirectHandlerResourceTest extends EasyMockTestCase {
     public void handlePollPostTest() {
         DirectHandlerResource resource = new DirectHandlerResource();
 
-        resource.setDirectManager(getMockFullDirectManager());
+        resource.setDirectApplication(getMockFullDirectManager());
 
         UriInfo uriInfo = mock(UriInfo.class);
 

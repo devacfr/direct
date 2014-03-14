@@ -1,5 +1,7 @@
 package org.cfr.matcha.direct.rs;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -12,13 +14,12 @@ import javax.ws.rs.Produces;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.exception.ExceptionUtils;
+import org.cfr.commons.util.ResourceUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.core.io.DefaultResourceLoader;
-import org.springframework.core.io.ResourceLoader;
 
 @Named
-@Path("/direct/javascript/{jsFileName}")
+@Path(IJaxRsDirectApplication.PROVIDER_URL + "/javascript/{jsFileName}")
 public class DirectJSResource {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(DirectJSResource.class);
@@ -39,7 +40,8 @@ public class DirectJSResource {
 
     /** Action Context  */
     @Inject
-    private IJaxRsDirectApplication directManager;
+    @Named("DirectApplication")
+    private IJaxRsDirectApplication directApplication;
 
     @GET
     @Produces(value = "text/javascript")
@@ -60,15 +62,16 @@ public class DirectJSResource {
     }
 
     protected String generateApiCode(String jsFileName, boolean minified) {
-        return directManager.generateSource(jsFileName, minified);
+        return directApplication.generateSource(jsFileName, minified);
 
     }
 
     protected String readFile(String filePath) {
         InputStream stream = null;
-        ResourceLoader resourceLoader = new DefaultResourceLoader();
+        File file = null;
         try {
-            stream = resourceLoader.getResource(filePath).getInputStream();
+            file = ResourceUtils.getFile(filePath);
+            stream = new FileInputStream(file);
 
             return IOUtils.toString(stream, "UTF-8");
         } catch (IOException ioe) {
@@ -79,7 +82,7 @@ public class DirectJSResource {
         }
     }
 
-    public void setDirectManager(IJaxRsDirectApplication directManager) {
-        this.directManager = directManager;
+    public void setDirectApplication(IJaxRsDirectApplication application) {
+        this.directApplication = application;
     }
 }

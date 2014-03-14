@@ -1,27 +1,26 @@
 package org.cfr.matcha.direct.spi;
 
+import java.lang.annotation.Annotation;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
-import java.util.Map;
+import java.util.Set;
 
 import javax.annotation.Nonnull;
-import javax.inject.Inject;
 
 import org.apache.commons.lang.StringUtils;
+import org.cfr.commons.util.Assert;
 import org.cfr.commons.util.collection.CollectionUtil;
 import org.cfr.matcha.api.direct.DirectAction;
 import org.cfr.matcha.direct.IDirectContext;
-import org.cfr.matcha.direct.di.IInjector;
 import org.cfr.matcha.direct.handler.IDirectHandler;
 import org.cfr.matcha.direct.handler.impl.BaseHandler;
 import org.cfr.matcha.direct.handler.impl.DirectRequestRouter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.util.Assert;
 
-import com.google.common.collect.Lists;
+import com.google.common.collect.Sets;
 import com.softwarementors.extjs.djn.api.Registry;
 import com.softwarementors.extjs.djn.config.ApiConfiguration;
 import com.softwarementors.extjs.djn.config.GlobalConfiguration;
@@ -33,6 +32,7 @@ import com.softwarementors.extjs.djn.scanner.Scanner;
  * Api initialiser
  *
  */
+
 public class BaseDirectContext extends ConfigurationProvider implements IDirectContext {
 
     protected final Logger logger = LoggerFactory.getLogger(this.getClass());
@@ -40,7 +40,7 @@ public class BaseDirectContext extends ConfigurationProvider implements IDirectC
     /**
      * List of actions to be published in js Api
      */
-    private List<Object> directActions;
+    private Set<Object> directActions;
 
     private List<IDirectHandler> directHandlers;
 
@@ -63,9 +63,6 @@ public class BaseDirectContext extends ConfigurationProvider implements IDirectC
 
     protected boolean initialized = false;
 
-    @Inject()
-    private IInjector injector;
-
     public BaseDirectContext() {
     }
 
@@ -73,6 +70,7 @@ public class BaseDirectContext extends ConfigurationProvider implements IDirectC
      * Registry initialization
      * @throws Exception 
      */
+    @Override
     public void init() throws Exception {
         if (!initialized) {
 
@@ -80,17 +78,6 @@ public class BaseDirectContext extends ConfigurationProvider implements IDirectC
             Assert.hasText(name, "name is required");
             Assert.hasText(getProvidersUrl(), "providersUrl is required");
             //        Assert.notNull(contextPath, "contextPath is required");
-
-            if (directActions == null) {
-                Map<String, Object> beans = injector.getInstancesWithAnnotation(DirectAction.class);
-                if (beans != null) {
-                    Collection<Object> actions = beans.values();
-                    directActions = Lists.newArrayList(actions);
-                }
-                if (directActions == null) {
-                    directActions = Collections.emptyList();
-                }
-            }
 
             // config initilization
             String url = getProvidersUrl();
@@ -109,7 +96,7 @@ public class BaseDirectContext extends ConfigurationProvider implements IDirectC
             fullApiFileNameBuilder.append(apiFile);
 
             if (directActions == null) {
-                directActions = Collections.emptyList();
+                directActions = Sets.newHashSet();
             }
 
             if (directDispatcher == null) {
@@ -165,7 +152,8 @@ public class BaseDirectContext extends ConfigurationProvider implements IDirectC
     public List<ApiConfiguration> createApiConfigurations(@Nonnull String name, @Nonnull String apiFile,
                                                           @Nonnull String fullApiFileName,
                                                           @Nonnull String apiNamespace,
-                                                          @Nonnull String actionsNamespace, @Nonnull List<?> actions) {
+                                                          @Nonnull String actionsNamespace,
+                                                          @Nonnull Collection<?> actions) {
 
         List<ApiConfiguration> apiConfigs = new ArrayList<ApiConfiguration>();
 
@@ -183,26 +171,24 @@ public class BaseDirectContext extends ConfigurationProvider implements IDirectC
         return BaseHandler.DefaultDirectHandlers;
     }
 
-    public IInjector getInjector() {
-        return injector;
-    }
-
-    public void setInjector(IInjector injector) {
-        this.injector = injector;
-    }
-
     /**
      * @return the directActions
      */
-    public List<?> getDirectActions() {
+    public Set<Object> getDirectActions() {
         return directActions;
     }
 
     /**
      * @param directActions the directActions to set
      */
-    public void setActions(List<Object> directActions) {
-        this.directActions = directActions;
+    public void setActions(@Nonnull final Set<Object> directActions) {
+        if (directActions != null) {
+            this.directActions = Collections.unmodifiableSet(directActions);
+        }
+    }
+
+    public static boolean isAction(@Nonnull final Object bean) {
+        return findAnnotation(bean.getClass(), DirectAction.class) != null;
     }
 
     /**
@@ -216,7 +202,7 @@ public class BaseDirectContext extends ConfigurationProvider implements IDirectC
      * @param directHandlers the directHandlers to set
      */
     public void setDirectHandlers(List<IDirectHandler> directHandlers) {
-        this.directHandlers = directHandlers;
+        this.directHandlers = Collections.unmodifiableList(directHandlers);
     }
 
     /**
@@ -293,6 +279,49 @@ public class BaseDirectContext extends ConfigurationProvider implements IDirectC
 
     public void setJsApiPath(String jsApiPath) {
         this.jsApiPath = jsApiPath;
+    }
+
+    /**
+     * Find a single {@link Annotation} of <code>annotationType</code> from the supplied {@link Class},
+     * traversing its interfaces and superclasses if no annotation can be found on the given class itself.
+     * <p>This method explicitly handles class-level annotations which are not declared as
+     * {@link java.lang.annotation.Inherited inherited} <i>as well as annotations on interfaces</i>.
+     * <p>The algorithm operates as follows: Searches for an annotation on the given class and returns
+     * it if found. Else searches all interfaces that the given class declares, returning the annotation
+     * from the first matching candidate, if any. Else proceeds with introspection of the superclass
+     * of the given class, checking the superclass itself; if no annotation found there, proceeds
+     * with the interfaces that the superclass declares. Recursing up through the entire superclass
+     * hierarchy if no match is found.
+     * Note : copy From SpringFramework
+     * @param clazz the class to look for annotations on
+     * @param annotationType the annotation class to look for
+     * @return the annotation found, or <code>null</code> if none found
+     */
+    private static <A extends Annotation> A findAnnotation(Class<?> clazz, Class<A> annotationType) {
+        Assert.notNull(clazz, "Class must not be null");
+        A annotation = clazz.getAnnotation(annotationType);
+        if (annotation != null) {
+            return annotation;
+        }
+        for (Class<?> ifc : clazz.getInterfaces()) {
+            annotation = findAnnotation(ifc, annotationType);
+            if (annotation != null) {
+                return annotation;
+            }
+        }
+        if (!Annotation.class.isAssignableFrom(clazz)) {
+            for (Annotation ann : clazz.getAnnotations()) {
+                annotation = findAnnotation(ann.annotationType(), annotationType);
+                if (annotation != null) {
+                    return annotation;
+                }
+            }
+        }
+        Class<?> superClass = clazz.getSuperclass();
+        if (superClass == null || superClass == Object.class) {
+            return null;
+        }
+        return findAnnotation(superClass, annotationType);
     }
 
 }

@@ -17,8 +17,11 @@
     <modules>
         <module>api</module>
         <module>direct</module>
+        <module>direct-guice</module>
+        <module>direct-spring</module>
         <module>testing</module>
         <module>example</module>
+        
     </modules>
     <developers>
         <developer>

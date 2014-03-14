@@ -2,9 +2,9 @@ package org.cfr.matcha.direct.spi;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import org.cfr.direct.testing.EasyMockTestCase;
-import org.cfr.matcha.direct.di.IInjector;
 import org.cfr.matcha.direct.handler.IDirectHandler;
 import org.cfr.matcha.direct.handler.impl.DirectHandler;
 import org.cfr.matcha.direct.handler.impl.DirectRequestRouter;
@@ -12,13 +12,11 @@ import org.easymock.EasyMock;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.google.common.collect.Lists;
+import com.google.common.collect.Sets;
 import com.softwarementors.extjs.djn.api.Registry;
 import com.softwarementors.extjs.djn.config.ApiConfiguration;
 
 public class BaseDirectContextTest extends EasyMockTestCase {
-
-    private IInjector injector;
 
     private String jsApiPath = "target/";
 
@@ -26,7 +24,6 @@ public class BaseDirectContextTest extends EasyMockTestCase {
     @Before
     public void setUp() throws Exception {
         super.setUp();
-        injector = mock(IInjector.class);
     }
 
     /**
@@ -40,7 +37,6 @@ public class BaseDirectContextTest extends EasyMockTestCase {
         String contextName = "contextName";
 
         BaseDirectContext context = new BaseDirectContext();
-        context.setInjector(injector);
         context.setNamespace("ns");
         context.setName(contextName);
         context.setProvidersUrl(providersUrl);
@@ -60,7 +56,6 @@ public class BaseDirectContextTest extends EasyMockTestCase {
         String contextName = "contextName";
 
         BaseDirectContext context = new BaseDirectContext();
-        context.setInjector(injector);
         context.setJsApiPath(jsApiPath);
         context.setNamespace("ns");
         context.setName(contextName);
@@ -93,7 +88,7 @@ public class BaseDirectContextTest extends EasyMockTestCase {
         String providersUrl = "providersUrl";
         String contextName = "contextName";
 
-        List<Object> actions = new ArrayList<Object>();
+        Set<Object> actions = Sets.newHashSet();
 
         Object action = mock(Object.class);
         actions.add(action);
@@ -101,7 +96,6 @@ public class BaseDirectContextTest extends EasyMockTestCase {
         DefaultDispatcher dispatcher = mock(DefaultDispatcher.class);
 
         BaseDirectContext context = new BaseDirectContext();
-        context.setInjector(injector);
         context.setJsApiPath(jsApiPath);
         context.setNamespace("ns");
         context.setName(contextName);
@@ -139,7 +133,7 @@ public class BaseDirectContextTest extends EasyMockTestCase {
         String providersUrl = "providersUrl";
         String contextName = "contextName";
 
-        List<Object> actions = new ArrayList<Object>();
+        Set<Object> actions = Sets.newHashSet();
 
         Object action = mock(Object.class);
         actions.add(action);
@@ -149,7 +143,6 @@ public class BaseDirectContextTest extends EasyMockTestCase {
         directHandlers.add(handler);
 
         BaseDirectContext context = new BaseDirectContext();
-        context.setInjector(injector);
         context.setJsApiPath(jsApiPath);
         context.setNamespace("ns");
         context.setName(contextName);
@@ -176,13 +169,12 @@ public class BaseDirectContextTest extends EasyMockTestCase {
         String providersUrl = "providersUrl";
         String contextName = "contextName";
 
-        List<Object> actions = new ArrayList<Object>();
+        Set<Object> actions = Sets.newHashSet();
 
         Object action = mock(Object.class);
         actions.add(action);
 
         BaseDirectContext context = new BaseDirectContext();
-        context.setInjector(injector);
         context.setActions(actions);
         context.setJsApiPath(jsApiPath);
         context.setNamespace("ns");
@@ -211,10 +203,9 @@ public class BaseDirectContextTest extends EasyMockTestCase {
         String providersUrl = "providersUrl";
         String contextName = "contextName";
 
-        List<Object> actions = Lists.newArrayList(mock(Object.class));
+        Set<Object> actions = Sets.newHashSet(mock(Object.class));
 
         BaseDirectContext context = new BaseDirectContext();
-        context.setInjector(injector);
         context.setJsApiPath(jsApiPath);
         context.setNamespace("ns");
         context.setName(contextName);
@@ -245,7 +236,6 @@ public class BaseDirectContextTest extends EasyMockTestCase {
         String contextName = "contextName";
 
         BaseDirectContext context = new BaseDirectContext();
-        context.setInjector(injector);
         context.setApiConfigurations(getMockApiConfigurations());
 
         context.setJsApiPath(jsApiPath);
@@ -275,10 +265,9 @@ public class BaseDirectContextTest extends EasyMockTestCase {
         String providersUrl = "providersUrl";
         String contextName = "contextName";
 
-        List<Object> actions = Lists.newArrayList(mock(Object.class));
+        Set<Object> actions = Sets.newHashSet(mock(Object.class));
 
         BaseDirectContext context = new BaseDirectContext();
-        context.setInjector(injector);
         context.setActions(actions);
 
         context.setJsApiPath(jsApiPath);

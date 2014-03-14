@@ -1,6 +1,6 @@
 package org.cfr.matcha.direct.spi;
 
-import java.util.List;
+import java.util.Collection;
 import java.util.Map;
 
 import javax.annotation.Nonnull;
@@ -17,7 +17,7 @@ public class DefaultDispatcher extends DispatcherBase {
         this.mapActions = mapActions;
     }
 
-    public DefaultDispatcher(@Nonnull final List<Object> actions) {
+    public DefaultDispatcher(@Nonnull final Collection<Object> actions) {
         mapActions = Maps.newHashMap();
         for (Object action : actions) {
             Class<? extends Object> cls = action.getClass();
