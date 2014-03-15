@@ -11,6 +11,10 @@
     <artifactId>matcha-example</artifactId>
     <packaging>war</packaging>
 
+    <properties>
+        <main.basedir>${project.parent.basedir}</main.basedir>
+    </properties>
+
     <dependencies>
         <dependency>
             <groupId>org.springframework</groupId>
@@ -18,7 +22,7 @@
         </dependency>
         <dependency>
             <groupId>org.cfr.matcha</groupId>
-            <artifactId>matcha-direct</artifactId>
+            <artifactId>matcha-direct-spring</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>

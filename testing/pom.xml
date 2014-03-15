@@ -10,6 +10,11 @@
     <name>Spring Module Ext Direct Test</name>
     <description>Integration test module for Spring Module for Ext Direct</description>
     <packaging>jar</packaging>
+
+    <properties>
+        <main.basedir>${project.parent.basedir}</main.basedir>
+    </properties>
+    
     <dependencies>
         <dependency>
             <groupId>org.cfr.matcha</groupId>

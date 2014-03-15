@@ -11,7 +11,7 @@
     <parent>
         <groupId>org.cfr</groupId>
         <artifactId>maven-config</artifactId>
-        <version>1-SNAPSHOT</version>
+        <version>2-SNAPSHOT</version>
     </parent>
 
     <modules>
@@ -21,7 +21,7 @@
         <module>direct-spring</module>
         <module>testing</module>
         <module>example</module>
-        
+
     </modules>
     <developers>
         <developer>
@@ -46,7 +46,27 @@
         <gson.version>1.5</gson.version>
         <yuicompressor.version>2.4.2</yuicompressor.version>
 
+        <!-- Enable report aggregation -->
+        <aggregate>true</aggregate>
+        <issue.url>https://github.com/devacfr/matcha/issues</issue.url>
+        <CI.url></CI.url>
     </properties>
+
+    <repositories>
+        <repository>
+            <id>maven-restlet</id>
+            <name>Public online Restlet repository</name>
+            <url>http://maven.restlet.org</url>
+        </repository>
+        <repository>
+            <id>devacfr-mvn-repo</id>
+            <url>https://raw.github.com/devacfr/maven-config/mvn-repo/</url>
+            <snapshots>
+                <enabled>true</enabled>
+                <updatePolicy>always</updatePolicy>
+            </snapshots>
+        </repository>
+    </repositories>
 
     <dependencyManagement>
         <dependencies>

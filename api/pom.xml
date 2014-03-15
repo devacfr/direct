@@ -8,6 +8,11 @@
     </parent>
     <artifactId>matcha-api</artifactId>
     <name>Matcha Api module</name>
+    
+    <properties>
+        <main.basedir>${project.parent.basedir}</main.basedir>
+    </properties>
+    
     <dependencies>
          <dependency>
                 <groupId>org.cfr.commons</groupId>
