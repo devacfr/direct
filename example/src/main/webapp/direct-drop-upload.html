@@ -1,0 +1,90 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Ext.Direct Form Integration</title>
+<link rel="stylesheet" type="text/css" href="shared/example.css" />
+
+<!-- GC -->
+
+<script type="text/javascript" src="shared/include-ext.js"></script>
+<script type="text/javascript" src="shared/options-toolbar.js"></script>
+<script type="text/javascript" src="direct-drop-upload.js"></script>
+<script type="text/javascript" src="service/direct/src/app.js"></script>
+
+<style>
+#holder {
+	border: 10px dashed #ccc;
+	-webkit-border-radius: 30px; -moz-border-radius : 30px; border-radius :
+	30px;
+	width: 300px;
+	height: 300px;
+	margin: 20px auto;
+	-moz-border-radius: 10px;
+	border-radius: 10px;
+	-moz-border-radius: 30px;
+	border-radius: 30px;
+}
+
+#holder DIV {
+	font-size : 22px;
+	color: #ccc;
+	margin : auto;
+	width: 75%;
+	text-align: center;
+	position: relative;
+	top:40%;
+}
+
+#holder.hover {
+	border: 10px dashed #333;
+}
+</style>
+
+<script>
+	var holder = document.getElementById('holder');
+
+	if (typeof window.FileReader === 'undefined') {
+		holder.className = 'fail';
+	} else {
+		holder.className = 'success';
+	}
+
+	holder.ondragover = function() {
+		this.className = 'hover';
+		return false;
+	};
+	holder.ondragend = function() {
+		this.className = '';
+		return false;
+	};
+	holder.ondrop = function(e) {
+		this.className = '';
+		e.preventDefault();
+
+		var file = e.dataTransfer.files[0], reader = new FileReader();
+		reader.onload = function(event) {
+			console.log(event.target);
+			holder.style.background = 'url(' + event.target.result
+					+ ') no-repeat center';
+		};
+		console.log(file);
+		reader.readAsDataURL(file);
+
+		return false;
+	};
+</script>
+
+</head>
+<body>
+	<h1>Drag and Drop Upload File</h1>
+
+	<script src="js/prettify.packed.js"></script>
+
+	<div id="holder">
+		<div>Drop files here to attach them</div>
+	</div>
+
+
+</body>
+</html>
