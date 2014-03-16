@@ -17,7 +17,7 @@
     <servlet>
         <display-name>Direct</display-name>
         <servlet-name>Direct</servlet-name>
-        <servlet-class>org.cfr.matcha.direct.servlet.HttpDirectRequestHandlerServlet</servlet-class>
+        <servlet-class>org.springframework.web.context.support.HttpRequestHandlerServlet</servlet-class>
         <load-on-startup>1</load-on-startup>
     </servlet>
 

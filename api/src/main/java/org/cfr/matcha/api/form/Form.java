@@ -1,8 +1,31 @@
+/**
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package org.cfr.matcha.api.form;
 
 import java.io.IOException;
 import java.util.List;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
+import org.cfr.commons.util.Assert;
+
+/**
+ * 
+ * @author devacfr
+ * @since 1.0
+ */
 public class Form extends Parameters<Parameter> {
 
     /**
@@ -20,32 +43,32 @@ public class Form extends Parameters<Parameter> {
     /**
      * Constructor.
      * 
-     * @param initialCapacity
-     *            The initial list capacity.
+     * @param initialCapacity The initial list capacity.
      */
-    public Form(int initialCapacity) {
+    public Form(
+            final int initialCapacity) {
         super(initialCapacity);
     }
 
     /**
      * Constructor.
      * 
-     * @param list
-     *            The delegate list.
+     * @param list The delegate list.
      */
-    public Form(List<Parameter> list) {
-        super(list);
+    public Form(
+            @Nonnull final List<Parameter> list) {
+        super(Assert.notNull(list));
     }
 
     /**
      * Constructor. Uses UTF-8 as the character set for encoding non-ASCII
      * characters.
      * 
-     * @param queryString
-     *            The Web form parameters as a string.
+     * @param queryString The Web form parameters as a string.
      * @throws IOException
      */
-    public Form(String queryString) {
+    public Form(
+            @Nonnull final String queryString) {
         this(queryString, "UTF-8");
     }
 
@@ -53,51 +76,48 @@ public class Form extends Parameters<Parameter> {
      * Constructor. Uses UTF-8 as the character set for encoding non-ASCII
      * characters.
      * 
-     * @param parametersString
-     *            The parameters string to parse.
+     * @param parametersString The parameters string to parse.
      * @param separator
      *            The separator character to append between parameters.
      * @throws IOException
      */
-    public Form(String parametersString, char separator) {
+    public Form(
+            @Nonnull final String parametersString, final char separator) {
         this(parametersString, "UTF-8", separator);
     }
 
     /**
      * Constructor.
      * 
-     * @param queryString
-     *            The Web form parameters as a string.
-     * @param characterSet
-     *            The supported character encoding.
+     * @param queryString The Web form parameters as a string.
+     * @param characterSet The supported character encoding.
      * @throws IOException
      */
-    public Form(String queryString, String characterSet) {
+    public Form(
+            @Nonnull final String queryString, @Nonnull final String characterSet) {
         this(queryString, characterSet, '&');
     }
 
     /**
      * Constructor.
      * 
-     * @param parametersString
-     *            The parameters string to parse.
-     * @param characterSet
-     *            The supported character encoding.
-     * @param separator
-     *            The separator character to append between parameters.
+     * @param parametersString The parameters string to parse.
+     * @param characterSet The supported character encoding.
+     * @param separator The separator character to append between parameters.
      * @throws IOException
      */
-    public Form(String parametersString, String characterSet, char separator) {
+    public Form(
+            @Nonnull final String parametersString, @Nonnull final String characterSet, final char separator) {
         parse(this, parametersString, characterSet, true, separator);
     }
 
     @Override
-    public Parameter createParameter(String name, String value) {
+    public Parameter createParameter(@Nonnull final String name, @Nonnull final String value) {
         return new Parameter(name, value);
     }
 
     @Override
-    public Parameters<Parameter> createSeries(List<Parameter> delegate) {
+    public Parameters<Parameter> createSeries(@Nonnull final List<Parameter> delegate) {
         if (delegate != null) {
             return new Form(delegate);
         }
@@ -110,7 +130,7 @@ public class Form extends Parameters<Parameter> {
      * character set.
      * 
      * @return The encoded form.
-     * @throws IOException
+     * @throws IOException If I/O error occurs.
      */
     public String encode() throws IOException {
         return encode("UTF-8");
@@ -119,26 +139,24 @@ public class Form extends Parameters<Parameter> {
     /**
      * URL encodes the form. The '&' character is used as a separator.
      * 
-     * @param characterSet
-     *            The supported character encoding.
+     * @param characterSet The supported character encoding.
      * @return The encoded form.
-     * @throws IOException
+     * @throws IOException If I/O error occurs.
      */
-    public String encode(String characterSet) throws IOException {
-        return encode(characterSet, '&');
+    public String encode(@Nonnull final String characterSet) throws IOException {
+        return encode(Assert.notNull(characterSet), '&');
     }
 
     /**
      * URL encodes the form.
      * 
-     * @param characterSet
-     *            The supported character encoding.
-     * @param separator
-     *            The separator character to append between parameters.
+     * @param characterSet The supported character encoding.
+     * @param separator The separator character to append between parameters.
      * @return The encoded form.
-     * @throws IOException
+     * @throws IOException If I/O error occurs.
      */
-    public String encode(String characterSet, char separator) throws IOException {
+    public String encode(@Nonnull final String characterSet, final char separator) throws IOException {
+        Assert.notNull(characterSet);
         final StringBuilder sb = new StringBuilder();
         for (int i = 0; i < size(); i++) {
             if (i > 0) {
@@ -165,15 +183,14 @@ public class Form extends Parameters<Parameter> {
     /**
      * Formats the form as a query string.
      * 
-     * @param characterSet
-     *            The supported character encoding.
+     * @param characterSet The supported character encoding.
      * @return The form as a matrix string.
      * @see <a href="http://www.w3.org/DesignIssues/MatrixURIs.html">Matrix URIs
      *      by Tim Berners Lee</a>
      */
-    public String getMatrixString(String characterSet) {
+    public String getMatrixString(@Nonnull final String characterSet) {
         try {
-            return encode(characterSet, ';');
+            return encode(Assert.notNull(characterSet), ';');
         } catch (IOException ioe) {
             return null;
         }
@@ -192,13 +209,12 @@ public class Form extends Parameters<Parameter> {
     /**
      * Formats the form as a query string.
      * 
-     * @param characterSet
-     *            The supported character encoding.
+     * @param characterSet The supported character encoding.
      * @return The form as a query string.
      */
-    public String getQueryString(String characterSet) {
+    public String getQueryString(@Nonnull final String characterSet) {
         try {
-            return encode(characterSet);
+            return encode(Assert.notNull(characterSet));
         } catch (IOException ioe) {
             return null;
         }
@@ -207,20 +223,19 @@ public class Form extends Parameters<Parameter> {
     /**
      * Parses a parameters string into a given form.
      * 
-     * @param form
-     *            The target form.
-     * @param parametersString
-     *            The parameters string.
-     * @param characterSet
-     *            The supported character encoding.
-     * @param decode
-     *            Indicates if the query parameters should be decoded using the
-     *            given character set.
-     * @param separator
-     *            The separator character to append between parameters.
+     * @param form The target form.
+     * @param parametersString The parameters string.
+     * @param characterSet The supported character encoding.
+     * @param decode Indicates if the query parameters should be decoded using the given character set.
+     * @param separator The separator character to append between parameters.
      */
-    public static void parse(Form form, String parametersString, String characterSet, boolean decode, char separator) {
-        if ((parametersString != null) && !parametersString.equals("")) {
+    public static void parse(@Nonnull final Form form,
+                             @Nullable final String parametersString,
+                             @Nonnull final String characterSet,
+                             @Nonnull final boolean decode,
+                             final char separator) {
+        if (parametersString != null
+                && !parametersString.equals("")) {
             FormReader fr = null;
 
             if (decode) {

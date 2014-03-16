@@ -1,3 +1,16 @@
+/**
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package org.cfr.matcha.api.request;
 
 import javax.xml.bind.annotation.XmlRootElement;
@@ -31,12 +44,12 @@ public class QueryRequest {
     /**
      * Field from.
      */
-    private int start = 0;
+    private final int start = 0;
 
     /**
      * Field count.
      */
-    private int limit = 0;
+    private final int limit = 0;
 
     private String query;
 
@@ -72,8 +85,9 @@ public class QueryRequest {
     //    }
 
     public static Filter[] jsonToFilter(String filter) {
-        if (StringUtils.isEmpty(filter))
+        if (StringUtils.isEmpty(filter)) {
             return null;
+        }
 
         return gson.create().fromJson(filter, Filter[].class);
     }
@@ -83,11 +97,13 @@ public class QueryRequest {
     }
 
     public Filter getFilter(String propertyName) {
-        if (filters == null || filters.length == 0 || StringUtils.isEmpty(propertyName))
+        if (filters == null || filters.length == 0 || StringUtils.isEmpty(propertyName)) {
             return null;
+        }
         for (Filter f : filters) {
-            if (f.getProperty().equals(propertyName))
+            if (f.getProperty().equals(propertyName)) {
                 return f;
+            }
         }
         return null;
     }

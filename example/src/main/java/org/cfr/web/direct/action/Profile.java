@@ -6,10 +6,12 @@ import java.util.Map;
 import javax.inject.Named;
 
 import org.apache.commons.fileupload.FileItem;
+import org.cfr.commons.util.Assert;
 import org.cfr.matcha.api.direct.DirectAction;
 import org.cfr.matcha.api.direct.DirectFormPostMethod;
 import org.cfr.matcha.api.direct.DirectMethod;
 import org.cfr.matcha.api.form.Form;
+import org.cfr.matcha.api.response.JSONFormResponse;
 
 @Named
 @DirectAction
@@ -62,8 +64,8 @@ public class Profile {
 
     @DirectMethod
     public BasicInfo getBasicInfo(Long userId, String foo) {
-        assert userId != null;
-        assert foo != null;
+        Assert.notNull(userId);
+        Assert.notNull(foo);
 
         BasicInfo result = new BasicInfo();
         result.data.foo = foo;
@@ -75,7 +77,7 @@ public class Profile {
 
     @DirectMethod
     public PhoneInfo getPhoneInfo(Long userId) {
-        assert userId != null;
+        Assert.notNull(userId);
 
         PhoneInfo result = new PhoneInfo();
         result.data.cell = "443-555-1234";
@@ -86,7 +88,7 @@ public class Profile {
 
     @DirectMethod
     public LocationInfo getLocationInfo(Long userId) {
-        assert userId != null;
+        Assert.notNull(userId);
 
         LocationInfo result = new LocationInfo();
         result.data.put("street", "1234 Red Dog Rd.");
@@ -96,26 +98,16 @@ public class Profile {
         return result;
     }
 
-    private static class SubmitResult {
-
-        public boolean success = true;
-
-        public Map<String, String> errors;
-
-    }
-
     @DirectFormPostMethod
-    public SubmitResult updateBasicInfo(Form formParameters, Map<String, FileItem> fileFields) {
-        assert formParameters != null;
-        assert fileFields != null;
+    public JSONFormResponse updateBasicInfo(Form formParameters,
+                                            Map<String, FileItem> fileFields) {
+        Assert.notNull(formParameters);
+        Assert.notNull(fileFields);
 
-        SubmitResult result = new SubmitResult();
-
+        JSONFormResponse result = new JSONFormResponse();
         String email = formParameters.getFirstValue("email");
-        result.success = !email.equals("aaron@extjs.com");
-        if (!result.success) {
-            result.errors = new HashMap<String, String>();
-            result.errors.put("email", "already taken");
+        if (email.equals("aaron@extjs.com")) {
+            result.addFieldError("email", "already taken");
         }
         return result;
     }

@@ -12,10 +12,12 @@
 			    http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd">
 
 	<context:annotation-config />
-	<context:component-scan base-package="org.cfr.matcha.direct" />
+    
+    <!--  Scan all actions -->
+	<context:component-scan base-package="org.cfr.web.direct.action" />
 
-
-	<bean id="ServletDirectContext" class="org.cfr.matcha.direct.servlet.ServletDirectContext" init-method="init">
+    
+	<bean id="ServletDirectContext" class="org.cfr.matcha.direct.spring.DefaultServletDirectContext">
 		<property name="debug" value="true" />
 		<property name="jsApiPath" value="/" />
 		<property name="name" value="app" />
@@ -23,14 +25,6 @@
 		<property name="providersUrl" value="/service/direct" />
         <property name="createSourceFiles" value="false"/>
         <property name="minify" value="false" />
-        <property name="actions">
-            <list>
-                <bean class="org.cfr.web.direct.action.ImageAction" />
-                <bean class="org.cfr.web.direct.action.Poll" />
-                <bean class="org.cfr.web.direct.action.Profile" />
-                <bean class="org.cfr.web.direct.action.TestAction" />
-            </list>
-        </property>
 	</bean>
 
 	<bean id="Direct" class="org.cfr.matcha.direct.spring.HttpDirectRequestHandler">

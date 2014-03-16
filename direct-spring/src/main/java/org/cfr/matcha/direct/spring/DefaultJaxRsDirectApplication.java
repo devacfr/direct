@@ -52,8 +52,6 @@ public class DefaultJaxRsDirectApplication extends JaxRsDirectApplication implem
         if (this.getDirectActions() == null || this.getDirectActions().isEmpty()) {
             Map<String, Object> beans = this.beanFactory.getBeansWithAnnotation(DirectAction.class);
             this.setActions(Sets.newHashSet(beans.values()));
-        } else {
-            // TODO [devacfr] register actions in spring
         }
         this.init();
     }

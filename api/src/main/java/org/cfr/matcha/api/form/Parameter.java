@@ -1,18 +1,38 @@
+/**
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package org.cfr.matcha.api.form;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 
+import javax.annotation.Nonnull;
+import javax.annotation.concurrent.ThreadSafe;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * Multi-usage parameter. Note that the name and value properties are thread
- * safe, stored in volatile members.
- * 
+ * Form parameter representation.
+ * @author devacfr
+ * @since 1.0
  */
+@ThreadSafe
 public class Parameter implements Comparable<Parameter> {
 
+    /**
+     * Static logger.
+     */
     private static Logger logger = LoggerFactory.getLogger(Parameter.class);
 
     /** The first object. */
@@ -24,18 +44,17 @@ public class Parameter implements Comparable<Parameter> {
     /**
      * Creates a parameter.
      * 
-     * @param name
-     *            The parameter name buffer.
-     * @param value
-     *            The parameter value buffer (can be null).
-     * @param decode
-     *            If true, the name and values are decoded with the given
-     *            CharacterSet, if false, than nothing is decoded.
-     * @param characterSet
-     *            The supported character encoding.
+     * @param name The parameter name buffer.
+     * @param value The parameter value buffer (can be null).
+     * @param decode If true, the name and values are decoded with the given characterSet,
+     * if false, than nothing is decoded.
+     * @param characterSet The supported character encoding.
      * @return The created parameter.
      */
-    public static Parameter create(CharSequence name, CharSequence value, boolean decode, String characterSet) {
+    public static Parameter create(@Nonnull final CharSequence name,
+                                   @Nonnull final CharSequence value,
+                                   @Nonnull final boolean decode,
+                                   final String characterSet) {
         Parameter result = null;
 
         if (name != null) {
@@ -68,18 +87,19 @@ public class Parameter implements Comparable<Parameter> {
     }
 
     @Override
-    public boolean equals(Object other) {
-        boolean result = (this == other);
+    public boolean equals(final Object other) {
+        boolean result = this == other;
 
-        if (!result && (other instanceof Parameter)) {
+        if (!result
+                && other instanceof Parameter) {
             Parameter param = (Parameter) other;
 
-            if (((param.getName() == null) && (getName() == null))
-                    || ((getName() != null) && getName().equals(param.getName()))) {
-                result = (((param.getValue() == null) && (getValue() == null)) || ((getValue() != null) && getValue().equals(param.getValue())));
+            if (param.getName() == null
+                    && getName() == null || getName() != null && getName().equals(param.getName())) {
+                result = param.getValue() == null
+                        && getValue() == null || getValue() != null && getValue().equals(param.getValue());
             }
         }
-
         return result;
     }
 
@@ -107,17 +127,16 @@ public class Parameter implements Comparable<Parameter> {
      * @param name
      *            The first object.
      */
-    public void setName(String name) {
+    public void setName(final String name) {
         this.name = name;
     }
 
     /**
      * Sets the value object.
      * 
-     * @param value
-     *            The value object.
+     * @param value The value object.
      */
-    public void setValue(String value) {
+    public void setValue(final String value) {
         this.value = value;
     }
 
@@ -129,24 +148,25 @@ public class Parameter implements Comparable<Parameter> {
 
     @Override
     public String toString() {
-        return "(" + getName() + "," + getValue() + ")";
+        return "("
+                + getName() + "," + getValue() + ")";
     }
 
     /**
      * Computes the hash code of a set of objects. Follows the algorithm
      * specified in List.hasCode().
      * 
-     * @param objects
-     *            the objects to compute the hashCode
+     * @param objects the objects to compute the hashCode
      * 
      * @return The hash code of a set of objects.
      */
-    public static int hashCode(Object... objects) {
+    public static int hashCode(final Object... objects) {
         int result = 1;
 
         if (objects != null) {
             for (final Object obj : objects) {
-                result = 31 * result + (obj == null ? 0 : obj.hashCode());
+                result = 31
+                        * result + (obj == null ? 0 : obj.hashCode());
             }
         }
 
@@ -156,14 +176,12 @@ public class Parameter implements Comparable<Parameter> {
     /**
      * Creates a parameter.
      * 
-     * @param name
-     *            The parameter name buffer.
-     * @param value
-     *            The parameter value buffer (can be null).
+     * @param name The parameter name buffer.
+     * @param value The parameter value buffer (can be null).
      * @return The created parameter.
      * @throws IOException
      */
-    public static Parameter create(CharSequence name, CharSequence value) {
+    public static Parameter create(final CharSequence name, final CharSequence value) {
         if (value != null) {
             return new Parameter(name.toString(), value.toString());
         }
@@ -173,12 +191,10 @@ public class Parameter implements Comparable<Parameter> {
     /**
      * Preferred constructor.
      * 
-     * @param name
-     *            The name.
-     * @param value
-     *            The value.
+     * @param name The name.
+     * @param value The value.
      */
-    public Parameter(String name, String value) {
+    public Parameter(final String name, final String value) {
         this.name = name;
         this.value = value;
     }
@@ -186,13 +202,12 @@ public class Parameter implements Comparable<Parameter> {
     /**
      * Compares this object with the specified object for order.
      * 
-     * @param o
-     *            The object to be compared.
+     * @param o The object to be compared.
      * @return A negative integer, zero, or a positive integer as this object is
      *         less than, equal to, or greater than the specified object.
      */
     @Override
-    public int compareTo(Parameter o) {
+    public int compareTo(final Parameter o) {
         return getName().compareTo(o.getName());
     }
 
@@ -200,13 +215,11 @@ public class Parameter implements Comparable<Parameter> {
      * Encodes the parameter and appends the result to the given buffer. Uses
      * the standard URI encoding mechanism.
      * 
-     * @param buffer
-     *            The buffer to append.
-     * @param characterSet
-     *            The supported character encoding
-     * @throws IOException
+     * @param buffer The buffer to append.
+     * @param characterSet The supported character encoding
+     * @throws IOException If a I/O error occurs.
      */
-    public void encode(Appendable buffer, String characterSet) throws IOException {
+    public void encode(final Appendable buffer, final String characterSet) throws IOException {
         if (getName() != null) {
             buffer.append(encodeUrl(getName(), characterSet));
 
@@ -220,12 +233,11 @@ public class Parameter implements Comparable<Parameter> {
     /**
      * Encodes the parameter using the standard URI encoding mechanism.
      * 
-     * @param characterSet
-     *            The supported character encoding.
+     * @param characterSet The supported character encoding.
      * @return The encoded string.
-     * @throws IOException
+     * @throws IOException If a I/O error occurs.
      */
-    public String encode(String characterSet) throws IOException {
+    public String encode(final String characterSet) throws IOException {
         final StringBuilder sb = new StringBuilder();
         encode(sb, characterSet);
         return sb.toString();
@@ -235,11 +247,10 @@ public class Parameter implements Comparable<Parameter> {
      * Decodes a given string using the standard URI encoding mechanism and the
      * UTF-8 character set.
      * 
-     * @param toDecode
-     *            The string to decode.
+     * @param toDecode The string to decode.
      * @return The decoded string.
      */
-    public static String decode(String toDecode) {
+    public static String decode(final String toDecode) {
         String result = null;
 
         if (toDecode != null) {
@@ -262,17 +273,15 @@ public class Parameter implements Comparable<Parameter> {
      * World Wide Web Consortium Recommendation</a> states that UTF-8 should be
      * used. Not doing so may introduce incompatibilities.</em>
      * 
-     * @param toDecode
-     *            The string to decode.
-     * @param characterSet
-     *            The name of a supported character encoding.
+     * @param toDecode The string to decode.
+     * @param characterSet The name of a supported character encoding.
      * @return The decoded string or null if the named character encoding is not
      *         supported.
      */
-    public static String decodeUrl(String toDecode, String characterSet) {
+    public static String decodeUrl(final String toDecode, final String characterSet) {
         String result = null;
         try {
-            result = (characterSet == null) ? toDecode : java.net.URLDecoder.decode(toDecode, characterSet);
+            result = characterSet == null ? toDecode : java.net.URLDecoder.decode(toDecode, characterSet);
         } catch (UnsupportedEncodingException uee) {
             logger.warn("Unable to decode the string with the UTF-8 character set.", uee);
         }
@@ -284,11 +293,10 @@ public class Parameter implements Comparable<Parameter> {
      * Encodes a given string using the standard URI encoding mechanism and the
      * UTF-8 character set.
      * 
-     * @param toEncode
-     *            The string to encode.
+     * @param toEncode The string to encode.
      * @return The encoded string.
      */
-    public static String encodeUrl(String toEncode) {
+    public static String encodeUrl(final String toEncode) {
         String result = null;
 
         if (toEncode != null) {
@@ -310,20 +318,18 @@ public class Parameter implements Comparable<Parameter> {
      * <em><strong>Note:</strong> The <a
      * href="http://www.w3.org/TR/html40/appendix/notes.html#non-ascii-chars">
      * World Wide Web Consortium Recommendation</a> states that UTF-8 should be
-     * used. Not doing so may introduce incompatibilites.</em>
+     * used. Not doing so may introduce incompatibilities.</em>
      * 
-     * @param toEncode
-     *            The string to encode.
-     * @param characterSet
-     *            The supported character encoding.
+     * @param toEncode The string to encode.
+     * @param characterSet The supported character encoding.
      * @return The encoded string or null if the named character encoding is not
      *         supported.
      */
-    public static String encodeUrl(String toEncode, String characterSet) {
+    public static String encodeUrl(final String toEncode, final String characterSet) {
         String result = null;
 
         try {
-            result = (characterSet == null) ? toEncode : java.net.URLEncoder.encode(toEncode, characterSet);
+            result = characterSet == null ? toEncode : java.net.URLEncoder.encode(toEncode, characterSet);
         } catch (UnsupportedEncodingException uee) {
             logger.warn("Unable to encode the string with the UTF-8 character set.", uee);
         }
