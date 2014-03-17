@@ -11,7 +11,7 @@
     <parent>
         <groupId>org.cfr</groupId>
         <artifactId>maven-config</artifactId>
-        <version>2</version>
+        <version>3</version>
     </parent>
 
     <modules>
@@ -32,13 +32,13 @@
         </developer>
     </developers>
     <scm>
-        <connection>scm:https://github.com/devacfr/matcha.git</connection>
-        <developerConnection>scm:git:https://github.com/devacfr/matcha.git</developerConnection>
+        <connection>scm:git:git@github.com:devacfr/matcha.git</connection>
+        <developerConnection>scm:git:git@github.com:devacfr/matcha.git</developerConnection>
         <url>http://github.com/devacfr/matcha</url>
     </scm>
     <properties>
 
-        <org.cfr.commons.version>1.0.0</org.cfr.commons.version>
+        <org.cfr.commons.version>1.0.1</org.cfr.commons.version>
 
         <!-- External dependencies versions. -->
         <directjngine.version>2.2</directjngine.version>
@@ -49,7 +49,8 @@
         <!-- Enable report aggregation -->
         <aggregate>true</aggregate>
         <issue.url>https://github.com/devacfr/matcha/issues</issue.url>
-        <CI.url></CI.url>
+        <distribution.releaseRepositoryUrl>https://api.bintray.com/maven/devacfr/maven/matcha</distribution.releaseRepositoryUrl>
+        <CI.url>https://travis-ci.org/devacfr/matcha</CI.url>
     </properties>
 
     <repositories>
@@ -59,11 +60,13 @@
             <url>http://maven.restlet.org</url>
         </repository>
         <repository>
-            <id>devacfr-mvn-repo</id>
-            <url>https://raw.github.com/devacfr/maven-config/mvn-repo/</url>
-            <snapshots>
+            <id>bintray</id>
+            <url>http://dl.bintray.com/devacfr/maven</url>
+            <releases>
                 <enabled>true</enabled>
-                <updatePolicy>always</updatePolicy>
+            </releases>
+            <snapshots>
+                <enabled>false</enabled>
             </snapshots>
         </repository>
     </repositories>
