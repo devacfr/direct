@@ -1,13 +1,11 @@
 package org.cfr.matcha.direct.spring;
 
-import java.util.Map;
 import java.util.Set;
 
 import javax.annotation.Nonnull;
 import javax.inject.Named;
 import javax.ws.rs.core.Application;
 
-import org.cfr.matcha.api.direct.DirectAction;
 import org.cfr.matcha.direct.rs.IJaxRsDirectApplication;
 import org.cfr.matcha.direct.rs.JaxRsDirectApplication;
 import org.slf4j.Logger;
@@ -18,10 +16,13 @@ import org.springframework.beans.factory.BeanFactoryAware;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
 import org.springframework.beans.factory.config.BeanDefinition;
+import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 import org.springframework.beans.factory.support.BeanDefinitionReaderUtils;
+import org.springframework.beans.factory.support.BeanDefinitionRegistry;
+import org.springframework.beans.factory.support.BeanDefinitionRegistryPostProcessor;
 import org.springframework.beans.factory.support.DefaultListableBeanFactory;
-
-import com.google.common.collect.Sets;
+import org.springframework.context.ApplicationListener;
+import org.springframework.context.event.ContextRefreshedEvent;
 
 /**
  * 
@@ -29,7 +30,8 @@ import com.google.common.collect.Sets;
  * @since 1.0
  */
 @Named("DirectApplication")
-public class DefaultJaxRsDirectApplication extends JaxRsDirectApplication implements BeanFactoryAware, InitializingBean {
+public class DefaultJaxRsDirectApplication extends JaxRsDirectApplication implements BeanFactoryAware,
+        InitializingBean, BeanDefinitionRegistryPostProcessor, ApplicationListener<ContextRefreshedEvent> {
 
     /**
      * log instance.
@@ -49,11 +51,31 @@ public class DefaultJaxRsDirectApplication extends JaxRsDirectApplication implem
         Application app = this.get();
         // register direct handlers
         registerHandlers(app.getClasses());
-        if (this.getDirectActions() == null || this.getDirectActions().isEmpty()) {
-            Map<String, Object> beans = this.beanFactory.getBeansWithAnnotation(DirectAction.class);
-            this.setActions(Sets.newHashSet(beans.values()));
+    }
+
+    @Override
+    public void onApplicationEvent(ContextRefreshedEvent event) {
+        try {
+            // allowing the refresh. why not
+            this.reset();
+            // initialize direct context
+            this.init();
+        } catch (Exception e) {
+            // TODO [devacfr] find better exception or message
+            throw new RuntimeException(e.getMessage(), e);
         }
-        this.init();
+
+    }
+
+    @Override
+    public void postProcessBeanDefinitionRegistry(BeanDefinitionRegistry registry) throws BeansException {
+        // not use
+
+    }
+
+    @Override
+    public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) throws BeansException {
+        beanFactory.addBeanPostProcessor(new ActionAnnotationBeanPostProcessor(this));
     }
 
     protected IJaxRsDirectApplication createApplication() {

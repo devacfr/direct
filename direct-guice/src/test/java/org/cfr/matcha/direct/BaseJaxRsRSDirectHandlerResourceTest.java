@@ -58,7 +58,7 @@ public abstract class BaseJaxRsRSDirectHandlerResourceTest extends BaseJaxRsRSRe
         //String response = IOUtils.toString(resource.get().getStream());
 
         String response = IOUtils.toString(representation.getStream());
-        LOGGER.info(response);
+        LOGGER.debug(response);
 
     }
 

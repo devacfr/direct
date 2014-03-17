@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Set;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 import org.apache.commons.lang.StringUtils;
 import org.cfr.commons.util.Assert;
@@ -131,6 +132,17 @@ public class BaseDirectContext extends ConfigurationProvider implements IDirectC
         }
     }
 
+    public void reset() {
+        // TODO [devacfr] this is wrong because the customization is not possible anymore.
+        initialized = false;
+        this.directDispatcher = null;
+        this.directHandlers = null;
+        this.apiConfigurations = null;
+        this.registry = null;
+        this.requestRouter = null;
+
+    }
+
     protected Registry createRegistry(GlobalConfiguration configuration, List<ApiConfiguration> apiConfigs) {
         Registry registry = new Registry(configuration);
 
@@ -187,7 +199,16 @@ public class BaseDirectContext extends ConfigurationProvider implements IDirectC
         }
     }
 
-    public static boolean isAction(@Nonnull final Object bean) {
+    public void registerAction(Object bean) {
+        if (this.directActions == null) {
+            this.directActions = Sets.newHashSet();
+        }
+        this.directActions.add(bean);
+    }
+
+    public static boolean isAction(@Nullable final Object bean) {
+        if (bean == null)
+            return false;
         return findAnnotation(bean.getClass(), DirectAction.class) != null;
     }
 
