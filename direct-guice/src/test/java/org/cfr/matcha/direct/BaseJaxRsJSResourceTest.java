@@ -52,7 +52,7 @@ public abstract class BaseJaxRsJSResourceTest extends BaseJaxRsRSResourceTest {
 
         String response = IOUtils.toString(resource.get().getStream(), "UTF-8");
 
-        LOGGER.info(response);
+        LOGGER.debug(response);
 
         String expected = readFile(DirectJSResource.PATH_EJN_ASSERT);
 
@@ -66,7 +66,7 @@ public abstract class BaseJaxRsJSResourceTest extends BaseJaxRsRSResourceTest {
 
         String response = IOUtils.toString(resource.get().getStream(), "UTF-8");
 
-        LOGGER.info(response);
+        LOGGER.debug(response);
 
         String expected = readFile(DirectJSResource.PATH_DJN_REMOTE_CALL_SUPPORT);
 
@@ -80,7 +80,7 @@ public abstract class BaseJaxRsJSResourceTest extends BaseJaxRsRSResourceTest {
 
         String response = IOUtils.toString(resource.get().getStream(), "UTF-8");
 
-        LOGGER.info(response);
+        LOGGER.debug(response);
 
         assertTrue(response.contains("Ext.namespace(\"App.Direct\");"));
         assertTrue(response.contains("App.Direct.PROVIDER_BASE_URL=window.location.protocol+\"//\"+window.location.host+\"/\"+(window.location.pathname.split(\"/\").length>2?window.location.pathname.split(\"/\")[1]+\"/\":\"\")+\"/direct\";"));
@@ -95,7 +95,7 @@ public abstract class BaseJaxRsJSResourceTest extends BaseJaxRsRSResourceTest {
 
         String response = IOUtils.toString(resource.get().getStream());
 
-        LOGGER.info(response);
+        LOGGER.debug(response);
 
         assertTrue(response.contains("Ext.namespace( 'App.Direct')"));
         assertTrue(response.contains("App.Direct.PROVIDER_BASE_URL=window.location.protocol + '//' + window.location.host + '/' + (window.location.pathname.split('/').length>2 ? window.location.pathname.split('/')[1]+ '/' : '')  + '/direct';"));
@@ -108,7 +108,7 @@ public abstract class BaseJaxRsJSResourceTest extends BaseJaxRsRSResourceTest {
         ClientResource resource = getClient("/direct/javascript/" + "unknowfile");
 
         String response = IOUtils.toString(resource.get().getStream());
-        LOGGER.info(response);
+        LOGGER.debug(response);
 
         String expected = DirectJSResource.NO_JS_FILE + "unknowfile";
 
@@ -131,19 +131,19 @@ public abstract class BaseJaxRsJSResourceTest extends BaseJaxRsRSResourceTest {
 
         String response = IOUtils.toString(resource.get().getStream());
 
-        LOGGER.info(response);
+        LOGGER.debug(response);
 
         resource = getClient("/direct/javascript/" + DirectJSResource.FILE_DJN_REMOTE_CALL_SUPPORT);
 
         response = IOUtils.toString(resource.get().getStream());
 
-        LOGGER.info(response);
+        LOGGER.debug(response);
 
         resource = getClient("/direct/javascript/" + "unknowfile");
 
         response = IOUtils.toString(resource.get().getStream());
 
-        LOGGER.info(response);
+        LOGGER.debug(response);
 
     }
 
