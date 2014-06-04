@@ -27,7 +27,7 @@ warrant that you have the legal authority to do so.
 
 ## Licence
 
-This software uses the [ExtJs library](http://www.sencha.com/products/extjs/licensing), which is distributed under the GPL v3 license (see http://extjs.com/license).
+This software uses the [ExtJs library](http://www.sencha.com/products/extjs), which is distributed under the GPL v3 license (see http://www.sencha.com/products/extjs/licensing).
 
 	This software is licensed under the Apache 2 license, quoted below.
 	
