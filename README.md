@@ -27,7 +27,7 @@ warrant that you have the legal authority to do so.
 
 ## Licence
 
-This software uses the [ExtJs library](http://extjs.com), which is distributed under the GPL v3 license (see http://extjs.com/license).
+This software uses the [ExtJs library](http://www.sencha.com/products/extjs/licensing), which is distributed under the GPL v3 license (see http://extjs.com/license).
 
 	This software is licensed under the Apache 2 license, quoted below.
 	
@@ -43,6 +43,4 @@ This software uses the [ExtJs library](http://extjs.com), which is distributed u
 	License for the specific language governing permissions and limitations under
 	the License.
 
-
-[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/devacfr/matcha/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
 
