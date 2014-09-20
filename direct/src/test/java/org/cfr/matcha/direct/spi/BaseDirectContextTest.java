@@ -16,9 +16,14 @@ import com.google.common.collect.Sets;
 import com.softwarementors.extjs.djn.api.Registry;
 import com.softwarementors.extjs.djn.config.ApiConfiguration;
 
+/**
+ *
+ * @author devacfr<christophefriederich@mac.com>
+ * @since 1.0
+ */
 public class BaseDirectContextTest extends EasyMockTestCase {
 
-    private String jsApiPath = "target/";
+    private final String jsApiPath = "target/";
 
     @Override
     @Before
@@ -27,8 +32,8 @@ public class BaseDirectContextTest extends EasyMockTestCase {
     }
 
     /**
-     * JsApiPath is mandatory one exception is expected
-     * 
+     * JsApiPath is mandatory one exception is expected.
+     *
      * @throws Exception
      */
     @Test(expected = IllegalArgumentException.class)
@@ -46,8 +51,8 @@ public class BaseDirectContextTest extends EasyMockTestCase {
     }
 
     /**
-     * Initialize context without any action must work
-     * 
+     * Initialise context without any action must work.
+     *
      * @throws Exception
      */
     @Test
@@ -79,8 +84,8 @@ public class BaseDirectContextTest extends EasyMockTestCase {
     }
 
     /**
-     * Verifying if all setter works
-     * 
+     * Verifying if all setter works.
+     *
      * @throws Exception
      */
     @Test

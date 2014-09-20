@@ -1,4 +1,6 @@
 /**
+ * Copyright 2014 devacfr<christophefriederich@mac.com>
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -17,37 +19,84 @@ import java.util.Collection;
 
 import javax.xml.bind.annotation.XmlRootElement;
 
+/**
+ *
+ * @author devacfr<christophefriederich@mac.com>
+ * @since 1.0
+ *
+ * @param <T>
+ */
 @XmlRootElement()
 public final class DataSourceResponse<T> extends DefaultResourceResponse {
 
+    /**
+     *
+     */
     private boolean removable = true;
 
+    /**
+     *
+     */
     private boolean additable = true;
 
+    /**
+     *
+     */
     private boolean editable = true;
 
+    /**
+     *
+     */
     private transient CallbackDataSource<T> callbackDataSource;
 
+    /**
+     *
+     */
     private int dataSourceSize;
 
+    /**
+     *
+     */
     private int limit;
 
+    /**
+     *
+     */
     private int start;
 
+    /**
+     *
+     */
     private long totalCount;
 
+    /**
+     *
+     */
     private Collection<?> dataSource;
 
-    public DataSourceResponse(DataSource<T> dataSource) {
+    /**
+     *
+     * @param dataSource
+     */
+    public DataSourceResponse(final DataSource<T> dataSource) {
         this(dataSource, null);
     }
 
-    public DataSourceResponse(DataSource<T> dataSource, CallbackDataSource<T> callbackDataSource) {
+    /**
+     *
+     * @param dataSource
+     * @param callbackDataSource
+     */
+    public DataSourceResponse(final DataSource<T> dataSource, final CallbackDataSource<T> callbackDataSource) {
         this.callbackDataSource = callbackDataSource;
         doPopulate(dataSource);
     }
 
-    private void doPopulate(DataSource<T> dts) {
+    /**
+     *
+     * @param dts
+     */
+    private void doPopulate(final DataSource<T> dts) {
         if (callbackDataSource != null) {
             dataSource = callbackDataSource.populate(dts.list());
         } else {
@@ -61,51 +110,95 @@ public final class DataSourceResponse<T> extends DefaultResourceResponse {
 
     }
 
+    /**
+     *
+     * @return
+     */
     public Collection<?> getDataSource() {
         return dataSource;
     }
 
+    /**
+     *
+     * @return
+     */
     public int getDataSourceSize() {
         return dataSourceSize;
     }
 
+    /**
+     *
+     * @return
+     */
     public int getLimit() {
         return limit;
     }
 
+    /**
+     *
+     * @return
+     */
     public int getStart() {
         return start;
     }
 
+    /**
+     *
+     * @return
+     */
     public long getTotalCount() {
         return totalCount;
     }
 
+    /**
+     *
+     * @return
+     */
     public boolean isAdditable() {
         return additable;
     }
 
+    /**
+     *
+     * @return
+     */
     public boolean isEditable() {
         return editable;
     }
 
+    /**
+     *
+     * @return
+     */
     public boolean isRemovable() {
         return removable;
     }
 
-    public void setAdditable(boolean adding) {
+    /**
+     *
+     * @param adding
+     */
+    public void setAdditable(final boolean adding) {
         this.additable = adding;
     }
 
-    protected void setDataSource(Collection<?> dataSource) {
+    /**
+     *
+     * @param dataSource
+     */
+    protected void setDataSource(final Collection<?> dataSource) {
         this.dataSource = dataSource;
     }
 
-    public void setEditable(boolean editable) {
+    /**
+     *
+     * @param editable
+     */
+    public void setEditable(final boolean editable) {
         this.editable = editable;
     }
 
-    public void setRemovable(boolean removable) {
+    public void setRemovable(final boolean removable) {
         this.removable = removable;
     }
 }

@@ -1,4 +1,6 @@
 /**
+ * Copyright 2014 devacfr<christophefriederich@mac.com>
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -15,7 +17,19 @@ package org.cfr.matcha.api.response;
 
 import java.util.Collection;
 
+/**
+ *
+ * @author devacfr<christophefriederich@mac.com>
+ * @since 1.0
+ *
+ * @param <T>
+ */
 public interface CallbackDataSource<T> {
 
+    /**
+     *
+     * @param source
+     * @return
+     */
     Collection<?> populate(Collection<T> source);
 }

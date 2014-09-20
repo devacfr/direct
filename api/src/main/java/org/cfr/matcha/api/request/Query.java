@@ -1,4 +1,6 @@
 /**
+ * Copyright 2014 devacfr<christophefriederich@mac.com>
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -13,8 +15,18 @@
  */
 package org.cfr.matcha.api.request;
 
+/**
+ *
+ * @author devacfr<christophefriederich@mac.com>
+ * @since 1.0
+ */
 public class Query {
 
+    /**
+     *
+     * @author devacfr<christophefriederich@mac.com>
+     *
+     */
     public static enum SortDirection {
 
         /**
@@ -27,6 +39,10 @@ public class Query {
          */
         Descending;
 
+        /**
+         *
+         * @return
+         */
         public boolean isAscending() {
             return SortDirection.Ascending == this;
         }
@@ -43,49 +59,98 @@ public class Query {
      */
     private int limit = 0;
 
+    /**
+     *
+     */
     private String query;
 
+    /**
+     *
+     */
     private String sortProperty;
 
+    /**
+     *
+     */
     private SortDirection sortDirection = SortDirection.Ascending;
 
+    /**
+     *
+     * @return
+     */
     public int getStart() {
         return start;
     }
 
+    /**
+     *
+     * @return
+     */
     public int getLimit() {
         return limit;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getQuery() {
         return query;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getSortProperty() {
         return sortProperty;
     }
 
+    /**
+     *
+     * @return
+     */
     public SortDirection getSortDirection() {
         return sortDirection;
     }
 
-    public void setStart(int start) {
+    /**
+     *
+     * @param start
+     */
+    public void setStart(final int start) {
         this.start = start;
     }
 
-    public void setLimit(int limit) {
+    /**
+     *
+     * @param limit
+     */
+    public void setLimit(final int limit) {
         this.limit = limit;
     }
 
-    public void setQuery(String query) {
+    /**
+     *
+     * @param query
+     */
+    public void setQuery(final String query) {
         this.query = query;
     }
 
-    public void setSortProperty(String sortProperty) {
+    /**
+     *
+     * @param sortProperty
+     */
+    public void setSortProperty(final String sortProperty) {
         this.sortProperty = sortProperty;
     }
 
-    public void setSortDirection(SortDirection sortDirection) {
+    /**
+     *
+     * @param sortDirection
+     */
+    public void setSortDirection(final SortDirection sortDirection) {
         this.sortDirection = sortDirection;
     }
 

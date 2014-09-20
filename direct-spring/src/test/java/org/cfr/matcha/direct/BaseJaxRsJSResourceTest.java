@@ -1,9 +1,8 @@
 package org.cfr.matcha.direct;
 
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -149,10 +148,10 @@ public abstract class BaseJaxRsJSResourceTest extends BaseJaxRsRSResourceTest {
 
     private String readFile(String filePath) {
         InputStream stream = null;
-        File file = null;
+        URL url = null;
         try {
-            file = ResourceUtils.getFile(filePath);
-            stream = new FileInputStream(file);
+            url = ResourceUtils.getURL(filePath);
+            stream = url.openStream();
 
             return IOUtils.toString(stream, "UTF-8");
         } catch (IOException ioe) {

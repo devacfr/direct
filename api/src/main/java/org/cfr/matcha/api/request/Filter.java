@@ -1,4 +1,6 @@
 /**
+ * Copyright 2014 devacfr<christophefriederich@mac.com>
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -13,25 +15,53 @@
  */
 package org.cfr.matcha.api.request;
 
+/**
+ *
+ * @author devacfr<christophefriederich@mac.com>
+ * @since 1.0
+ *
+ */
 public class Filter {
 
+    /**
+     *
+     */
     private String property;
 
+    /**
+     *
+     */
     private String value;
 
+    /**
+     *
+     * @return
+     */
     public String getProperty() {
         return property;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getValue() {
         return value;
     }
 
-    public void setProperty(String property) {
+    /**
+     *
+     * @param property
+     */
+    public void setProperty(final String property) {
         this.property = property;
     }
 
-    public void setValue(String value) {
+    /**
+     *
+     * @param value
+     */
+    public void setValue(final String value) {
         this.value = value;
     }
 }

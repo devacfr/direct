@@ -1,4 +1,6 @@
 /**
+ * Copyright 2014 devacfr<christophefriederich@mac.com>
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -20,12 +22,29 @@ import java.util.List;
 
 import javax.xml.bind.annotation.XmlRootElement;
 
+/**
+ *
+ * @author devacfr<christophefriederich@mac.com>
+ * @since 1.0
+ *
+ * @param <T>
+ */
 @XmlRootElement()
 public class PaginatedDataSource<T> extends DataSource<T> {
 
+    /**
+     *
+     */
     private Collection<T> results = null;
 
-    public PaginatedDataSource(List<T> data, int pageSize, int start, long totalCount) {
+    /**
+     *
+     * @param data
+     * @param pageSize
+     * @param start
+     * @param totalCount
+     */
+    public PaginatedDataSource(final List<T> data, final int pageSize, final int start, final long totalCount) {
         super(data, pageSize, start, totalCount);
         this.results = null;
     }
@@ -35,7 +54,12 @@ public class PaginatedDataSource<T> extends DataSource<T> {
         return getPagingData(this.getStart());
     }
 
-    protected synchronized Collection<T> getPagingData(int start) {
+    /**
+     *
+     * @param start
+     * @return
+     */
+    protected synchronized Collection<T> getPagingData(final int start) {
         int length = list().size();
 
         if ((getPageSize() >= 0 || start >= 0) && length > 0) {

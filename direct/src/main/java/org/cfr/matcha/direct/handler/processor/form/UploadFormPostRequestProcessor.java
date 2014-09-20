@@ -1,3 +1,18 @@
+/**
+ * Copyright 2014 devacfr<christophefriederich@mac.com>
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package org.cfr.matcha.direct.handler.processor.form;
 
 import java.io.IOException;
@@ -6,9 +21,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.annotation.Nonnull;
+
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
+import org.cfr.commons.util.Assert;
 import org.cfr.matcha.api.form.Form;
 import org.cfr.matcha.api.form.Parameter;
 import org.slf4j.Logger;
@@ -19,17 +37,38 @@ import com.softwarementors.extjs.djn.config.GlobalConfiguration;
 import com.softwarementors.extjs.djn.router.dispatcher.Dispatcher;
 import com.softwarementors.extjs.djn.router.processor.standard.form.upload.DiskFileItemFactory2;
 
+/**
+ *
+ * @author devacfr<christophefriederich@mac.com>
+ * @since 1.0
+ */
 public class UploadFormPostRequestProcessor extends FormPostRequestProcessorBase {
 
-    private static final Logger logger = LoggerFactory.getLogger(UploadFormPostRequestProcessor.class);
+    /**
+     *
+     */
+    private static final Logger LOGGER = LoggerFactory.getLogger(UploadFormPostRequestProcessor.class);
 
-    public UploadFormPostRequestProcessor(Registry registry, Dispatcher dispatcher, GlobalConfiguration globalConfiguration) {
+    /**
+     *
+     * @param registry
+     * @param dispatcher
+     * @param globalConfiguration
+     */
+    public UploadFormPostRequestProcessor(Registry registry, Dispatcher dispatcher,
+            GlobalConfiguration globalConfiguration) {
         super(registry, dispatcher, globalConfiguration);
     }
 
-    public void process(List<FileItem> fileItems, Writer writer) throws IOException {
-        assert fileItems != null;
-        assert writer != null;
+    /**
+     *
+     * @param fileItems
+     * @param writer
+     * @throws IOException
+     */
+    public void process(@Nonnull final List<FileItem> fileItems, @Nonnull final Writer writer) throws IOException {
+        Assert.notNull(fileItems);
+        Assert.notNull(writer);
 
         Form formParameters = new Form();
         Map<String, FileItem> fileFields = new HashMap<String, FileItem>();
@@ -41,21 +80,26 @@ public class UploadFormPostRequestProcessor extends FormPostRequestProcessorBase
             }
         }
 
-        if (logger.isDebugEnabled()) { // Avoid expensive function calls if logging is not needed
-            logger.debug("Request data (UPLOAD FORM)=>" + getFormParametersLogString(formParameters) + " FILES: "
+        if (LOGGER.isDebugEnabled()) { // Avoid expensive function calls if logging is not needed
+            LOGGER.debug("Request data (UPLOAD FORM)=>" + getFormParametersLogString(formParameters) + " FILES: "
                     + getFileParametersLogString(fileFields));
         }
         String result = process(formParameters, fileFields);
 
         String resultString = "<html><body><textarea>";
         resultString += result;
-        resultString += ("</textarea></body></html>");
+        resultString += "</textarea></body></html>";
         writer.write(resultString);
-        if (logger.isDebugEnabled()) {
-            logger.debug("ResponseData data (UPLOAD FORM)=>" + resultString);
+        if (LOGGER.isDebugEnabled()) {
+            LOGGER.debug("ResponseData data (UPLOAD FORM)=>" + resultString);
         }
     }
 
+    /**
+     *
+     * @param formParameters
+     * @return
+     */
     private static String getFormParametersLogString(Form formParameters) {
         StringBuilder result = new StringBuilder();
         for (Parameter entry : formParameters) {
@@ -69,6 +113,11 @@ public class UploadFormPostRequestProcessor extends FormPostRequestProcessorBase
         return result.toString();
     }
 
+    /**
+     *
+     * @param fileFields
+     * @return
+     */
     private static String getFileParametersLogString(Map<String, FileItem> fileFields) {
         StringBuilder result = new StringBuilder();
         for (Map.Entry<String, FileItem> entry : fileFields.entrySet()) {
@@ -83,6 +132,10 @@ public class UploadFormPostRequestProcessor extends FormPostRequestProcessorBase
         return result.toString();
     }
 
+    /**
+     *
+     * @return
+     */
     public static ServletFileUpload createFileUploader() {
         // Create a factory for disk-based file items
         DiskFileItemFactory2 factory = new DiskFileItemFactory2();
@@ -101,11 +154,16 @@ public class UploadFormPostRequestProcessor extends FormPostRequestProcessorBase
         return upload;
     }
 
-    public void handleFileUploadException(FileUploadException e) {
-        assert e != null;
+    /**
+     *
+     * @param e
+     */
+    public void handleFileUploadException(@Nonnull final FileUploadException e) {
+        Assert.notNull(e);
 
-        com.softwarementors.extjs.djn.router.processor.standard.form.upload.FileUploadException ex = com.softwarementors.extjs.djn.router.processor.standard.form.upload.FileUploadException.forFileUploadException(e);
-        logger.error(ex.getMessage(), ex);
+        com.softwarementors.extjs.djn.router.processor.standard.form.upload.FileUploadException ex =
+                com.softwarementors.extjs.djn.router.processor.standard.form.upload.FileUploadException.forFileUploadException(e);
+        LOGGER.error(ex.getMessage(), ex);
         throw ex;
     }
 

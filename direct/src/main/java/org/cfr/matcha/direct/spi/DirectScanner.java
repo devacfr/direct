@@ -1,3 +1,18 @@
+/**
+ * Copyright 2014 devacfr<christophefriederich@mac.com>
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package org.cfr.matcha.direct.spi;
 
 import java.lang.reflect.Method;
@@ -24,19 +39,19 @@ import com.softwarementors.extjs.djn.scanner.Scanner;
 
 /**
  * Extends {@link Scanner} to replace {@link Map} by {@link Form} parameter in Form call.
- * 
+ *
  * @author devacfr
  * @since 1.0
  */
 public class DirectScanner extends Scanner {
 
     /**
-     * 
+     * static logger
      */
-    private static final Logger logger = LoggerFactory.getLogger(DirectScanner.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(DirectScanner.class);
 
     /**
-     * 
+     *
      */
     private final Registry registry;
 
@@ -46,7 +61,7 @@ public class DirectScanner extends Scanner {
     }
 
     @Override
-    public void scanAndRegisterActionClass(RegisteredApi api, Class<?> actionClass) {
+    public void scanAndRegisterActionClass(final RegisteredApi api, final Class<?> actionClass) {
         Assert.notNull(api);
         Assert.notNull(actionClass);
 
@@ -54,13 +69,17 @@ public class DirectScanner extends Scanner {
         scanAndRegisterActionClass(actions);
     }
 
-    private void scanAndRegisterActionClass(List<RegisteredAction> actions) {
+    /**
+     *
+     * @param actions
+     */
+    private void scanAndRegisterActionClass(final List<RegisteredAction> actions) {
         assert actions != null;
         assert !actions.isEmpty();
 
         RegisteredAction actionTemplate = actions.get(0);
 
-        // *All* methods are candidates, including those in base classes, 
+        // *All* methods are candidates, including those in base classes,
         // even if the base class does not have a DirectAction annotation!
         List<Method> allMethods = new ArrayList<Method>();
         Class<?> cls = actionTemplate.getActionClass();
@@ -83,14 +102,17 @@ public class DirectScanner extends Scanner {
 
             // Check that a method is just of only one kind of method
             if (isStandardMethod && isFormPostMethod) {
-                ApiConfigurationException ex = ApiConfigurationException.forMethodCantBeStandardAndFormPostMethodAtTheSameTime(actionTemplate, method);
-                logger.error(ex.getMessage(), ex);
+                ApiConfigurationException ex =
+                        ApiConfigurationException.forMethodCantBeStandardAndFormPostMethodAtTheSameTime(actionTemplate,
+                            method);
+                LOGGER.error(ex.getMessage(), ex);
                 throw ex;
             }
             if ((methodAnnotation != null || postMethodAnnotation != null) && isPollMethod) {
-                ApiConfigurationException ex = ApiConfigurationException.forPollMethodCantBeStandardOrFormPostMethodAtTheSameTime(actionTemplate,
-                    method);
-                logger.error(ex.getMessage(), ex);
+                ApiConfigurationException ex =
+                        ApiConfigurationException.forPollMethodCantBeStandardOrFormPostMethodAtTheSameTime(actionTemplate,
+                            method);
+                LOGGER.error(ex.getMessage(), ex);
                 throw ex;
             }
 
@@ -104,15 +126,18 @@ public class DirectScanner extends Scanner {
                     methodName = getFormPostMethodName(method, postMethodAnnotation);
                 }
                 if (actionTemplate.hasStandardMethod(methodName)) {
-                    ApiConfigurationException ex = ApiConfigurationException.forMethodAlreadyRegisteredInAction(methodName, actionTemplate.getName());
-                    logger.error(ex.getMessage(), ex);
+                    ApiConfigurationException ex =
+                            ApiConfigurationException.forMethodAlreadyRegisteredInAction(methodName,
+                                actionTemplate.getName());
+                    LOGGER.error(ex.getMessage(), ex);
                     throw ex;
                 }
 
                 if (isFormPostMethod && !isValidFormHandlingMethod(method)) {
-                    ApiConfigurationException ex = ApiConfigurationException.forMethodHasWrongParametersForAFormHandler(actionTemplate.getName(),
-                        methodName);
-                    logger.error(ex.getMessage(), ex);
+                    ApiConfigurationException ex =
+                            ApiConfigurationException.forMethodHasWrongParametersForAFormHandler(actionTemplate.getName(),
+                                methodName);
+                    LOGGER.error(ex.getMessage(), ex);
                     throw ex;
                 }
 
@@ -131,7 +156,7 @@ public class DirectScanner extends Scanner {
     }
 
     /**
-     * 
+     *
      * @param method
      * @param postMethodAnnotation
      * @return
@@ -141,7 +166,7 @@ public class DirectScanner extends Scanner {
     }
 
     /**
-     * 
+     *
      * @param method
      * @param methodAnnotation
      * @return
@@ -151,13 +176,14 @@ public class DirectScanner extends Scanner {
     }
 
     /**
-     * 
+     *
      * @param action
      * @param method
      * @param pollMethodAnnotation
      * @return
      */
-    private RegisteredPollMethod createPollMethod(RegisteredAction action, Method method, DirectPollMethod pollMethodAnnotation) {
+    private RegisteredPollMethod createPollMethod(final RegisteredAction action, final Method method,
+                                                  final DirectPollMethod pollMethodAnnotation) {
         Assert.notNull(action);
         Assert.notNull(method);
 
@@ -165,13 +191,13 @@ public class DirectScanner extends Scanner {
 
         if (this.registry.hasPollMethod(eventName)) {
             ApiConfigurationException ex = ApiConfigurationException.forPollEventAlreadyRegistered(eventName);
-            logger.error(ex.getMessage(), ex);
+            LOGGER.error(ex.getMessage(), ex);
             throw ex;
         }
 
         if (!RegisteredPollMethod.isValidPollMethod(method)) {
             ApiConfigurationException ex = ApiConfigurationException.forMethodHasWrongParametersForAPollHandler(method);
-            logger.error(ex.getMessage(), ex);
+            LOGGER.error(ex.getMessage(), ex);
             throw ex;
         }
 
@@ -180,18 +206,18 @@ public class DirectScanner extends Scanner {
     }
 
     /**
-     * 
+     *
      * @param method
      * @param pollMethodAnnotation
      * @return
      */
-    private static String getEventName(Method method, DirectPollMethod pollMethodAnnotation) {
+    private static String getEventName(final Method method, final DirectPollMethod pollMethodAnnotation) {
         Assert.notNull(method);
         return method.getName();
     }
 
     /**
-     * 
+     *
      * @param api
      * @param actionClass
      * @return
@@ -209,10 +235,11 @@ public class DirectScanner extends Scanner {
         for (String actionName : actionNames) {
             if (this.registry.hasAction(actionName)) {
                 RegisteredAction existingAction = this.registry.getAction(actionName);
-                ApiConfigurationException ex = ApiConfigurationException.forActionAlreadyRegistered(actionName,
-                    actionClass,
-                    existingAction.getActionClass());
-                logger.error(ex.getMessage(), ex);
+                ApiConfigurationException ex =
+                        ApiConfigurationException.forActionAlreadyRegistered(actionName,
+                            actionClass,
+                            existingAction.getActionClass());
+                LOGGER.error(ex.getMessage(), ex);
                 throw ex;
             }
             RegisteredAction action = api.addAction(actionClass, actionName);
@@ -223,7 +250,7 @@ public class DirectScanner extends Scanner {
     }
 
     /**
-     * 
+     *
      * @param method
      * @return
      */

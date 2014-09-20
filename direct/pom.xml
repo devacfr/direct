@@ -15,6 +15,8 @@
         <main.basedir>${project.parent.basedir}</main.basedir>
         <!-- disables JVM assertions in test cases, directjngine failed -->
         <enableAssertions>false</enableAssertions>
+        <!-- Enable report aggregation -->
+        <aggregate>true</aggregate>
     </properties>
 
     <dependencies>
@@ -58,7 +60,27 @@
             <artifactId>slf4j-log4j12</artifactId>
             <scope>test</scope>
         </dependency>
-
-        
     </dependencies>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <configuration>
+                    <includes>
+                        <include>**/*.class</include>
+                        <include>**/*.js</include>
+                    </includes>
+                </configuration>
+            </plugin>
+        </plugins>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <includes>
+                    <include>**/*.js</include>
+                </includes>
+            </resource>
+        </resources>
+    </build>
 </project>

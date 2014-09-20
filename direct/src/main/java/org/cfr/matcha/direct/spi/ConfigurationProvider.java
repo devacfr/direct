@@ -1,3 +1,18 @@
+/**
+ * Copyright 2014 devacfr<christophefriederich@mac.com>
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package org.cfr.matcha.direct.spi;
 
 import org.cfr.matcha.direct.IConfigurationSupport;
@@ -13,19 +28,23 @@ public class ConfigurationProvider implements IConfigurationSupport {
 
     private boolean debug = GlobalConfiguration.DEFAULT_DEBUG_VALUE;
 
-    private Class<? extends Dispatcher> dispatcherClass = SsmDispatcher.class;
+    private final Class<? extends Dispatcher> dispatcherClass = SsmDispatcher.class;
 
-    private Class<? extends GsonBuilderConfigurator> gsonBuilderConfiguratorClass = GlobalConfiguration.DEFAULT_GSON_BUILDER_CONFIGURATOR_CLASS;
+    private Class<? extends GsonBuilderConfigurator> gsonBuilderConfiguratorClass =
+            GlobalConfiguration.DEFAULT_GSON_BUILDER_CONFIGURATOR_CLASS;
 
-    private Class<? extends JsonRequestProcessorThread> jsonRequestProcessorThreadClass = GlobalConfiguration.DEFAULT_JSON_REQUEST_PROCESSOR_THREAD_CLASS;
+    private Class<? extends JsonRequestProcessorThread> jsonRequestProcessorThreadClass =
+            GlobalConfiguration.DEFAULT_JSON_REQUEST_PROCESSOR_THREAD_CLASS;
 
-    private boolean batchRequestsMultithreadingEnabled = GlobalConfiguration.DEFAULT_BATCH_REQUESTS_MULTITHREADING_ENABLED_VALUE;
+    private boolean batchRequestsMultithreadingEnabled =
+            GlobalConfiguration.DEFAULT_BATCH_REQUESTS_MULTITHREADING_ENABLED_VALUE;
 
     private int batchRequestsMinThreadsPoolSize = GlobalConfiguration.DEFAULT_BATCH_REQUESTS_MIN_THREAD_POOL_SIZE;
 
     private int batchRequestsMaxThreadsPoolSize = GlobalConfiguration.DEFAULT_BATCH_REQUESTS_MAX_THREAD_POOL_SIZE;
 
-    private int batchRequestsThreadKeepAliveSeconds = GlobalConfiguration.DEFAULT_BATCH_REQUESTS_THREAD_KEEP_ALIVE_SECONDS;
+    private int batchRequestsThreadKeepAliveSeconds =
+            GlobalConfiguration.DEFAULT_BATCH_REQUESTS_THREAD_KEEP_ALIVE_SECONDS;
 
     private int batchRequestsMaxThreadsPerRequest = GlobalConfiguration.DEFAULT_BATCH_REQUESTS_MAX_THREADS_PER_REQUEST;
 
@@ -48,10 +67,11 @@ public class ConfigurationProvider implements IConfigurationSupport {
                     + DirectJNgineServlet.GlobalParameters.BATCH_REQUESTS_MIN_THREADS_POOOL_SIZE + "'), which was "
                     + batchRequestsMinThreadsPoolSize);
         }
-        GlobalConfiguration configuration = new GlobalConfiguration(contextPath, providersUrl, debug,
-                gsonBuilderConfiguratorClass, jsonRequestProcessorThreadClass, dispatcherClass, minify,
-                batchRequestsMultithreadingEnabled, batchRequestsMinThreadsPoolSize, batchRequestsMaxThreadsPoolSize,
-                batchRequestsThreadKeepAliveSeconds, batchRequestsMaxThreadsPerRequest, createSourceFiles);
+        GlobalConfiguration configuration =
+                new GlobalConfiguration(contextPath, providersUrl, debug, gsonBuilderConfiguratorClass,
+                        jsonRequestProcessorThreadClass, dispatcherClass, minify, batchRequestsMultithreadingEnabled,
+                        batchRequestsMinThreadsPoolSize, batchRequestsMaxThreadsPoolSize,
+                        batchRequestsThreadKeepAliveSeconds, batchRequestsMaxThreadsPerRequest, createSourceFiles);
         return configuration;
     }
 
@@ -127,8 +147,8 @@ public class ConfigurationProvider implements IConfigurationSupport {
      */
     @Override
     public
-            void
-            setJsonRequestProcessorThreadClass(Class<? extends JsonRequestProcessorThread> jsonRequestProcessorThreadClass) {
+    void
+    setJsonRequestProcessorThreadClass(Class<? extends JsonRequestProcessorThread> jsonRequestProcessorThreadClass) {
         this.jsonRequestProcessorThreadClass = jsonRequestProcessorThreadClass;
     }
 

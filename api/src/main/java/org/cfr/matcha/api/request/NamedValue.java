@@ -1,4 +1,6 @@
 /**
+ * Copyright 2014 devacfr<christophefriederich@mac.com>
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -14,35 +16,62 @@
 package org.cfr.matcha.api.request;
 
 /**
- * POJO Class used mainly to populate Ext.ComboxBox  
- * @author devacfr
- *
+ * POJO Class used mainly to populate Ext.ComboxBox.
+ * @author devacfr<christophefriederich@mac.com>
+ * @since 1.0
  */
 public class NamedValue {
 
+    /**
+     * the code.
+     */
     private String code;
 
+    /**
+     * the name.
+     */
     private String name;
 
-    public NamedValue(String code, String name) {
+    /**
+     *
+     * @param code
+     * @param name
+     */
+    public NamedValue(final String code, final String name) {
         super();
         this.code = code;
         this.name = name;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getCode() {
         return code;
     }
 
-    public void setCode(String code) {
+    /**
+     *
+     * @param code
+     */
+    public void setCode(final String code) {
         this.code = code;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getName() {
         return name;
     }
 
-    public void setName(String name) {
+    /**
+     *
+     * @param name
+     */
+    public void setName(final String name) {
         this.name = name;
     }
 

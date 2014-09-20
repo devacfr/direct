@@ -1,4 +1,6 @@
 /**
+ * Copyright 2014 devacfr<christophefriederich@mac.com>
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -24,7 +26,7 @@ import org.slf4j.LoggerFactory;
 
 /**
  * Form parameter representation.
- * @author devacfr
+ * @author devacfr<christophefriederich@mac.com>
  * @since 1.0
  */
 @ThreadSafe
@@ -43,7 +45,7 @@ public class Parameter implements Comparable<Parameter> {
 
     /**
      * Creates a parameter.
-     * 
+     *
      * @param name The parameter name buffer.
      * @param value The parameter value buffer (can be null).
      * @param decode If true, the name and values are decoded with the given characterSet,
@@ -51,10 +53,8 @@ public class Parameter implements Comparable<Parameter> {
      * @param characterSet The supported character encoding.
      * @return The created parameter.
      */
-    public static Parameter create(@Nonnull final CharSequence name,
-                                   @Nonnull final CharSequence value,
-                                   @Nonnull final boolean decode,
-                                   final String characterSet) {
+    public static Parameter create(@Nonnull final CharSequence name, @Nonnull final CharSequence value,
+                                   @Nonnull final boolean decode, final String characterSet) {
         Parameter result = null;
 
         if (name != null) {
@@ -89,15 +89,13 @@ public class Parameter implements Comparable<Parameter> {
     @Override
     public boolean equals(final Object other) {
         boolean result = this == other;
-
-        if (!result
-                && other instanceof Parameter) {
+        if (!result && other instanceof Parameter) {
             Parameter param = (Parameter) other;
-
-            if (param.getName() == null
-                    && getName() == null || getName() != null && getName().equals(param.getName())) {
-                result = param.getValue() == null
-                        && getValue() == null || getValue() != null && getValue().equals(param.getValue());
+            if (param.getName() == null && getName() == null || //
+                    getName() != null && getName().equals(param.getName())) {
+                result =
+                        param.getValue() == null && getValue() == null || getValue() != null
+                        && getValue().equals(param.getValue());
             }
         }
         return result;
@@ -105,7 +103,7 @@ public class Parameter implements Comparable<Parameter> {
 
     /**
      * Returns the name object.
-     * 
+     *
      * @return The name object.
      */
     public String getName() {
@@ -114,7 +112,7 @@ public class Parameter implements Comparable<Parameter> {
 
     /**
      * Returns the value object.
-     * 
+     *
      * @return The value object.
      */
     public String getValue() {
@@ -123,7 +121,7 @@ public class Parameter implements Comparable<Parameter> {
 
     /**
      * Sets the first object.
-     * 
+     *
      * @param name
      *            The first object.
      */
@@ -133,7 +131,7 @@ public class Parameter implements Comparable<Parameter> {
 
     /**
      * Sets the value object.
-     * 
+     *
      * @param value The value object.
      */
     public void setValue(final String value) {
@@ -148,16 +146,15 @@ public class Parameter implements Comparable<Parameter> {
 
     @Override
     public String toString() {
-        return "("
-                + getName() + "," + getValue() + ")";
+        return "(" + getName() + "," + getValue() + ")";
     }
 
     /**
      * Computes the hash code of a set of objects. Follows the algorithm
      * specified in List.hasCode().
-     * 
+     *
      * @param objects the objects to compute the hashCode
-     * 
+     *
      * @return The hash code of a set of objects.
      */
     public static int hashCode(final Object... objects) {
@@ -165,8 +162,7 @@ public class Parameter implements Comparable<Parameter> {
 
         if (objects != null) {
             for (final Object obj : objects) {
-                result = 31
-                        * result + (obj == null ? 0 : obj.hashCode());
+                result = 31 * result + (obj == null ? 0 : obj.hashCode());
             }
         }
 
@@ -175,7 +171,7 @@ public class Parameter implements Comparable<Parameter> {
 
     /**
      * Creates a parameter.
-     * 
+     *
      * @param name The parameter name buffer.
      * @param value The parameter value buffer (can be null).
      * @return The created parameter.
@@ -190,7 +186,7 @@ public class Parameter implements Comparable<Parameter> {
 
     /**
      * Preferred constructor.
-     * 
+     *
      * @param name The name.
      * @param value The value.
      */
@@ -201,7 +197,7 @@ public class Parameter implements Comparable<Parameter> {
 
     /**
      * Compares this object with the specified object for order.
-     * 
+     *
      * @param o The object to be compared.
      * @return A negative integer, zero, or a positive integer as this object is
      *         less than, equal to, or greater than the specified object.
@@ -214,7 +210,7 @@ public class Parameter implements Comparable<Parameter> {
     /**
      * Encodes the parameter and appends the result to the given buffer. Uses
      * the standard URI encoding mechanism.
-     * 
+     *
      * @param buffer The buffer to append.
      * @param characterSet The supported character encoding
      * @throws IOException If a I/O error occurs.
@@ -232,7 +228,7 @@ public class Parameter implements Comparable<Parameter> {
 
     /**
      * Encodes the parameter using the standard URI encoding mechanism.
-     * 
+     *
      * @param characterSet The supported character encoding.
      * @return The encoded string.
      * @throws IOException If a I/O error occurs.
@@ -246,7 +242,7 @@ public class Parameter implements Comparable<Parameter> {
     /**
      * Decodes a given string using the standard URI encoding mechanism and the
      * UTF-8 character set.
-     * 
+     *
      * @param toDecode The string to decode.
      * @return The decoded string.
      */
@@ -272,7 +268,7 @@ public class Parameter implements Comparable<Parameter> {
      * href="http://www.w3.org/TR/html40/appendix/notes.html#non-ascii-chars">
      * World Wide Web Consortium Recommendation</a> states that UTF-8 should be
      * used. Not doing so may introduce incompatibilities.</em>
-     * 
+     *
      * @param toDecode The string to decode.
      * @param characterSet The name of a supported character encoding.
      * @return The decoded string or null if the named character encoding is not
@@ -292,7 +288,7 @@ public class Parameter implements Comparable<Parameter> {
     /**
      * Encodes a given string using the standard URI encoding mechanism and the
      * UTF-8 character set.
-     * 
+     *
      * @param toEncode The string to encode.
      * @return The encoded string.
      */
@@ -314,12 +310,12 @@ public class Parameter implements Comparable<Parameter> {
     /**
      * Encodes a given string using the standard URI encoding mechanism. If the
      * provided character set is null, the string is returned but not encoded.
-     * 
+     *
      * <em><strong>Note:</strong> The <a
      * href="http://www.w3.org/TR/html40/appendix/notes.html#non-ascii-chars">
      * World Wide Web Consortium Recommendation</a> states that UTF-8 should be
      * used. Not doing so may introduce incompatibilities.</em>
-     * 
+     *
      * @param toEncode The string to encode.
      * @param characterSet The supported character encoding.
      * @return The encoded string or null if the named character encoding is not

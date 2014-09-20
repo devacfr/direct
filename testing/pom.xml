@@ -7,14 +7,16 @@
         <version>1.0.0-SNAPSHOT</version>
     </parent>
     <artifactId>matcha-testing</artifactId>
-    <name>Spring Module Ext Direct Test</name>
-    <description>Integration test module for Spring Module for Ext Direct</description>
+    <name>Testing Module Ext Direct Test</name>
+    <description>Integration test module for Ext Direct</description>
     <packaging>jar</packaging>
 
     <properties>
         <main.basedir>${project.parent.basedir}</main.basedir>
+        <!-- Enable report aggregation -->
+        <aggregate>true</aggregate>
     </properties>
-    
+
     <dependencies>
         <dependency>
             <groupId>org.cfr.matcha</groupId>
@@ -63,6 +65,18 @@
             <groupId>org.easymock</groupId>
             <artifactId>easymock</artifactId>
         </dependency>
-
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.powermock</groupId>
+            <artifactId>powermock-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.powermock</groupId>
+            <artifactId>powermock-api-mockito</artifactId>
+            <version>${powermock.version}</version>
+        </dependency>
     </dependencies>
 </project>

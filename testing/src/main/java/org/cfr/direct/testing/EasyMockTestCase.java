@@ -1,3 +1,18 @@
+/**
+ * Copyright 2014 devacfr<christophefriederich@mac.com>
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package org.cfr.direct.testing;
 
 import java.lang.reflect.Method;
@@ -9,7 +24,6 @@ import org.easymock.EasyMock;
 import org.easymock.IArgumentMatcher;
 import org.easymock.IExpectationSetters;
 import org.easymock.IMockBuilder;
-import org.easymock.internal.ClassExtensionHelper;
 import org.easymock.internal.LastControl;
 import org.easymock.internal.MocksControl;
 import org.easymock.internal.matchers.Captures;
@@ -62,7 +76,7 @@ public abstract class EasyMockTestCase extends org.junit.Assert {
      * Switches order checking of the given mock object (more exactly: the
      * control of the mock object) the on and off. For details, see the EasyMock
      * documentation.
-     * 
+     *
      * @param mock
      *            the mock object.
      * @param state
@@ -74,13 +88,13 @@ public abstract class EasyMockTestCase extends org.junit.Assert {
     }
 
     private static MocksControl getControl(final Object mock) {
-        return ClassExtensionHelper.getControl(mock);
+        return MocksControl.getControl(mock);
     }
 
     /**
      * Reports an argument matcher. This method is needed to define own argument
      * matchers. For details, see the EasyMock documentation.
-     * 
+     *
      * @param matcher
      */
     public static void reportMatcher(final IArgumentMatcher matcher) {
@@ -112,9 +126,8 @@ public abstract class EasyMockTestCase extends org.junit.Assert {
      * <code>EasyMock.anyObject(T.class) // pass the returned type in parameter</code>
      * </li>
      * </ul>
-     * 
-     * @param <T>
-     *            type of the method argument to match
+     *
+     * @param <T> type of the class to cast
      * @return <code>null</code>.
      */
     @SuppressWarnings("unchecked")
@@ -124,14 +137,14 @@ public abstract class EasyMockTestCase extends org.junit.Assert {
 
     /**
      * Expects any Object argument. For details, see the EasyMock documentation.
-     * To work well with generics, this matcher can be used in three different
+     * To work well with generic, this matcher can be used in three different
      * ways. See {@link #anyObject()}.
-     * 
-     * @param <T> type of the method argument to match
-     * @param clazz the class of the argument to match
+     *
+     * @param <T> type of the class to cast
+     * @param cl the class of the argument to match
      * @return <code>null</code>.
      */
-    public <T> T anyObject(Class<T> cl) {
+    public <T> T anyObject(final Class<T> cl) {
         return EasyMock.anyObject(cl);
     }
 
@@ -139,10 +152,11 @@ public abstract class EasyMockTestCase extends org.junit.Assert {
      * Creates a strict mock object for the given class, adds it to the internal
      * list of all mocks, and returns it.
      *
+     * @param <T> type of the class to mock
      * @param clazz Class to be mocked.
      * @return A mock instance of the given type.
      **/
-    protected <T> T mock(Class<T> clazz) {
+    protected <T> T mock(final Class<T> clazz) {
         return mock(clazz, false);
     }
 
@@ -150,11 +164,12 @@ public abstract class EasyMockTestCase extends org.junit.Assert {
      * Creates a strict or nice mock object for the given class, adds it to the internal
      * list of all mocks, and returns it.
      *
+     * @param <T> type of the class to mock
      * @param clazz Class to be mocked.
      * @param strict whether or not to make a strict mock
      * @return A mock instance of the given type.
      **/
-    protected <T> T mock(Class<T> clazz, boolean strict) {
+    protected <T> T mock(final Class<T> clazz, final boolean strict) {
         T m = strict ? EasyMock.createMock(clazz) : EasyMock.createNiceMock(clazz);
         mocks.add(m);
         return m;
@@ -164,10 +179,11 @@ public abstract class EasyMockTestCase extends org.junit.Assert {
      * Creates a nice mock object for the given class, adds it to the internal
      * list of all mocks, and returns it.
      *
+     * @param <T> type of the class to mock
      * @param clazz Class to be mocked.
      * @return A mock instance of the given type.
      **/
-    protected <T> T mock(Class<T> clazz, Method... methods) {
+    protected <T> T mock(final Class<T> clazz, final Method... methods) {
         return mock(clazz, methods, false);
     }
 
@@ -175,10 +191,12 @@ public abstract class EasyMockTestCase extends org.junit.Assert {
      * Creates a strict mock object for the given class, adds it to the internal
      * list of all mocks, and returns it.
      *
+     * @param <T> type of the class to mock
      * @param clazz Class to be mocked.
+     * @param methods list of methods to Add to be mocked in the testing class,
      * @return A mock instance of the given type.
      **/
-    protected <T> T mock(Class<T> clazz, Method[] methods, boolean strict) {
+    protected <T> T mock(final Class<T> clazz, final Method[] methods, final boolean strict) {
         IMockBuilder<T> builder = EasyMock.createMockBuilder(clazz).addMockedMethods(methods);
         T m = strict ? builder.createMock() : builder.createNiceMock();
         mocks.add(m);
@@ -195,7 +213,11 @@ public abstract class EasyMockTestCase extends org.junit.Assert {
         EasyMock.replay(mocks.toArray());
     }
 
-    protected void replay(Object mock) {
+    /**
+     *
+     * @param mock
+     */
+    protected void replay(final Object mock) {
         EasyMock.replay(mock);
     }
 
@@ -224,7 +246,7 @@ public abstract class EasyMockTestCase extends org.junit.Assert {
 
     /**
      * Expect any object but captures it for later use.
-     * 
+     *
      * @param <T>
      *            Type of the captured object
      * @param captured
@@ -238,7 +260,7 @@ public abstract class EasyMockTestCase extends org.junit.Assert {
 
     /**
      * Expects an Object that is equal to the given value.
-     * 
+     *
      * @param <T>
      *            type of the method argument to match
      * @param value

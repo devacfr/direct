@@ -1,3 +1,18 @@
+/**
+ * Copyright 2014 devacfr<christophefriederich@mac.com>
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package org.cfr.matcha.direct.handler.impl;
 
 import java.io.BufferedReader;
@@ -12,20 +27,35 @@ import org.cfr.matcha.direct.handler.context.IDirectHandlerContext;
 
 import com.softwarementors.extjs.djn.router.RequestType;
 
+/**
+ *
+ * @author devacfr<christophefriederich@mac.com>
+ * @since 1.0
+ */
 public class DirectHandler extends BaseHandler {
 
-    public final static List<RequestType> acceptedRequestTypeList = Collections.unmodifiableList(Arrays.asList(RequestType.FORM_SIMPLE_POST,
-        RequestType.JSON,
-        RequestType.POLL,
-        RequestType.SOURCE));
+    /**
+     *
+     */
+    public final static List<RequestType> acceptedRequestTypeList =
+            Collections.unmodifiableList(Arrays.asList(RequestType.FORM_SIMPLE_POST,
+                RequestType.JSON,
+                RequestType.POLL,
+                RequestType.SOURCE));
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public List<RequestType> getAcceptedRequestType() {
         return acceptedRequestTypeList;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    protected void doProcess(IDirectHandlerContext handlerContext) throws Exception {
+    protected void doProcess(final IDirectHandlerContext handlerContext) throws Exception {
 
         IDirectContext context = handlerContext.getContext();
         BufferedReader reader = handlerContext.getReader();

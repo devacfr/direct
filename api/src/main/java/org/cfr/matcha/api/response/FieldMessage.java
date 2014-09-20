@@ -1,4 +1,6 @@
 /**
+ * Copyright 2014 devacfr<christophefriederich@mac.com>
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -17,6 +19,9 @@ import javax.xml.bind.annotation.XmlType;
 
 /**
  * An item describing the error.
+ *
+ * @author devacfr<christophefriederich@mac.com>
+ * @since 1.0
  *
  */
 @XmlType(name = "field")
@@ -37,10 +42,18 @@ public class FieldMessage implements java.io.Serializable {
      */
     private String msg;
 
+    /**
+     *
+     */
     public FieldMessage() {
     }
 
-    public FieldMessage(String id, String msg) {
+    /**
+     *
+     * @param id
+     * @param msg
+     */
+    public FieldMessage(final String id, final String msg) {
         super();
         this.id = id;
         this.msg = msg;
@@ -69,7 +82,7 @@ public class FieldMessage implements java.io.Serializable {
      *
      * @param id
      */
-    public void setId(String id) {
+    public void setId(final String id) {
         this.id = id;
     }
 
@@ -78,7 +91,7 @@ public class FieldMessage implements java.io.Serializable {
      *
      * @param msg
      */
-    public void setMsg(String msg) {
+    public void setMsg(final String msg) {
         this.msg = msg;
     }
 

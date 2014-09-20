@@ -1,4 +1,6 @@
 /**
+ * Copyright 2014 devacfr<christophefriederich@mac.com>
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -29,7 +31,7 @@ import org.slf4j.LoggerFactory;
 
 /**
  * Form reader.
- * @author devacfr
+ * @author devacfr<christophefriederich@mac.com>
  * @since 1.0
  */
 public class FormReader {
@@ -53,12 +55,11 @@ public class FormReader {
 
     /**
      * Constructor. Will leave the parsed data encoded.
-     * 
+     *
      * @param parametersString The parameters string.
      * @param separator character separator.
      */
-    public FormReader(
-            final String parametersString, final char separator) {
+    public FormReader(final String parametersString, final char separator) {
         this.decoding = false;
         this.stream = new ByteArrayInputStream(parametersString.getBytes());
         this.characterSet = null;
@@ -67,23 +68,21 @@ public class FormReader {
 
     /**
      * Constructor.
-     * 
-     * @param parametersString The parameters string.
+     *
+     * @param parameters The parameters string.
      * @param characterSet The supported character encoding. Set to null to leave the data encoded.
      * @param separator character separator.
      */
-    public FormReader(
-            @Nonnull final String parametersString, @Nonnull final String characterSet, final char separator) {
+    public FormReader(@Nonnull final String parameters, @Nonnull final String characterSet, final char separator) {
         this.decoding = true;
-        this.stream = new ByteArrayInputStream(Assert.notNull(parametersString, "parametersString is required")
-                .getBytes());
+        this.stream = new ByteArrayInputStream(Assert.notNull(parameters, "parametersString is required").getBytes());
         this.characterSet = Assert.notNull(characterSet, "characterSet is required");
         this.separator = separator;
     }
 
     /**
      * Adds the parameters into a given form.
-     * 
+     *
      * @param form The target form.
      */
     public void addParameters(@Nonnull final Form form) {
@@ -119,7 +118,7 @@ public class FormReader {
 
     /**
      * Reads all the parameters.
-     * 
+     *
      * @return The form read.
      * @throws IOException If the parameters could not be read.
      */
@@ -138,7 +137,7 @@ public class FormReader {
 
     /**
      * Reads the first parameter with the given name.
-     * 
+     *
      * @param name The parameter name to match.
      * @return The parameter value.
      * @throws IOException If I/O error occurs
@@ -147,8 +146,7 @@ public class FormReader {
         Parameter param = readNextParameter();
         Parameter result = null;
 
-        while (param != null
-                && result == null) {
+        while (param != null && result == null) {
             if (param.getName().equals(name)) {
                 result = param;
             }
@@ -162,7 +160,7 @@ public class FormReader {
 
     /**
      * Reads the next parameter available or null.
-     * 
+     *
      * @return The next parameter available or null.
      * @throws IOException If the next parameter could not be read.
      */
@@ -176,8 +174,7 @@ public class FormReader {
             final StringBuilder valueBuffer = new StringBuilder();
 
             int nextChar = 0;
-            while (result == null
-                    && nextChar != -1) {
+            while (result == null && nextChar != -1) {
                 nextChar = this.stream.read();
 
                 if (readingName) {
@@ -188,8 +185,7 @@ public class FormReader {
                         } else {
                             throw new IOException("Empty parameter name detected. Please check your form data");
                         }
-                    } else if (nextChar == this.separator
-                            || nextChar == -1) {
+                    } else if (nextChar == this.separator || nextChar == -1) {
                         if (nameBuffer.length() > 0) {
                             result = Parameter.create(nameBuffer, null, this.decoding, this.characterSet);
                         } else if (nextChar == -1) {
@@ -201,8 +197,7 @@ public class FormReader {
                         nameBuffer.append((char) nextChar);
                     }
                 } else if (readingValue) {
-                    if (nextChar == this.separator
-                            || nextChar == -1) {
+                    if (nextChar == this.separator || nextChar == -1) {
                         if (valueBuffer.length() > 0) {
                             result = Parameter.create(nameBuffer, valueBuffer, this.decoding, this.characterSet);
                         } else {
@@ -223,7 +218,7 @@ public class FormReader {
     /**
      * Reads the parameters with the given name. If multiple values are found, a
      * list is returned created.
-     * 
+     *
      * @param name The parameter name to match.
      * @return The parameter value or list of values.
      * @throws IOException If the parameters could not be read.
@@ -274,7 +269,7 @@ public class FormReader {
      * Reads the parameters whose name is a key in the given map. If a matching
      * parameter is found, its value is put in the map. If multiple values are
      * found, a list is created and set in the map.
-     * 
+     *
      * @param parameters The parameters map controlling the reading.
      * @throws IOException If the parameters could not be read.
      */

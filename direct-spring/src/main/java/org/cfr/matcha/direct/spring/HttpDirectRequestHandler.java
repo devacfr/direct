@@ -10,12 +10,10 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang.StringUtils;
 import org.cfr.matcha.direct.servlet.IServletDirectContext;
-import org.cfr.matcha.direct.servlet.ServletUtil;
 import org.springframework.web.HttpRequestHandler;
 
 import com.softwarementors.extjs.djn.EncodingUtils;
 import com.softwarementors.extjs.djn.Timer;
-import com.softwarementors.extjs.djn.router.RequestType;
 
 @Named
 public class HttpDirectRequestHandler implements HttpRequestHandler {
@@ -29,7 +27,7 @@ public class HttpDirectRequestHandler implements HttpRequestHandler {
 
     @Override
     public void handleRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException,
-            IOException {
+    IOException {
         BufferedRequestWrapper req = new BufferedRequestWrapper(request);
         Timer timer = new Timer();
         try {
@@ -41,9 +39,7 @@ public class HttpDirectRequestHandler implements HttpRequestHandler {
                 request.setCharacterEncoding(EncodingUtils.UTF8);
             }
             response.setCharacterEncoding(EncodingUtils.UTF8);
-            RequestType type = ServletUtil.getFromRequestContentType(request);
-
-            directManager.handleProcess(req, response, type);
+            directManager.handleProcess(req, response);
         } finally {
             timer.stop();
             timer.logDebugTimeInMilliseconds("Total servlet processing time");

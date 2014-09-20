@@ -13,13 +13,13 @@ import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
 
 /**
- * 
+ *
  * @author devacfr
  * @since 1.0
  */
 @Named("DirectApplication")
 public class DefaultServletDirectContext extends ServletDirectContext implements BeanDefinitionRegistryPostProcessor,
-        ApplicationListener<ContextRefreshedEvent> {
+ApplicationListener<ContextRefreshedEvent> {
 
     /**
      * log instance.
@@ -31,7 +31,7 @@ public class DefaultServletDirectContext extends ServletDirectContext implements
         try {
             // allowing the refresh. why not
             this.reset();
-            // initialize direct context
+            // Initialise direct context
             this.init();
         } catch (Exception e) {
             // TODO [devacfr] find better exception or message

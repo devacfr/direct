@@ -13,6 +13,8 @@
 
     <properties>
         <main.basedir>${project.parent.basedir}</main.basedir>
+        <!-- Enable report aggregation -->
+        <aggregate>true</aggregate>
     </properties>
 
     <dependencies>
