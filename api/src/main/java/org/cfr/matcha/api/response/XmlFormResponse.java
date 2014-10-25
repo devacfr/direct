@@ -34,8 +34,14 @@ public class XmlFormResponse extends DefaultResourceResponse implements java.io.
      */
     private static final long serialVersionUID = 1L;
 
+    /**
+     * 
+     */
     private Object data;
 
+    /**
+     * 
+     */
     private String message = null;
 
     /**

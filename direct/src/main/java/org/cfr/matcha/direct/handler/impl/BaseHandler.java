@@ -31,17 +31,24 @@ public abstract class BaseHandler implements IDirectHandler {
     /**
      *
      */
+    public static final List<IDirectHandler> DEFAULT_DIRECT_HANDLERS = Arrays.<IDirectHandler> asList(
+            new DirectHandler(), new UploadFormHandler());
+
+    /**
+    *
+    */
     private final Logger LOGGER = LoggerFactory.getLogger(this.getClass());
 
     /**
-     *
+     * 
+     * @return
      */
-    public static List<IDirectHandler> DefaultDirectHandlers = Arrays.<IDirectHandler> asList(new DirectHandler(),
-        new UploadFormHandler());
+    public static List<IDirectHandler> getDefaultDirectHandlers() {
+        return DEFAULT_DIRECT_HANDLERS;
+    }
 
     /**
-     * Must return a not null List of {@link RequestType} accepted by the
-     * handler.
+     * Must return a not null List of {@link RequestType} accepted by the handler.
      *
      * @return
      */

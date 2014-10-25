@@ -451,7 +451,8 @@ public abstract class MockitoTestCase extends Assert {
      * @param <T>
      * @param mocks to be reset
      */
-    protected <T> void reset(T... mocks) {
+    @SafeVarargs
+    protected final <T> void reset(T... mocks) {
         Mockito.reset(mocks);
     }
 

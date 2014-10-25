@@ -46,6 +46,7 @@ import com.softwarementors.extjs.djn.scanner.Scanner;
 
 /**
  * Api initialiser.
+ * 
  * @author devacfr<christophefriederich@mac.com>
  * @since 1.0
  */
@@ -54,7 +55,7 @@ public class BaseDirectContext extends ConfigurationProvider implements IDirectC
     /**
      *
      */
-    protected final Logger logger = LoggerFactory.getLogger(this.getClass());
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     /**
      * List of actions to be published in js Api.
@@ -114,6 +115,7 @@ public class BaseDirectContext extends ConfigurationProvider implements IDirectC
 
     /**
      * Registry .
+     * 
      * @throws Exception
      */
     @Override
@@ -123,7 +125,7 @@ public class BaseDirectContext extends ConfigurationProvider implements IDirectC
             Assert.hasText(namespace, "namespace is required");
             Assert.hasText(name, "name is required");
             Assert.hasText(getProvidersUrl(), "providersUrl is required");
-            //        Assert.notNull(contextPath, "contextPath is required");
+            // Assert.notNull(contextPath, "contextPath is required");
 
             // config initialisation
             String url = getProvidersUrl();
@@ -135,7 +137,7 @@ public class BaseDirectContext extends ConfigurationProvider implements IDirectC
             }
 
             String apiFile = name + ".js";
-            //build js api relative path
+            // build js api relative path
             StringBuilder fullApiFileNameBuilder = new StringBuilder();
             fullApiFileNameBuilder.append(jsApiPath);
             fullApiFileNameBuilder.append(System.getProperty("file.separator"));
@@ -153,13 +155,8 @@ public class BaseDirectContext extends ConfigurationProvider implements IDirectC
                 this.directHandlers = createDirectHandlers();
             }
             if (apiConfigurations == null) {
-                apiConfigurations =
-                        createApiConfigurations(name,
-                            apiFile,
-                            fullApiFileNameBuilder.toString(),
-                            namespace,
-                            "",
-                            directActions);
+                apiConfigurations = createApiConfigurations(name, apiFile, fullApiFileNameBuilder.toString(),
+                        namespace, "", directActions);
             }
 
             if (registry == null) {
@@ -193,6 +190,14 @@ public class BaseDirectContext extends ConfigurationProvider implements IDirectC
     }
 
     /**
+     * 
+     * @return
+     */
+    protected Logger getLogger() {
+        return logger;
+    }
+
+    /**
      *
      * @param configuration
      * @param apiConfigs
@@ -212,8 +217,7 @@ public class BaseDirectContext extends ConfigurationProvider implements IDirectC
      */
     @Override
     public DirectRequestRouter createRequestRouter(@Nonnull Registry registry,
-                                                   @Nonnull GlobalConfiguration configuration,
-                                                   @Nonnull Dispatcher dispatcher) {
+            @Nonnull GlobalConfiguration configuration, @Nonnull Dispatcher dispatcher) {
         return new DirectRequestRouter(registry, configuration, dispatcher);
 
     }
@@ -223,10 +227,8 @@ public class BaseDirectContext extends ConfigurationProvider implements IDirectC
      */
     @Override
     public List<ApiConfiguration> createApiConfigurations(@Nonnull final String name, @Nonnull final String apiFile,
-                                                          @Nonnull final String fullApiFileName,
-                                                          @Nonnull final String apiNamespace,
-                                                          @Nonnull final String actionsNamespace,
-                                                          @Nonnull final Collection<?> actions) {
+            @Nonnull final String fullApiFileName, @Nonnull final String apiNamespace,
+            @Nonnull final String actionsNamespace, @Nonnull final Collection<?> actions) {
 
         List<ApiConfiguration> apiConfigs = new ArrayList<ApiConfiguration>();
 
@@ -241,7 +243,7 @@ public class BaseDirectContext extends ConfigurationProvider implements IDirectC
 
     @Override
     public List<IDirectHandler> createDirectHandlers() {
-        return BaseHandler.DefaultDirectHandlers;
+        return BaseHandler.getDefaultDirectHandlers();
     }
 
     /**
@@ -252,7 +254,8 @@ public class BaseDirectContext extends ConfigurationProvider implements IDirectC
     }
 
     /**
-     * @param directActions the directActions to set
+     * @param directActions
+     *            the directActions to set
      */
     public void setActions(@Nonnull final Set<Object> directActions) {
         if (directActions != null) {
@@ -291,7 +294,8 @@ public class BaseDirectContext extends ConfigurationProvider implements IDirectC
     }
 
     /**
-     * @param directHandlers the directHandlers to set
+     * @param directHandlers
+     *            the directHandlers to set
      */
     public void setDirectHandlers(@Nonnull final List<IDirectHandler> directHandlers) {
         this.directHandlers = Collections.unmodifiableList(directHandlers);
@@ -305,7 +309,8 @@ public class BaseDirectContext extends ConfigurationProvider implements IDirectC
     }
 
     /**
-     * @param apiConfigurations the apiConfigurations to set
+     * @param apiConfigurations
+     *            the apiConfigurations to set
      */
     public void setApiConfigurations(@Nonnull final List<ApiConfiguration> apiConfigurations) {
         this.apiConfigurations = apiConfigurations;
@@ -319,7 +324,8 @@ public class BaseDirectContext extends ConfigurationProvider implements IDirectC
     }
 
     /**
-     * @param directDispatcher the directDispatcher to set
+     * @param directDispatcher
+     *            the directDispatcher to set
      */
     public void setDirectDispatcher(@Nullable final DefaultDispatcher directDispatcher) {
         this.directDispatcher = directDispatcher;
@@ -402,20 +408,24 @@ public class BaseDirectContext extends ConfigurationProvider implements IDirectC
     }
 
     /**
-     * Find a single {@link Annotation} of <code>annotationType</code> from the supplied {@link Class},
-     * traversing its interfaces and superclass's if no annotation can be found on the given class itself.
-     * <p>This method explicitly handles class-level annotations which are not declared as
+     * Find a single {@link Annotation} of <code>annotationType</code> from the supplied {@link Class}, traversing its
+     * interfaces and superclass's if no annotation can be found on the given class itself.
+     * <p>
+     * This method explicitly handles class-level annotations which are not declared as
      * {@link java.lang.annotation.Inherited inherited} <i>as well as annotations on interfaces</i>.
-     * <p>The algorithm operates as follows: Searches for an annotation on the given class and returns
-     * it if found. Else searches all interfaces that the given class declares, returning the annotation
-     * from the first matching candidate, if any. Else proceeds with introspection of the superclass
-     * of the given class, checking the superclass itself; if no annotation found there, proceeds
-     * with the interfaces that the superclass declares. Recursing up through the entire superclass
-     * hierarchy if no match is found.
-     * Note : copy From SpringFramework
-     * @param clazz the class to look for annotations on
-     * @param annotationType the annotation class to look for
-     * @param <A> accept only {@link Annotation} type.
+     * <p>
+     * The algorithm operates as follows: Searches for an annotation on the given class and returns it if found. Else
+     * searches all interfaces that the given class declares, returning the annotation from the first matching
+     * candidate, if any. Else proceeds with introspection of the superclass of the given class, checking the superclass
+     * itself; if no annotation found there, proceeds with the interfaces that the superclass declares. Recursing up
+     * through the entire superclass hierarchy if no match is found. Note : copy From SpringFramework
+     * 
+     * @param clazz
+     *            the class to look for annotations on
+     * @param annotationType
+     *            the annotation class to look for
+     * @param <A>
+     *            accept only {@link Annotation} type.
      * @return the annotation found, or <code>null</code> if none found
      */
     private static <A extends Annotation> A findAnnotation(final Class<?> clazz, final Class<A> annotationType) {

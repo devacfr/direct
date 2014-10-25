@@ -161,8 +161,8 @@ public class UploadFormPostRequestProcessor extends FormPostRequestProcessorBase
     public void handleFileUploadException(@Nonnull final FileUploadException e) {
         Assert.notNull(e);
 
-        com.softwarementors.extjs.djn.router.processor.standard.form.upload.FileUploadException ex =
-                com.softwarementors.extjs.djn.router.processor.standard.form.upload.FileUploadException.forFileUploadException(e);
+        RuntimeException ex = com.softwarementors.extjs.djn.router.processor.standard.form.upload.FileUploadException
+                .forFileUploadException(e);
         LOGGER.error(ex.getMessage(), ex);
         throw ex;
     }

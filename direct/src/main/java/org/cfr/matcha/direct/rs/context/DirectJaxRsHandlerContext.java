@@ -26,10 +26,19 @@ import com.softwarementors.extjs.djn.router.RequestType;
 
 public class DirectJaxRsHandlerContext extends BaseHandlerContext {
 
+    /**
+     * 
+     */
     private final BufferedReader reader;
 
+    /**
+     * 
+     */
     private final PrintWriter writer;
 
+    /**
+     * 
+     */
     private final String pathInfo;
 
     public DirectJaxRsHandlerContext(BaseDirectContext context, RequestType requestType, String pathInfo,

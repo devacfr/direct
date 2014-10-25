@@ -15,6 +15,8 @@
  */
 package org.cfr.matcha.api.request;
 
+import java.util.Arrays;
+
 import javax.xml.bind.annotation.XmlRootElement;
 
 import org.apache.commons.lang.StringUtils;
@@ -34,27 +36,6 @@ public class QueryRequest {
      * global Gson builder.
      */
     private static GsonBuilder gson = new GsonBuilder();
-
-    /**
-     *
-     * @param queryRequest
-     * @return
-     */
-    public static Query createQuery(final QueryRequest queryRequest) {
-        Query query = new Query();
-        query.setQuery(queryRequest.getQuery());
-        query.setStart(queryRequest.getStart());
-        query.setLimit(queryRequest.getLimit());
-        if (queryRequest.getSortDirection() != null) {
-            if ("ASC".equals(queryRequest.getSortDirection())) {
-                query.setSortDirection(SortDirection.Ascending);
-            } else {
-                query.setSortDirection(SortDirection.Descending);
-            }
-        }
-        query.setSortProperty(queryRequest.getSortProperty());
-        return query;
-    }
 
     /**
      * Field from.
@@ -86,30 +67,51 @@ public class QueryRequest {
      */
     private Filter[] filters;
 
+    /**
+     *
+     * @param queryRequest
+     * @return
+     */
+    public static Query createQuery(final QueryRequest queryRequest) {
+        Query query = new Query();
+        query.setQuery(queryRequest.getQuery());
+        query.setStart(queryRequest.getStart());
+        query.setLimit(queryRequest.getLimit());
+        if (queryRequest.getSortDirection() != null) {
+            if ("ASC".equals(queryRequest.getSortDirection())) {
+                query.setSortDirection(SortDirection.Ascending);
+            } else {
+                query.setSortDirection(SortDirection.Descending);
+            }
+        }
+        query.setSortProperty(queryRequest.getSortProperty());
+        return query;
+    }
+
     // TODO [devacfr] request restlet constructor, find better to remove restlet dependency
-    //    public QueryRequest(Request request) {
-    //        Form form = request.getResourceRef().getQueryAsForm();
-    //        query = form.getFirstValue("query");
-    //        if (form.getFirstValue("start") != null)
-    //            start = Integer.parseInt(form.getFirstValue("start"));
-    //        if (form.getFirstValue("limit") != null)
-    //            limit = Integer.parseInt(form.getFirstValue("limit"));
-    //        if (form.getFirstValue("filter") != null) {
+    // public QueryRequest(Request request) {
+    // Form form = request.getResourceRef().getQueryAsForm();
+    // query = form.getFirstValue("query");
+    // if (form.getFirstValue("start") != null)
+    // start = Integer.parseInt(form.getFirstValue("start"));
+    // if (form.getFirstValue("limit") != null)
+    // limit = Integer.parseInt(form.getFirstValue("limit"));
+    // if (form.getFirstValue("filter") != null) {
     //
-    //            JSONArray ar = JSONArray.fromObject(form.getFirstValue("filter"));
-    //            Filter[] fs = new Filter[ar.size()];
-    //            int x = 0;
-    //            for (@SuppressWarnings("unchecked")
-    //            Iterator<JSONObject> i = ar.iterator(); i.hasNext();) {
-    //                JSONObject jsonObject = i.next();
-    //                Filter f = (Filter) JSONObject.toBean(jsonObject, Filter.class);
-    //                fs[x++] = f;
-    //            }
-    //            filters = fs;
-    //        }
-    //        sortProperty = form.getFirstValue("sort");
-    //        sortDirection = form.getFirstValue("dir");
-    //    }
+    // JSONArray ar = JSONArray.fromObject(form.getFirstValue("filter"));
+    // Filter[] fs = new Filter[ar.size()];
+    // int x = 0;
+    // for (@SuppressWarnings("unchecked")
+    // Iterator<JSONObject> i = ar.iterator(); i.hasNext();) {
+    // JSONObject jsonObject = i.next();
+    // Filter f = (Filter) JSONObject.toBean(jsonObject, Filter.class);
+    // fs[x++] = f;
+    // }
+    // filters = fs;
+    // }
+    // sortProperty = form.getFirstValue("sort");
+    // sortDirection = form.getFirstValue("dir");
+    // }
 
     /**
      *
@@ -128,8 +130,8 @@ public class QueryRequest {
      *
      * @return
      */
-    public Filter[] getFilters() {
-        return filters;
+    public Iterable<Filter> getFilters() {
+        return Arrays.asList(filters);
     }
 
     /**

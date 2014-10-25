@@ -74,8 +74,8 @@ public class JaxRsDirectApplication extends BaseDirectContext implements IJaxRsD
             reader = new BufferedReader(new StringReader(input));
             StringWriter stringWriter = new StringWriter();
             writer = new PrintWriter(stringWriter);
-            IDirectHandlerContext handlerContext =
-                    new DirectJaxRsHandlerContext(this, requestType, uriInfo.getPath(), reader, writer);
+            IDirectHandlerContext handlerContext = new DirectJaxRsHandlerContext(this, requestType, uriInfo.getPath(),
+                    reader, writer);
             for (IDirectHandler handler : getDirectHandlers()) {
                 handler.process(handlerContext);
             }
@@ -116,7 +116,7 @@ public class JaxRsDirectApplication extends BaseDirectContext implements IJaxRsD
         try {
             minified = Minifier.minify(js, jsFileName, js.length());
         } catch (Exception e) {
-            logger.warn("Minifying failed return not minified JS.", e);
+            getLogger().warn("Minifying failed return not minified JS.", e);
         } finally {
             if (minified == null) {
                 minified = js;

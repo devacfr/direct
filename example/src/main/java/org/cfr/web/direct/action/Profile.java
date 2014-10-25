@@ -120,7 +120,7 @@ public class Profile {
 
         JSONFormResponse result = new JSONFormResponse();
         String email = formParameters.getFirstValue("email");
-        if (email.equals("aaron@extjs.com")) {
+        if ("aaron@extjs.com".equals(email)) {
             result.addFieldError("email", "already taken");
         }
         return result;

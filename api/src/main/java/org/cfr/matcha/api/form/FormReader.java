@@ -39,7 +39,7 @@ public class FormReader {
     /**
      * Static logger.
      */
-    private static Logger logger = LoggerFactory.getLogger(FormReader.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(FormReader.class);
 
     /** The encoding to use, decoding is enabled, see {@link #decoding}. */
     private volatile String characterSet;
@@ -105,13 +105,13 @@ public class FormReader {
                     }
                 }
             } catch (IOException ioe) {
-                logger.warn("Unable to parse a form parameter. Skipping the remaining parameters.", ioe);
+                LOGGER.warn("Unable to parse a form parameter. Skipping the remaining parameters.", ioe);
             }
 
             try {
                 this.stream.close();
             } catch (IOException ioe) {
-                logger.warn("Unable to close the form input stream", ioe);
+                LOGGER.warn("Unable to close the form input stream", ioe);
             }
         }
     }
@@ -191,7 +191,7 @@ public class FormReader {
                         } else if (nextChar == -1) {
                             // Do nothing return null preference
                         } else {
-                            logger.info("Empty parameter name detected. Please check your form data");
+                            LOGGER.info("Empty parameter name detected. Please check your form data");
                         }
                     } else {
                         nameBuffer.append((char) nextChar);

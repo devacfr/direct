@@ -68,7 +68,7 @@ public class TestAction {
     @DirectMethod
     public List<Node> getTree(String id) {
         List<Node> result = new ArrayList<Node>();
-        if (id.equals("root")) {
+        if ("root".equals(id)) {
             for (int i = 1; i <= 5; ++i) {
                 Node node = new Node();
                 node.id = "n" + i;
@@ -119,7 +119,7 @@ public class TestAction {
         String field = sortInfo.get("property").getAsString();
         String direction = sortInfo.get("direction").getAsString();
 
-        if (field.equals("name")) {
+        if ("name".equals(field)) {
             data.add(new GridRow("ABC Accounting", 50000));
             data.add(new GridRow("Ezy Video Rental", 106300));
             data.add(new GridRow("Greens Fruit Grocery", 120000));
@@ -135,7 +135,7 @@ public class TestAction {
             data.add(new GridRow("Smith Auto Mechanic", 222980));
         }
 
-        if (direction.equals("DESC")) {
+        if ("DESC".equals(direction)) {
             Collections.reverse(data);
         }
 

@@ -18,6 +18,7 @@ package org.cfr.matcha.api.response;
 import java.util.Map;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 import org.apache.commons.lang.StringUtils;
 
@@ -51,7 +52,9 @@ public class JSONFormResponse extends DefaultResourceResponse implements java.io
 
     /**
      * Adds error message for a specific field of form.
-     * @param errorMessage error message of a field
+     * 
+     * @param errorMessage
+     *            error message of a field
      */
     public void addFieldError(@Nonnull final FieldMessage errorMessage) {
         getErrors().put(errorMessage.getId(), errorMessage.getMsg());
@@ -59,8 +62,11 @@ public class JSONFormResponse extends DefaultResourceResponse implements java.io
 
     /**
      * Adds error message for a specific field of form.
-     * @param name the field name of form in error
-     * @param msg the error message
+     * 
+     * @param name
+     *            the field name of form in error
+     * @param msg
+     *            the error message
      */
     public void addFieldError(@Nonnull final String name, @Nonnull final String msg) {
         getErrors().put(name, msg);
@@ -95,6 +101,7 @@ public class JSONFormResponse extends DefaultResourceResponse implements java.io
      *
      * @return
      */
+    @Nullable
     public Object getData() {
         return data;
     }
@@ -103,7 +110,7 @@ public class JSONFormResponse extends DefaultResourceResponse implements java.io
      *
      * @param data
      */
-    public void setData(final Object data) {
+    public void setData(@Nullable final Object data) {
         this.data = data;
     }
 
@@ -111,7 +118,7 @@ public class JSONFormResponse extends DefaultResourceResponse implements java.io
      *
      * @param message
      */
-    public void setMessage(final String message) {
+    public void setMessage(@Nullable final String message) {
         this.message = message;
     }
 
@@ -119,6 +126,7 @@ public class JSONFormResponse extends DefaultResourceResponse implements java.io
      *
      * @return
      */
+    @Nullable
     public String getMessage() {
         return message;
     }

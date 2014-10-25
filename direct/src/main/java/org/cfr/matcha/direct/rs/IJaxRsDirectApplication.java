@@ -23,6 +23,9 @@ import com.softwarementors.extjs.djn.router.RequestType;
 
 public interface IJaxRsDirectApplication extends IDirectContext {
 
+    /**
+     * 
+     */
     public static final String PROVIDER_URL = "/direct";
 
     /**

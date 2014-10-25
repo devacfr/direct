@@ -72,7 +72,7 @@
             <pages>
                 <index project="matcha-parent">
                     <!-- Override the title -->
-                    <titleTemplate>Maven Config</titleTemplate>
+                    <titleTemplate>Matcha</titleTemplate>
                     <!-- no breadcrumbs on the main index page -->
                     <breadcrumbs>false</breadcrumbs>
                     <!-- no ToC on the main index page -->
@@ -124,7 +124,7 @@
         </links>
 
         <breadcrumbs>
-            <item name="Maven Config" href="/index.html" />
+            <item name="Matcha" href="/index.html" />
         </breadcrumbs>
 
         <menu name="Main" inherit="top">
@@ -133,9 +133,10 @@
             <item name="Release notes" href="release-notes.html" />
         </menu>
         <menu name="Documentation" inherit="bottom">
-            <item name="Usage" href="doc/index.html" />
-            <item name="Configuration" href="doc/config.html" />
-            <item name="Tips" href="doc/tips.html" />
+            <item name="Api Documentation" href="matcha-api/index.html" />
+            <item name="Core Documentation" href="matcha-direct/index.html" />
+            <item name="Spring Integration Documentation" href="matcha-direct-spring/index.html" />
+            <item name="Guice Integration Documentation" href="matcha-direct-Guice/index.html" />
         </menu>
         <menu name="Contribute" inherit="bottom">
             <item name="License" href="license.html" />

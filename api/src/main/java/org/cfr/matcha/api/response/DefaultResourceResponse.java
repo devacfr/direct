@@ -30,7 +30,8 @@ public class DefaultResourceResponse implements IResourceResponse {
     /**
      * Set an encoding used for reading/writing the model.
      *
-     * @param modelEncoding the encoding used when reading/writing the model.
+     * @param modelEncoding
+     *            the encoding used when reading/writing the model.
      */
     @Override
     public void setModelEncoding(final String modelEncoding) {

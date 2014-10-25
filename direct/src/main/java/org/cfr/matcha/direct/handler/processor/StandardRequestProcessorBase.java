@@ -37,22 +37,6 @@ public abstract class StandardRequestProcessorBase extends RequestProcessorBase 
 
     /**
      *
-     * @param request
-     * @param t
-     * @return
-     */
-    protected StandardErrorResponseData createJsonServerErrorResponse(@Nonnull final StandardRequestData request,
-                                                                      @Nonnull final Throwable t) {
-        Assert.notNull(request);
-        Assert.notNull(t);
-
-        StandardErrorResponseData response = new StandardErrorResponseData(request.getTid(), request.getAction(),//
-            request.getMethod(), t, getDebug());
-        return response;
-    }
-
-    /**
-     *
      * @param registry
      * @param dispatcher
      * @param globalConfiguration
@@ -62,8 +46,24 @@ public abstract class StandardRequestProcessorBase extends RequestProcessorBase 
         super(registry, dispatcher, globalConfiguration);
     }
 
+    /**
+     *
+     * @param request
+     * @param t
+     * @return
+     */
+    protected StandardErrorResponseData createJsonServerErrorResponse(@Nonnull final StandardRequestData request,
+            @Nonnull final Throwable t) {
+        Assert.notNull(request);
+        Assert.notNull(t);
+
+        StandardErrorResponseData response = new StandardErrorResponseData(request.getTid(), request.getAction(),//
+                request.getMethod(), t, getDebug());
+        return response;
+    }
+
     protected RegisteredStandardMethod getStandardMethod(@Nonnull final String actionName,
-                                                         @Nonnull final String methodName) {
+            @Nonnull final String methodName) {
         Assert.hasText(actionName);
         Assert.hasText(methodName);
 
@@ -80,7 +80,7 @@ public abstract class StandardRequestProcessorBase extends RequestProcessorBase 
     }
 
     protected Object dispatchStandardMethod(@Nonnull final String actionName, @Nonnull final String methodName,
-                                            @Nonnull final Object[] parameters) {
+            @Nonnull final Object[] parameters) {
         Assert.hasText(actionName);
         Assert.hasText(methodName);
         Assert.notNull(parameters);

@@ -1,183 +1,198 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-    <modelVersion>4.0.0</modelVersion>
-    <groupId>org.cfr.matcha</groupId>
-    <artifactId>matcha-parent</artifactId>
-    <version>1.0.0-SNAPSHOT</version>
-    <packaging>pom</packaging>
-    <name>matcha Framework</name>
-    <description>Framework allowing work with Extjs.</description>
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>org.cfr.matcha</groupId>
+	<artifactId>matcha-parent</artifactId>
+	<version>1.0.0-SNAPSHOT</version>
+	<packaging>pom</packaging>
+	<name>matcha Framework</name>
+	<description>Framework allowing work with Extjs.</description>
 
-    <parent>
-        <groupId>org.cfr</groupId>
-        <artifactId>maven-config</artifactId>
-        <version>5-SNAPSHOT</version>
-    </parent>
+	<parent>
+		<groupId>org.cfr</groupId>
+		<artifactId>maven-config</artifactId>
+		<version>6</version>
+	</parent>
 
-    <modules>
-        <module>api</module>
-        <module>direct</module>
-        <module>direct-guice</module>
-        <module>direct-spring</module>
-        <module>testing</module>
-        <module>example</module>
+	<modules>
+		<module>api</module>
+		<module>direct</module>
+		<module>direct-guice</module>
+		<module>direct-spring</module>
+		<module>testing</module>
+		<module>example</module>
 
-    </modules>
-    <developers>
-        <developer>
-            <id>devacfr</id>
-            <name>christophe friederich</name>
-            <email>christophefriederich@mac.com</email>
-            <timezone>Europe/Zurich</timezone>
-            <url>http://devacfr.github.io</url>
-        </developer>
-    </developers>
-    <scm>
-        <connection>scm:git:git@github.com:devacfr/matcha.git</connection>
-        <developerConnection>scm:git:git@github.com:devacfr/matcha.git</developerConnection>
-        <url>http://github.com/devacfr/matcha/tree/master</url>
-        <tag>HEAD</tag>
-    </scm>
-    <properties>
+	</modules>
+	<developers>
+		<developer>
+			<id>devacfr</id>
+			<name>christophe friederich</name>
+			<email>christophefriederich@mac.com</email>
+			<timezone>Europe/Zurich</timezone>
+			<url>http://devacfr.github.io</url>
+		</developer>
+	</developers>
+	<scm>
+		<connection>scm:git:git@github.com:devacfr/matcha.git</connection>
+		<developerConnection>scm:git:git@github.com:devacfr/matcha.git</developerConnection>
+		<url>http://github.com/devacfr/matcha/tree/master</url>
+		<tag>HEAD</tag>
+	</scm>
+	<properties>
 
-        <org.cfr.commons.version>1.0.1</org.cfr.commons.version>
-
-        <!-- External dependencies versions. -->
-        <directjngine.version>2.2</directjngine.version>
-        <javax.inject.version>1</javax.inject.version>
-        <gson.version>1.5</gson.version>
-        <yuicompressor.version>2.4.2</yuicompressor.version>
+		<!-- Enable report aggregation -->
+		<aggregate>true</aggregate>
 
 
-        <main.basedir>${project.basedir}</main.basedir>
+		<org.cfr.commons.version>1.0.1</org.cfr.commons.version>
 
-        <!-- Set compiler source and target versions -->
-        <maven.compiler.target>1.7</maven.compiler.target>
-
-        <!-- Enable report aggregation -->
-        <aggregate>true</aggregate>
-        <issue.url>https://github.com/devacfr/matcha/issues</issue.url>
-        <distribution.releaseRepositoryUrl>https://api.bintray.com/maven/devacfr/maven/matcha</distribution.releaseRepositoryUrl>
-        <ci.url>https://travis-ci.org/devacfr/matcha</ci.url>
-
-        <distribution.releaseRepositoryId>bintray</distribution.releaseRepositoryId>
-        <distribution.releaseRepositoryUrl>https://api.bintray.com/maven/devacfr/maven/matcha</distribution.releaseRepositoryUrl>
-        <distribution.snapshotRepositoryId>internal-repo</distribution.snapshotRepositoryId>
-        <distribution.snapshotRepositoryUrl>file:///Users/devacfr/Development/github/mvn-repo</distribution.snapshotRepositoryUrl>
+		<!-- External dependencies versions. -->
+		<directjngine.version>2.2</directjngine.version>
+		<javax.inject.version>1</javax.inject.version>
+		<gson.version>1.5</gson.version>
+		<yuicompressor.version>2.4.2</yuicompressor.version>
 
 
-        <site.url>http://devacfr.github.io/matcha/</site.url>
-        <site.deploy.url>http://github.com/devacfr/matcha</site.deploy.url>
-    </properties>
+		<!-- Set compiler source and target versions -->
+		<maven.compiler.target>1.7</maven.compiler.target>
 
-    <url>${site.url}</url>
+		<issue.url>https://github.com/devacfr/matcha/issues</issue.url>
+		<distribution.releaseRepositoryUrl>https://api.bintray.com/maven/devacfr/maven/matcha</distribution.releaseRepositoryUrl>
+		<ci.url>https://travis-ci.org/devacfr/matcha</ci.url>
 
-    <repositories>
-        <repository>
-            <id>maven-restlet</id>
-            <name>Public online Restlet repository</name>
-            <url>http://maven.restlet.org</url>
-        </repository>
-        <repository>
-            <id>bintray</id>
-            <url>http://dl.bintray.com/devacfr/maven</url>
-            <releases>
-                <enabled>true</enabled>
-            </releases>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
-        </repository>
-    </repositories>
+		<site.url>http://devacfr.github.io/matcha/</site.url>
+		<site.deploy.url>http://github.com/devacfr/matcha</site.deploy.url>
+	</properties>
 
-    <dependencyManagement>
-        <dependencies>
-            <dependency>
-                <groupId>org.cfr.commons</groupId>
-                <artifactId>commons-util</artifactId>
-                <version>${org.cfr.commons.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.softwarementors.extjs</groupId>
-                <artifactId>directjngine</artifactId>
-                <version>${directjngine.version}</version>
-                <exclusions>
-                    <exclusion>
-                        <groupId>log4j</groupId>
-                        <artifactId>log4j</artifactId>
-                    </exclusion>
-                </exclusions>
-            </dependency>
-            <dependency>
-                <groupId>javax.inject</groupId>
-                <artifactId>javax.inject</artifactId>
-                <version>${javax.inject.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.google.code.gson</groupId>
-                <artifactId>gson</artifactId>
-                <version>${gson.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>javax.ws.rs</groupId>
-                <artifactId>jsr311-api</artifactId>
-                <version>${jsr311.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.yahoo.platform.yui</groupId>
-                <artifactId>yuicompressor</artifactId>
-                <version>${yuicompressor.version}</version>
-            </dependency>
-        </dependencies>
-    </dependencyManagement>
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-site-plugin</artifactId>
-                <version>${maven-site-plugin.version}</version>
-                <dependencies>
-                    <dependency>
-                        <groupId>lt.velykis.maven.skins</groupId>
-                        <artifactId>reflow-velocity-tools</artifactId>
-                        <version>1.1.1</version>
-                    </dependency>
-                    <dependency>
-                        <groupId>org.apache.velocity</groupId>
-                        <artifactId>velocity</artifactId>
-                        <version>${velocity.version}</version>
-                    </dependency>
-                </dependencies>
-                <configuration>
-                    <relativizeDecorationLinks>false</relativizeDecorationLinks>
-                    <inputEncoding>UTF-8</inputEncoding>
-                    <outputEncoding>UTF-8</outputEncoding>
-                </configuration>
-            </plugin>
-        </plugins>
-    </build>
-    <profiles>
-        <profile>
-            <id>stage</id>
-            <build>
-                <plugins>
-                    <!-- Configure Maven site plugin to perform stage -> multi-modules -->
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-site-plugin</artifactId>
-                        <version>${maven-site-plugin.version}</version>
-                        <executions>
-                            <execution>
-                                <id>stage</id>
-                                <goals>
-                                    <goal>stage</goal>
-                                </goals>
-                                <phase>site</phase>
-                            </execution>
-                        </executions>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-    </profiles>
+	<url>${site.url}</url>
+
+	<repositories>
+		<repository>
+			<id>maven-restlet</id>
+			<name>Public online Restlet repository</name>
+			<url>http://maven.restlet.org</url>
+		</repository>
+		<repository>
+			<id>bintray</id>
+			<url>http://dl.bintray.com/devacfr/maven</url>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+		</repository>
+	</repositories>
+
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>org.cfr.commons</groupId>
+				<artifactId>commons-util</artifactId>
+				<version>${org.cfr.commons.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.softwarementors.extjs</groupId>
+				<artifactId>directjngine</artifactId>
+				<version>${directjngine.version}</version>
+				<exclusions>
+					<exclusion>
+						<groupId>log4j</groupId>
+						<artifactId>log4j</artifactId>
+					</exclusion>
+				</exclusions>
+			</dependency>
+			<dependency>
+				<groupId>javax.inject</groupId>
+				<artifactId>javax.inject</artifactId>
+				<version>${javax.inject.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.google.code.gson</groupId>
+				<artifactId>gson</artifactId>
+				<version>${gson.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>javax.ws.rs</groupId>
+				<artifactId>jsr311-api</artifactId>
+				<version>${jsr311.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.yahoo.platform.yui</groupId>
+				<artifactId>yuicompressor</artifactId>
+				<version>${yuicompressor.version}</version>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>${maven-surefire-plugin.version}</version>
+				<configuration>
+
+					<!-- BUGFIX in directjngine 2.2 in method RegisteredCode#getDebugCodeBuilder -->
+					<enableAssertions>false</enableAssertions>
+					<includes>
+						<include>**/*Test.java</include>
+					</includes>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+	<profiles>
+		<profile>
+			<id>reporting</id>
+			<reporting>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.rat</groupId>
+						<artifactId>apache-rat-plugin</artifactId>
+						<version>${maven-rat-plugin.version}</version>
+						<configuration>
+							<excludeSubProjects>false</excludeSubProjects>
+							<useEclipseDefaultExcludes>true</useEclipseDefaultExcludes>
+							<useMavenDefaultExcludes>true</useMavenDefaultExcludes>
+							<excludes>
+								<exclude>.git/**</exclude>
+								<exclude>**/.*</exclude>
+								<exclude>**/.settings/**</exclude>
+								<exclude>**/target/**</exclude>
+								<exclude>**/site/**</exclude>
+								<exclude>**/MANIFEST.MF</exclude>
+								<exclude>**/src/test/**/*.json</exclude>
+								<exclude>**/src/test/**/*.xml</exclude>
+								<exclude>**/*.md</exclude>
+								<!-- exclude extjs in example module -->
+								<exclude>**/webapp/ext/**</exclude>
+							</excludes>
+						</configuration>
+					</plugin>
+				</plugins>
+			</reporting>
+		</profile>
+		<profile>
+			<id>stage</id>
+			<build>
+				<plugins>
+					<!-- Configure Maven site plugin to perform stage -> multi-modules -->
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-site-plugin</artifactId>
+						<version>${maven-site-plugin.version}</version>
+						<executions>
+							<execution>
+								<id>stage</id>
+								<goals>
+									<goal>stage</goal>
+								</goals>
+								<phase>site</phase>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
 </project>

@@ -26,7 +26,7 @@ import com.softwarementors.extjs.djn.router.RequestType;
 
 public class DirectHandlerTest extends EasyMockTestCase {
 
-    private static List<RequestType> expectedTypes = DirectHandler.acceptedRequestTypeList;
+    private static List<RequestType> expectedTypes = DirectHandler.ACCEPTED_REQUEST_TYPE_LIST;
 
     private BaseDirectContext context;
 

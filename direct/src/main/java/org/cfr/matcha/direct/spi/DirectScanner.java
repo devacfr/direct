@@ -90,67 +90,68 @@ public class DirectScanner extends Scanner {
         }
 
         for (Method method : allMethods) {
-            // Check if the kind of direct method -if any
-            DirectMethod methodAnnotation = method.getAnnotation(DirectMethod.class);
-            boolean isStandardMethod = methodAnnotation != null;
+            registerMethod(method, actions, actionTemplate);
+        }
+    }
 
-            DirectFormPostMethod postMethodAnnotation = method.getAnnotation(DirectFormPostMethod.class);
-            boolean isFormPostMethod = postMethodAnnotation != null;
+    private void registerMethod(final Method method, final List<RegisteredAction> actions,
+            final RegisteredAction actionTemplate) {
+        // Check if the kind of direct method -if any
+        DirectMethod methodAnnotation = method.getAnnotation(DirectMethod.class);
+        boolean isStandardMethod = methodAnnotation != null;
 
-            DirectPollMethod pollMethodAnnotation = method.getAnnotation(DirectPollMethod.class);
-            boolean isPollMethod = pollMethodAnnotation != null;
+        DirectFormPostMethod postMethodAnnotation = method.getAnnotation(DirectFormPostMethod.class);
+        boolean isFormPostMethod = postMethodAnnotation != null;
 
-            // Check that a method is just of only one kind of method
-            if (isStandardMethod && isFormPostMethod) {
-                ApiConfigurationException ex =
-                        ApiConfigurationException.forMethodCantBeStandardAndFormPostMethodAtTheSameTime(actionTemplate,
-                            method);
+        DirectPollMethod pollMethodAnnotation = method.getAnnotation(DirectPollMethod.class);
+        boolean isPollMethod = pollMethodAnnotation != null;
+
+        // Check that a method is just of only one kind of method
+        if (isStandardMethod && isFormPostMethod) {
+            ApiConfigurationException ex = ApiConfigurationException
+                    .forMethodCantBeStandardAndFormPostMethodAtTheSameTime(actionTemplate, method);
+            LOGGER.error(ex.getMessage(), ex);
+            throw ex;
+        }
+        if ((methodAnnotation != null || postMethodAnnotation != null) && isPollMethod) {
+            ApiConfigurationException ex = ApiConfigurationException
+                    .forPollMethodCantBeStandardOrFormPostMethodAtTheSameTime(actionTemplate, method);
+            LOGGER.error(ex.getMessage(), ex);
+            throw ex;
+        }
+
+        // Process standard and form post methods together, as they are very similar
+        if (isStandardMethod || isFormPostMethod) {
+
+            String methodName = "";
+            if (isStandardMethod) {
+                methodName = getStandardMethodName(method, methodAnnotation);
+            } else {
+                methodName = getFormPostMethodName(method, postMethodAnnotation);
+            }
+            if (actionTemplate.hasStandardMethod(methodName)) {
+                ApiConfigurationException ex = ApiConfigurationException.forMethodAlreadyRegisteredInAction(methodName,
+                        actionTemplate.getName());
                 LOGGER.error(ex.getMessage(), ex);
                 throw ex;
             }
-            if ((methodAnnotation != null || postMethodAnnotation != null) && isPollMethod) {
-                ApiConfigurationException ex =
-                        ApiConfigurationException.forPollMethodCantBeStandardOrFormPostMethodAtTheSameTime(actionTemplate,
-                            method);
+
+            if (isFormPostMethod && !isValidFormHandlingMethod(method)) {
+                ApiConfigurationException ex = ApiConfigurationException.forMethodHasWrongParametersForAFormHandler(
+                        actionTemplate.getName(), methodName);
                 LOGGER.error(ex.getMessage(), ex);
                 throw ex;
             }
 
-            // Process standard and form post methods together, as they are very similar
-            if (isStandardMethod || isFormPostMethod) {
-
-                String methodName = "";
-                if (isStandardMethod) {
-                    methodName = getStandardMethodName(method, methodAnnotation);
-                } else {
-                    methodName = getFormPostMethodName(method, postMethodAnnotation);
-                }
-                if (actionTemplate.hasStandardMethod(methodName)) {
-                    ApiConfigurationException ex =
-                            ApiConfigurationException.forMethodAlreadyRegisteredInAction(methodName,
-                                actionTemplate.getName());
-                    LOGGER.error(ex.getMessage(), ex);
-                    throw ex;
-                }
-
-                if (isFormPostMethod && !isValidFormHandlingMethod(method)) {
-                    ApiConfigurationException ex =
-                            ApiConfigurationException.forMethodHasWrongParametersForAFormHandler(actionTemplate.getName(),
-                                methodName);
-                    LOGGER.error(ex.getMessage(), ex);
-                    throw ex;
-                }
-
-                for (RegisteredAction actionToRegister : actions) {
-                    actionToRegister.addStandardMethod(methodName, method, isFormPostMethod);
-                }
+            for (RegisteredAction actionToRegister : actions) {
+                actionToRegister.addStandardMethod(methodName, method, isFormPostMethod);
             }
+        }
 
-            // Process "poll" method
-            if (isPollMethod) {
-                for (RegisteredAction actionToRegister : actions) {
-                    createPollMethod(actionToRegister, method, pollMethodAnnotation);
-                }
+        // Process "poll" method
+        if (isPollMethod) {
+            for (RegisteredAction actionToRegister : actions) {
+                createPollMethod(actionToRegister, method, pollMethodAnnotation);
             }
         }
     }
@@ -183,7 +184,7 @@ public class DirectScanner extends Scanner {
      * @return
      */
     private RegisteredPollMethod createPollMethod(final RegisteredAction action, final Method method,
-                                                  final DirectPollMethod pollMethodAnnotation) {
+            final DirectPollMethod pollMethodAnnotation) {
         Assert.notNull(action);
         Assert.notNull(method);
 
@@ -235,10 +236,8 @@ public class DirectScanner extends Scanner {
         for (String actionName : actionNames) {
             if (this.registry.hasAction(actionName)) {
                 RegisteredAction existingAction = this.registry.getAction(actionName);
-                ApiConfigurationException ex =
-                        ApiConfigurationException.forActionAlreadyRegistered(actionName,
-                            actionClass,
-                            existingAction.getActionClass());
+                ApiConfigurationException ex = ApiConfigurationException.forActionAlreadyRegistered(actionName,
+                        actionClass, existingAction.getActionClass());
                 LOGGER.error(ex.getMessage(), ex);
                 throw ex;
             }

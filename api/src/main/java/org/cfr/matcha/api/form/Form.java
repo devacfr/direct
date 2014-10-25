@@ -227,7 +227,7 @@ public class Form extends Parameters<Parameter> {
      */
     public static void parse(@Nonnull final Form form, @Nullable final String parametersString,
                              @Nonnull final String characterSet, @Nonnull final boolean decode, final char separator) {
-        if (parametersString != null && !parametersString.equals("")) {
+        if (parametersString != null && !"".equals(parametersString)) {
             FormReader fr = null;
 
             if (decode) {

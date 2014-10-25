@@ -38,15 +38,17 @@ import com.softwarementors.extjs.djn.router.RequestType;
 public class UploadFormHandler extends BaseHandler {
 
     /**
+    *
+    */
+   public static final List<RequestType> ACCEPTED_REQUEST_TYPELIST =
+           Collections.unmodifiableList(Arrays.asList(RequestType.FORM_UPLOAD_POST));
+   
+   
+    /**
      *
      */
     private final ServletFileUpload uploader = UploadFormPostRequestProcessor.createFileUploader();
 
-    /**
-     *
-     */
-    public static final List<RequestType> ACCEPTED_REQUEST_TYPELIST =
-            Collections.unmodifiableList(Arrays.asList(RequestType.FORM_UPLOAD_POST));
 
     @Override
     public List<RequestType> getAcceptedRequestType() {

@@ -44,44 +44,45 @@ import org.slf4j.LoggerFactory;
 public class DirectJSResource {
 
     /**
+    *
+    */
+   public static final String FILE_DJN_REMOTE_CALL_SUPPORT = "djn-remote-call-support.js";
+
+   /**
+    *
+    */
+   public static final String FILE_EJN_ASSERT = "ejn-assert.js";
+
+   /**
+    *
+    */
+   public static final String FILE_DIRECT_API = "direct-api.js";
+
+   /**
+    *
+    */
+   public static final String FILE_DIRECT_DEBUG_API = "direct-debug-api.js";
+
+   /**
+    *
+    */
+   public static final String PATH_DJN_REMOTE_CALL_SUPPORT = "classpath:djn/" + FILE_DJN_REMOTE_CALL_SUPPORT;
+
+   /**
+    *
+    */
+   public static final String PATH_EJN_ASSERT = "classpath:ejn/" + FILE_EJN_ASSERT;
+
+   /**
+    *
+    */
+   public static final String NO_JS_FILE = "No js file found with name: ";
+   
+    /**
      *
      */
     private static final Logger LOGGER = LoggerFactory.getLogger(DirectJSResource.class);
 
-    /**
-     *
-     */
-    public static final String FILE_DJN_REMOTE_CALL_SUPPORT = "djn-remote-call-support.js";
-
-    /**
-     *
-     */
-    public static final String FILE_EJN_ASSERT = "ejn-assert.js";
-
-    /**
-     *
-     */
-    public static final String FILE_DIRECT_API = "direct-api.js";
-
-    /**
-     *
-     */
-    public static final String FILE_DIRECT_DEBUG_API = "direct-debug-api.js";
-
-    /**
-     *
-     */
-    public static final String PATH_DJN_REMOTE_CALL_SUPPORT = "classpath:djn/" + FILE_DJN_REMOTE_CALL_SUPPORT;
-
-    /**
-     *
-     */
-    public static final String PATH_EJN_ASSERT = "classpath:ejn/" + FILE_EJN_ASSERT;
-
-    /**
-     *
-     */
-    public static final String NO_JS_FILE = "No js file found with name: ";
 
     /** Action Context  */
     @Inject

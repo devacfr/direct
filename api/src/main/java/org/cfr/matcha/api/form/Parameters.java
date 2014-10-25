@@ -23,42 +23,31 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import com.google.common.collect.Lists;
+
 /**
- * Modifiable list of entries with many helper methods. Note that this class
- * uses the Parameter class as the template type. This allows you to use an
- * instance of this class as any other java.util.List, in particular all the
- * helper methods in java.util.Collections.
+ * Modifiable list of entries with many helper methods. Note that this class uses the Parameter class as the template
+ * type. This allows you to use an instance of this class as any other java.util.List, in particular all the helper
+ * methods in java.util.Collections.
  *
  * @author devacfr<christophefriederich@mac.com>
  * @since 1.0
- * @param <E> The contained type
+ * @param <E>
+ *            The contained type
  * @see java.util.Collections
  * @see java.util.List
  */
 public abstract class Parameters<E extends Parameter> extends ArrayList<E> {
 
     /**
-     *
-     */
-    private static final long serialVersionUID = 2230241905213874484L;
-
-    /**
-     * A marker for empty values to differentiate from non existing values
-     * (null).
+     * A marker for empty values to differentiate from non existing values (null).
      */
     public static final Object EMPTY_VALUE = new Object();
 
     /**
-     * Returns an unmodifiable view of the specified series. Attempts to call a
-     * modification method will throw an UnsupportedOperationException.
      *
-     * @param series The series for which an unmodifiable view should be returned.
-     * @return The unmodifiable view of the specified series.
      */
-    @SuppressWarnings("unchecked")
-    public static Parameters<? extends Parameter> unmodifiableSeries(final Parameters<? extends Parameter> series) {
-        return new Form((List<Parameter>) series);
-    }
+    private static final long serialVersionUID = 2230241905213874484L;
 
     /**
      * Constructor.
@@ -70,7 +59,8 @@ public abstract class Parameters<E extends Parameter> extends ArrayList<E> {
     /**
      * Constructor.
      *
-     * @param initialCapacity The initial list capacity.
+     * @param initialCapacity
+     *            The initial list capacity.
      */
     public Parameters(final int initialCapacity) {
         super(initialCapacity);
@@ -79,17 +69,33 @@ public abstract class Parameters<E extends Parameter> extends ArrayList<E> {
     /**
      * Constructor.
      *
-     * @param list The list.
+     * @param list
+     *            The list.
      */
     public Parameters(final List<E> list) {
         super(list);
     }
 
     /**
+     * Returns an unmodifiable view of the specified series. Attempts to call a modification method will throw an
+     * UnsupportedOperationException.
+     *
+     * @param series
+     *            The series for which an unmodifiable view should be returned.
+     * @return The unmodifiable view of the specified series.
+     */
+    @SuppressWarnings("unchecked")
+    public static Parameters<? extends Parameter> unmodifiableSeries(final Parameters<? extends Parameter> series) {
+        return new Form((List<Parameter>) series);
+    }
+
+    /**
      * Creates then adds a parameter at the end of the list.
      *
-     * @param name The parameter name.
-     * @param value The parameter value.
+     * @param name
+     *            The parameter name.
+     * @param value
+     *            The parameter value.
      * @return True (as per the general contract of the Collection.add method).
      */
     public boolean add(final String name, final String value) {
@@ -101,7 +107,8 @@ public abstract class Parameters<E extends Parameter> extends ArrayList<E> {
      * If a matching parameter is found, its value is put in the map.<br>
      * If multiple values are found, a list is created and set in the map.
      *
-     * @param params The map controlling the copy.
+     * @param params
+     *            The map controlling the copy.
      */
     @SuppressWarnings("unchecked")
     public void copyTo(final Map<String, Object> params) {
@@ -122,7 +129,7 @@ public abstract class Parameters<E extends Parameter> extends ArrayList<E> {
                     } else {
                         // Second value found for this entry
                         // Create a list of values
-                        values = new ArrayList<Object>();
+                        values = Lists.newArrayList();
                         values.add(currentValue);
                         params.put(param.getName(), values);
                     }
@@ -146,8 +153,10 @@ public abstract class Parameters<E extends Parameter> extends ArrayList<E> {
     /**
      * Creates a new entry.
      *
-     * @param name The name of the entry.
-     * @param value The value of the entry.
+     * @param name
+     *            The name of the entry.
+     * @param value
+     *            The value of the entry.
      * @return A new entry.
      */
     public abstract E createParameter(String name, String value);
@@ -162,11 +171,12 @@ public abstract class Parameters<E extends Parameter> extends ArrayList<E> {
     public abstract Parameters<E> createSeries(List<E> delegate);
 
     /**
-     * Tests the equality of two string, potentially null, which a case
-     * sensitivity flag.
+     * Tests the equality of two string, potentially null, which a case sensitivity flag.
      *
-     * @param value1 The first value.
-     * @param value2 The second value.
+     * @param value1
+     *            The first value.
+     * @param value2
+     *            The second value.
      * @param ignoreCase
      *            Indicates if the test should be case insensitive.
      * @return True if both values are equal.
@@ -190,7 +200,8 @@ public abstract class Parameters<E extends Parameter> extends ArrayList<E> {
     /**
      * Returns the first parameter found with the given name.
      *
-     * @param name The parameter name (case sensitive).
+     * @param name
+     *            The parameter name (case sensitive).
      * @return The first parameter found with the given name.
      */
     public E getFirst(final String name) {
@@ -200,8 +211,10 @@ public abstract class Parameters<E extends Parameter> extends ArrayList<E> {
     /**
      * Returns the first parameter found with the given name.
      *
-     * @param name The parameter name.
-     * @param ignoreCase Indicates if the name comparison is case insensitive.
+     * @param name
+     *            The parameter name.
+     * @param ignoreCase
+     *            Indicates if the name comparison is case insensitive.
      * @return The first parameter found with the given name.
      */
     public E getFirst(final String name, final boolean ignoreCase) {
@@ -217,7 +230,8 @@ public abstract class Parameters<E extends Parameter> extends ArrayList<E> {
     /**
      * Returns the value of the first parameter found with the given name.
      *
-     * @param name The parameter name (case sensitive).
+     * @param name
+     *            The parameter name (case sensitive).
      * @return The value of the first parameter found with the given name.
      */
     public String getFirstValue(final String name) {
@@ -227,8 +241,10 @@ public abstract class Parameters<E extends Parameter> extends ArrayList<E> {
     /**
      * Returns the value of the first parameter found with the given name.
      *
-     * @param name The parameter name.
-     * @param ignoreCase Indicates if the name comparison is case sensitive.
+     * @param name
+     *            The parameter name.
+     * @param ignoreCase
+     *            Indicates if the name comparison is case sensitive.
      * @return The value of the first parameter found with the given name.
      */
     public String getFirstValue(final String name, final boolean ignoreCase) {
@@ -238,12 +254,13 @@ public abstract class Parameters<E extends Parameter> extends ArrayList<E> {
     /**
      * Returns the value of the first parameter found with the given name.
      *
-     * @param name The parameter name.
-     * @param ignoreCase Indicates if the name comparison is case sensitive.
-     * @param defaultValue The default value to return if no matching parameter found or
-     * if the parameter has a null value.
-     * @return The value of the first parameter found with the given name or the
-     *         default value.
+     * @param name
+     *            The parameter name.
+     * @param ignoreCase
+     *            Indicates if the name comparison is case sensitive.
+     * @param defaultValue
+     *            The default value to return if no matching parameter found or if the parameter has a null value.
+     * @return The value of the first parameter found with the given name or the default value.
      */
     public String getFirstValue(final String name, final boolean ignoreCase, final String defaultValue) {
         String result = defaultValue;
@@ -259,11 +276,11 @@ public abstract class Parameters<E extends Parameter> extends ArrayList<E> {
     /**
      * Returns the value of the first parameter found with the given name.
      *
-     * @param name The parameter name (case sensitive).
-     * @param defaultValue The default value to return if no matching parameter found or
-     * if the parameter has a null value.
-     * @return The value of the first parameter found with the given name or the
-     *         default value.
+     * @param name
+     *            The parameter name (case sensitive).
+     * @param defaultValue
+     *            The default value to return if no matching parameter found or if the parameter has a null value.
+     * @return The value of the first parameter found with the given name or the default value.
      */
     public String getFirstValue(final String name, final String defaultValue) {
         return getFirstValue(name, false, defaultValue);
@@ -285,11 +302,11 @@ public abstract class Parameters<E extends Parameter> extends ArrayList<E> {
     }
 
     /**
-     * Returns the values of the parameters with a given name. If multiple
-     * parameters with the same name are found, all values are concatenated and
-     * separated by a comma (like for HTTP message headers).
+     * Returns the values of the parameters with a given name. If multiple parameters with the same name are found, all
+     * values are concatenated and separated by a comma (like for HTTP message headers).
      *
-     * @param name The parameter name (case insensitive).
+     * @param name
+     *            The parameter name (case insensitive).
      * @return The values of the parameters with a given name.
      */
     public String getValues(final String name) {
@@ -297,13 +314,15 @@ public abstract class Parameters<E extends Parameter> extends ArrayList<E> {
     }
 
     /**
-     * Returns the parameter values with a given name. If multiple parameters
-     * with the same name are found, all values are concatenated and separated
-     * by the given separator.
+     * Returns the parameter values with a given name. If multiple parameters with the same name are found, all values
+     * are concatenated and separated by the given separator.
      *
-     * @param name The parameter name.
-     * @param separator The separator character.
-     * @param ignoreCase Indicates if the name comparison is case sensitive.
+     * @param name
+     *            The parameter name.
+     * @param separator
+     *            The separator character.
+     * @param ignoreCase
+     *            Indicates if the name comparison is case sensitive.
      * @return The sequence of values.
      */
     public String getValues(final String name, final String separator, final boolean ignoreCase) {
@@ -333,10 +352,10 @@ public abstract class Parameters<E extends Parameter> extends ArrayList<E> {
     }
 
     /**
-     * Returns an array of all the values associated to the given parameter
-     * name.
+     * Returns an array of all the values associated to the given parameter name.
      *
-     * @param name The parameter name to match.
+     * @param name
+     *            The parameter name to match.
      * @return The array of values.
      */
     public String[] getValuesArray(final String name) {
@@ -344,8 +363,7 @@ public abstract class Parameters<E extends Parameter> extends ArrayList<E> {
     }
 
     /**
-     * Returns an array of all the values associated to the given parameter
-     * name.
+     * Returns an array of all the values associated to the given parameter name.
      *
      * @param name
      *            The parameter name to match.
@@ -365,9 +383,8 @@ public abstract class Parameters<E extends Parameter> extends ArrayList<E> {
     }
 
     /**
-     * Returns a map of name, value pairs. The order of the map keys is
-     * respected based on the series order. When a name has multiple values,
-     * only the first one is put in the map.
+     * Returns a map of name, value pairs. The order of the map keys is respected based on the series order. When a name
+     * has multiple values, only the first one is put in the map.
      *
      * @return The map of name, value pairs.
      */
@@ -419,10 +436,10 @@ public abstract class Parameters<E extends Parameter> extends ArrayList<E> {
     }
 
     /**
-     * Removes from this list the first entry whose name equals the specified
-     * name ignoring the case.
+     * Removes from this list the first entry whose name equals the specified name ignoring the case.
      *
-     * @param name The name of the entries to be removed (case sensitive).
+     * @param name
+     *            The name of the entries to be removed (case sensitive).
      * @return false if no entry has been removed, true otherwise.
      */
     public boolean removeFirst(final String name) {
@@ -430,11 +447,12 @@ public abstract class Parameters<E extends Parameter> extends ArrayList<E> {
     }
 
     /**
-     * Removes from this list the first entry whose name equals the specified
-     * name ignoring the case or not.
+     * Removes from this list the first entry whose name equals the specified name ignoring the case or not.
      *
-     * @param name The name of the entries to be removed.
-     * @param ignoreCase Indicates if the name comparison is case insensitive.
+     * @param name
+     *            The name of the entries to be removed.
+     * @param ignoreCase
+     *            Indicates if the name comparison is case insensitive.
      * @return false if no entry has been removed, true otherwise.
      */
     public boolean removeFirst(final String name, final boolean ignoreCase) {
@@ -453,12 +471,13 @@ public abstract class Parameters<E extends Parameter> extends ArrayList<E> {
     }
 
     /**
-     * Replaces the value of the first parameter with the given name and removes
-     * all other parameters with the same name. The name matching is case
-     * sensitive.
+     * Replaces the value of the first parameter with the given name and removes all other parameters with the same
+     * name. The name matching is case sensitive.
      *
-     * @param name The parameter name.
-     * @param value The value to set.
+     * @param name
+     *            The parameter name.
+     * @param value
+     *            The value to set.
      * @return The parameter set or added.
      */
     public E set(final String name, final String value) {
@@ -466,12 +485,15 @@ public abstract class Parameters<E extends Parameter> extends ArrayList<E> {
     }
 
     /**
-     * Replaces the value of the first parameter with the given name and removes
-     * all other parameters with the same name.
+     * Replaces the value of the first parameter with the given name and removes all other parameters with the same
+     * name.
      *
-     * @param name The parameter name.
-     * @param value The value to set.
-     * @param ignoreCase Indicates if the name comparison is case insensitive.
+     * @param name
+     *            The parameter name.
+     * @param value
+     *            The value to set.
+     * @param ignoreCase
+     *            Indicates if the name comparison is case insensitive.
      * @return The parameter set or added.
      */
     public E set(final String name, final String value, final boolean ignoreCase) {
@@ -503,22 +525,24 @@ public abstract class Parameters<E extends Parameter> extends ArrayList<E> {
     }
 
     /**
-     * Returns a view of the portion of this list between the specified
-     * fromIndex, inclusive, and toIndex, exclusive.
+     * Returns a view of the portion of this list between the specified fromIndex, inclusive, and toIndex, exclusive.
      *
-     * @param fromIndex The start position.
-     * @param toIndex The end position (exclusive).
+     * @param fromIndex
+     *            The start position.
+     * @param toIndex
+     *            The end position (exclusive).
      * @return The sub-list.
      */
     @Override
     public Parameters<E> subList(final int fromIndex, final int toIndex) {
-        return createSeries(subList(fromIndex, toIndex));
+        return createSeries(super.subList(fromIndex, toIndex));
     }
 
     /**
      * Returns a list of all the values associated to the parameter name.
      *
-     * @param name The parameter name (case sensitive).
+     * @param name
+     *            The parameter name (case sensitive).
      * @return The list of values.
      */
     public Parameters<E> subList(final String name) {
@@ -528,8 +552,10 @@ public abstract class Parameters<E extends Parameter> extends ArrayList<E> {
     /**
      * Returns a list of all the values associated to the parameter name.
      *
-     * @param name The parameter name.
-     * @param ignoreCase Indicates if the name comparison is case insensitive.
+     * @param name
+     *            The parameter name.
+     * @param ignoreCase
+     *            Indicates if the name comparison is case insensitive.
      * @return The list of values.
      */
     public Parameters<E> subList(final String name, final boolean ignoreCase) {

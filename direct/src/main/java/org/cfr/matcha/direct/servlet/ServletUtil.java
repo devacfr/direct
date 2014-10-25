@@ -57,7 +57,7 @@ public abstract class ServletUtil {
         } else if (StringUtils.startsWithCaseInsensitive(contentType, "application/json")) {
             return RequestType.JSON;
         } else if (StringUtils.startsWithCaseInsensitive(contentType, "application/x-www-form-urlencoded")
-                && request.getMethod().equalsIgnoreCase("post")) {
+                && "post".equalsIgnoreCase(request.getMethod())) {
             return RequestType.FORM_SIMPLE_POST;
         } else if (ServletFileUpload.isMultipartContent(request)) {
             return RequestType.FORM_UPLOAD_POST;
