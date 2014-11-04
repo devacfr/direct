@@ -1,8 +1,22 @@
+/**
+ * Copyright 2014 devacfr<christophefriederich@mac.com>
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package org.cfr.matcha.direct.spi;
 
 import org.cfr.direct.testing.EasyMockTestCase;
 import org.cfr.matcha.direct.IConfigurationSupport;
-import org.cfr.matcha.direct.spi.ConfigurationProvider;
 import org.junit.Test;
 
 import com.softwarementors.extjs.djn.config.GlobalConfiguration;
@@ -45,13 +59,15 @@ public class ConfigurationProviderTest extends EasyMockTestCase {
         directConfiguration.setDebug(debug);
         boolean minify = !GlobalConfiguration.DEFAULT_MINIFY_VALUE;
         directConfiguration.setMinify(minify);
-        boolean batchRequestsMultithreadingEnabled = !GlobalConfiguration.DEFAULT_BATCH_REQUESTS_MULTITHREADING_ENABLED_VALUE;
+        boolean batchRequestsMultithreadingEnabled =
+                !GlobalConfiguration.DEFAULT_BATCH_REQUESTS_MULTITHREADING_ENABLED_VALUE;
         directConfiguration.setBatchRequestsMultithreadingEnabled(batchRequestsMultithreadingEnabled);
         int batchRequestsMinThreadsPoolSize = GlobalConfiguration.DEFAULT_BATCH_REQUESTS_MIN_THREAD_POOL_SIZE + 3;
         directConfiguration.setBatchRequestsMinThreadsPoolSize(batchRequestsMinThreadsPoolSize);
         int batchRequestsMaxThreadsPoolSize = GlobalConfiguration.DEFAULT_BATCH_REQUESTS_MAX_THREAD_POOL_SIZE + 3;
         directConfiguration.setBatchRequestsMaxThreadsPoolSize(batchRequestsMaxThreadsPoolSize);
-        int batchRequestsThreadKeepAliveSeconds = GlobalConfiguration.DEFAULT_BATCH_REQUESTS_THREAD_KEEP_ALIVE_SECONDS + 3;
+        int batchRequestsThreadKeepAliveSeconds =
+                GlobalConfiguration.DEFAULT_BATCH_REQUESTS_THREAD_KEEP_ALIVE_SECONDS + 3;
         directConfiguration.setBatchRequestsThreadKeepAliveSeconds(batchRequestsThreadKeepAliveSeconds);
         int batchRequestsMaxThreadsPerRequest = GlobalConfiguration.DEFAULT_BATCH_REQUESTS_MAX_THREADS_PER_REQUEST + 3;
         directConfiguration.setBatchRequestsMaxThreadsPerRequest(batchRequestsMaxThreadsPerRequest);
@@ -90,13 +106,15 @@ public class ConfigurationProviderTest extends EasyMockTestCase {
         directConfiguration.setDebug(debug);
         boolean minify = !GlobalConfiguration.DEFAULT_MINIFY_VALUE;
         directConfiguration.setMinify(minify);
-        boolean batchRequestsMultithreadingEnabled = !GlobalConfiguration.DEFAULT_BATCH_REQUESTS_MULTITHREADING_ENABLED_VALUE;
+        boolean batchRequestsMultithreadingEnabled =
+                !GlobalConfiguration.DEFAULT_BATCH_REQUESTS_MULTITHREADING_ENABLED_VALUE;
         directConfiguration.setBatchRequestsMultithreadingEnabled(batchRequestsMultithreadingEnabled);
         int batchRequestsMinThreadsPoolSize = GlobalConfiguration.DEFAULT_BATCH_REQUESTS_MIN_THREAD_POOL_SIZE + 3;
         directConfiguration.setBatchRequestsMinThreadsPoolSize(batchRequestsMinThreadsPoolSize);
         int batchRequestsMaxThreadsPoolSize = GlobalConfiguration.DEFAULT_BATCH_REQUESTS_MAX_THREAD_POOL_SIZE + 3;
         directConfiguration.setBatchRequestsMaxThreadsPoolSize(batchRequestsMaxThreadsPoolSize);
-        int batchRequestsThreadKeepAliveSeconds = GlobalConfiguration.DEFAULT_BATCH_REQUESTS_THREAD_KEEP_ALIVE_SECONDS + 3;
+        int batchRequestsThreadKeepAliveSeconds =
+                GlobalConfiguration.DEFAULT_BATCH_REQUESTS_THREAD_KEEP_ALIVE_SECONDS + 3;
         directConfiguration.setBatchRequestsThreadKeepAliveSeconds(batchRequestsThreadKeepAliveSeconds);
         int batchRequestsMaxThreadsPerRequest = GlobalConfiguration.DEFAULT_BATCH_REQUESTS_MAX_THREADS_PER_REQUEST + 3;
         directConfiguration.setBatchRequestsMaxThreadsPerRequest(batchRequestsMaxThreadsPerRequest);

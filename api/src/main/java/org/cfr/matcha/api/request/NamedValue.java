@@ -1,4 +1,6 @@
 /**
+ * Copyright 2014 devacfr<christophefriederich@mac.com>
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -13,37 +15,44 @@
  */
 package org.cfr.matcha.api.request;
 
+import javax.annotation.Nonnull;
+
+import org.cfr.commons.util.Assert;
+
 /**
- * POJO Class used mainly to populate Ext.ComboxBox  
- * @author devacfr
+ * POJO Class used mainly to populate Ext.ComboxBox
+ * @author devacfr<christophefriederich@mac.com>
  *
  */
 public class NamedValue {
 
-    private String code;
+    /**
+     *
+     */
+    private final String value;
 
-    private String name;
+    /**
+     *
+     */
+    private final String name;
 
-    public NamedValue(String code, String name) {
+    /**
+     *
+     * @param value
+     * @param name
+     */
+    public NamedValue(@Nonnull final String name, @Nonnull final String value) {
         super();
-        this.code = code;
-        this.name = name;
+        this.name = Assert.notNull(name);
+        this.value = Assert.notNull(value);
     }
 
-    public String getCode() {
-        return code;
-    }
-
-    public void setCode(String code) {
-        this.code = code;
-    }
-
-    public String getName() {
+    public @Nonnull String getName() {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public @Nonnull String getValue() {
+        return value;
     }
 
 }

@@ -11,7 +11,7 @@
     <parent>
         <groupId>org.cfr</groupId>
         <artifactId>maven-config</artifactId>
-        <version>3</version>
+        <version>6</version>
     </parent>
 
     <modules>
@@ -21,8 +21,8 @@
         <module>direct-spring</module>
         <module>testing</module>
         <module>example</module>
-
     </modules>
+
     <developers>
         <developer>
             <id>devacfr</id>
@@ -42,15 +42,16 @@
 
         <!-- External dependencies versions. -->
         <directjngine.version>2.2</directjngine.version>
-        <javax.inject.version>1</javax.inject.version>
         <gson.version>1.5</gson.version>
         <yuicompressor.version>2.4.2</yuicompressor.version>
 
         <!-- Enable report aggregation -->
         <aggregate>true</aggregate>
+        <site.url>http://devacfr.github.io/matcha</site.url>
+        
         <issue.url>https://github.com/devacfr/matcha/issues</issue.url>
         <distribution.releaseRepositoryUrl>https://api.bintray.com/maven/devacfr/maven/matcha</distribution.releaseRepositoryUrl>
-        <CI.url>https://travis-ci.org/devacfr/matcha</CI.url>
+        <ci.url>https://travis-ci.org/devacfr/matcha</ci.url>
     </properties>
 
     <repositories>
@@ -90,11 +91,6 @@
                 </exclusions>
             </dependency>
             <dependency>
-                <groupId>javax.inject</groupId>
-                <artifactId>javax.inject</artifactId>
-                <version>${javax.inject.version}</version>
-            </dependency>
-            <dependency>
                 <groupId>com.google.code.gson</groupId>
                 <artifactId>gson</artifactId>
                 <version>${gson.version}</version>
@@ -111,4 +107,18 @@
             </dependency>
         </dependencies>
     </dependencyManagement>
+    <build>
+        <profile>
+            <id>github</id>
+            <activation>
+                <property>
+                    <name>!deployGithubDisabled</name>
+                </property>
+            </activation>
+            <properties>
+                <site.deploy.id>github</site.deploy.id>
+                <site.deploy.url>git:ssh://git@github.com/devacfr/matcha.git?gh-pages#/</site.deploy.url>
+            </properties>
+        </profile>
+    </build>
 </project>

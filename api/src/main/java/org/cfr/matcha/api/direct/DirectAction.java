@@ -1,4 +1,6 @@
 /**
+ * Copyright 2014 devacfr<christophefriederich@mac.com>
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -36,8 +38,8 @@ import java.lang.annotation.Target;
  * this action contains a method can call directly in your Javascript:
  * <pre>
  * TestAction.doEcho( field.getValue(),function(result, event) {
- *          var transaction = event.getTransaction(), 
- *              content = 
+ *          var transaction = event.getTransaction(),
+ *              content =
  *                  format('&lt;b&gt;Successful call to {0}.{1} with response:&lt;/b&gt;&lt;pre&gt;{2}&lt;/pre&gt;',
  *                         transaction.action,transaction.method, Ext.encode(result));
  *              updateMain(content);

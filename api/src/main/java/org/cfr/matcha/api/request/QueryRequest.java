@@ -1,4 +1,6 @@
 /**
+ * Copyright 2014 devacfr<christophefriederich@mac.com>
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -13,21 +15,30 @@
  */
 package org.cfr.matcha.api.request;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import org.apache.commons.lang.StringUtils;
+import org.cfr.commons.util.Assert;
 import org.cfr.matcha.api.request.Query.SortDirection;
 
-import com.google.gson.GsonBuilder;
-
+/**
+ *
+ * @author devacfr<christophefriederich@mac.com>
+ *
+ */
 @XmlRootElement()
 public class QueryRequest {
 
-    private static GsonBuilder gson = new GsonBuilder();
-
-    public static Query createQuery(QueryRequest queryRequest) {
-        Query query = new Query();
-        query.setQuery(queryRequest.getQuery());
+    /**
+     *
+     * @param queryRequest
+     * @return
+     */
+    public static @Nonnull Query createQuery(@Nonnull final QueryRequest queryRequest) {
+        Assert.notNull(queryRequest);
+        Query query = new Query(queryRequest.getQuery());
         query.setStart(queryRequest.getStart());
         query.setLimit(queryRequest.getLimit());
         if (queryRequest.getSortDirection() != null) {
@@ -51,12 +62,24 @@ public class QueryRequest {
      */
     private final int limit = 0;
 
+    /**
+     *
+     */
     private String query;
 
+    /**
+     *
+     */
     private String sortProperty;
 
+    /**
+     *
+     */
     private String sortDirection;
 
+    /**
+     *
+     */
     private Filter[] filters;
 
     // TODO [devacfr] request restlet constructor, find better to remove restlet dependency
@@ -83,20 +106,34 @@ public class QueryRequest {
     //        sortProperty = form.getFirstValue("sort");
     //        sortDirection = form.getFirstValue("dir");
     //    }
+    //
+    //    /**
+    //     *
+    //     * @param filter
+    //     * @return
+    //     */
+    //    public static Filter[] jsonToFilter(final String filter) {
+    //        if (StringUtils.isEmpty(filter)) {
+    //            return null;
+    //        }
+    //
+    //        return gson.create().fromJson(filter, Filter[].class);
+    //    }
 
-    public static Filter[] jsonToFilter(String filter) {
-        if (StringUtils.isEmpty(filter)) {
-            return null;
-        }
-
-        return gson.create().fromJson(filter, Filter[].class);
-    }
-
+    /**
+     *
+     * @return
+     */
     public Filter[] getFilters() {
         return filters;
     }
 
-    public Filter getFilter(String propertyName) {
+    /**
+     *
+     * @param propertyName
+     * @return
+     */
+    public @Nullable Filter getFilter(final String propertyName) {
         if (filters == null || filters.length == 0 || StringUtils.isEmpty(propertyName)) {
             return null;
         }
@@ -108,22 +145,42 @@ public class QueryRequest {
         return null;
     }
 
+    /**
+     *
+     * @return
+     */
     public int getLimit() {
         return limit;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getQuery() {
         return query;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getSortDirection() {
         return sortDirection;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getSortProperty() {
         return sortProperty;
     }
 
+    /**
+     *
+     * @return
+     */
     public int getStart() {
         return start;
     }

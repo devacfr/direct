@@ -1,4 +1,6 @@
 /**
+ * Copyright 2014 devacfr<christophefriederich@mac.com>
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -20,39 +22,63 @@ import java.util.List;
 
 import javax.xml.bind.annotation.XmlRootElement;
 
+/**
+ *
+ * @author devacfr<christophefriederich@mac.com>
+ *
+ * @param <T>
+ */
 @XmlRootElement()
 public class PaginatedDataSource<T> extends DataSource<T> {
 
+    /**
+     *
+     */
     private Collection<T> results = null;
 
-    public PaginatedDataSource(List<T> data, int pageSize, int start, long totalCount) {
+    /**
+     *
+     * @param data
+     * @param pageSize
+     * @param start
+     * @param totalCount
+     */
+    public PaginatedDataSource(final List<T> data, final int pageSize, final int start, final long totalCount) {
         super(data, pageSize, start, totalCount);
-        this.results = null;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Collection<T> getData() {
         return getPagingData(this.getStart());
     }
 
-    protected synchronized Collection<T> getPagingData(int start) {
+    /**
+     *
+     * @param start
+     * @return
+     */
+    protected synchronized Collection<T> getPagingData(final int start) {
         int length = list().size();
 
+        if (results != null) {
+            return results;
+        }
         if ((getPageSize() >= 0 || start >= 0) && length > 0) {
-            if (results == null) {
-                List<T> tmp = new ArrayList<T>(getPageSize());
-                int end = start + getPageSize();
 
-                if (end > length || end == 0) {
-                    end = length;
-                }
+            List<T> tmp = new ArrayList<T>(getPageSize());
+            int end = start + getPageSize();
 
-                for (int i = start; i < end; i++) {
-                    tmp.add(list().get(i));
-                }
-                results = Collections.unmodifiableCollection(tmp);
+            if (end > length || end == 0) {
+                end = length;
             }
 
+            for (int i = start; i < end; i++) {
+                tmp.add(list().get(i));
+            }
+            results = Collections.unmodifiableCollection(tmp);
             return results;
         }
 

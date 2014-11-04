@@ -1,4 +1,6 @@
 /**
+ * Copyright 2014 devacfr<christophefriederich@mac.com>
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -13,25 +15,47 @@
  */
 package org.cfr.matcha.api.request;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
+/**
+ *
+ * @author devacfr<christophefriederich@mac.com>
+ *
+ */
 public class Filter {
 
-    private String property;
+    /**
+     *
+     */
+    private @Nonnull final String property;
 
-    private String value;
+    /**
+     *
+     */
 
-    public String getProperty() {
+    private @Nullable final String value;
+
+    /**
+     *
+     * @param property
+     * @param value
+     */
+    public Filter(@Nonnull final String property, @Nullable final String value) {
+        this.property = property;
+        this.value = value;
+    }
+
+    /**
+     *
+     * @return
+     */
+    public @Nonnull String getProperty() {
         return property;
     }
 
-    public String getValue() {
+    public @Nullable String getValue() {
         return value;
     }
 
-    public void setProperty(String property) {
-        this.property = property;
-    }
-
-    public void setValue(String value) {
-        this.value = value;
-    }
 }

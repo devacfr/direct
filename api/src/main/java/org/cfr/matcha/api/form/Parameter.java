@@ -1,4 +1,6 @@
 /**
+ * Copyright 2014 devacfr<christophefriederich@mac.com>
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -17,14 +19,16 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import javax.annotation.concurrent.ThreadSafe;
 
+import org.cfr.commons.util.Assert;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
  * Form parameter representation.
- * @author devacfr
+ * @author devacfr<christophefriederich@mac.com>
  * @since 1.0
  */
 @ThreadSafe
@@ -33,17 +37,30 @@ public class Parameter implements Comparable<Parameter> {
     /**
      * Static logger.
      */
-    private static Logger logger = LoggerFactory.getLogger(Parameter.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(Parameter.class);
 
     /** The first object. */
+    @Nonnull
     private volatile String name;
 
     /** The second object. */
+    @Nullable
     private volatile String value;
 
     /**
+     * Preferred constructor.
+     *
+     * @param name The name.
+     * @param value The value.
+     */
+    public Parameter(@Nonnull final String name, @Nullable final String value) {
+        this.name = Assert.hasText(name, "Parameter name can not be null or empty");
+        this.value = value;
+    }
+
+    /**
      * Creates a parameter.
-     * 
+     *
      * @param name The parameter name buffer.
      * @param value The parameter value buffer (can be null).
      * @param decode If true, the name and values are decoded with the given characterSet,
@@ -51,10 +68,8 @@ public class Parameter implements Comparable<Parameter> {
      * @param characterSet The supported character encoding.
      * @return The created parameter.
      */
-    public static Parameter create(@Nonnull final CharSequence name,
-                                   @Nonnull final CharSequence value,
-                                   @Nonnull final boolean decode,
-                                   final String characterSet) {
+    public static Parameter create(@Nonnull final CharSequence name, @Nullable final CharSequence value,
+                                   @Nonnull final boolean decode, @Nullable final String characterSet) {
         Parameter result = null;
 
         if (name != null) {
@@ -79,25 +94,18 @@ public class Parameter implements Comparable<Parameter> {
         return result;
     }
 
-    /**
-     * Default constructor.
-     */
-    public Parameter() {
-        this(null, null);
-    }
-
     @Override
-    public boolean equals(final Object other) {
+    public boolean equals(@Nullable final Object other) {
         boolean result = this == other;
 
-        if (!result
-                && other instanceof Parameter) {
+        if (!result && other instanceof Parameter) {
             Parameter param = (Parameter) other;
 
-            if (param.getName() == null
-                    && getName() == null || getName() != null && getName().equals(param.getName())) {
-                result = param.getValue() == null
-                        && getValue() == null || getValue() != null && getValue().equals(param.getValue());
+            if ((param.getName() == null && getName() == null)
+                    || (getName() != null && getName().equals(param.getName()))) {
+                result =
+                        param.getValue() == null && getValue() == null || getValue() != null
+                                && getValue().equals(param.getValue());
             }
         }
         return result;
@@ -105,39 +113,39 @@ public class Parameter implements Comparable<Parameter> {
 
     /**
      * Returns the name object.
-     * 
+     *
      * @return The name object.
      */
-    public String getName() {
+    public @Nonnull String getName() {
         return name;
     }
 
     /**
      * Returns the value object.
-     * 
+     *
      * @return The value object.
      */
-    public String getValue() {
+    public @Nullable String getValue() {
         return value;
     }
 
     /**
      * Sets the first object.
-     * 
+     *
      * @param name
      *            The first object.
      */
-    public void setName(final String name) {
-        this.name = name;
+    public void setName(@Nonnull final String name) {
+        this.name = Assert.hasText(name, "Parameter name can not be null or empty");
     }
 
     /**
      * Sets the value object.
-     * 
+     *
      * @param value The value object.
      */
-    public void setValue(final String value) {
-        this.value = value;
+    public void setValue(@Nullable final String value) {
+        this.value = Assert.notNull(value, "parameter value is required");
     }
 
     /** {@inheritDoc} */
@@ -148,16 +156,15 @@ public class Parameter implements Comparable<Parameter> {
 
     @Override
     public String toString() {
-        return "("
-                + getName() + "," + getValue() + ")";
+        return "(" + getName() + "," + getValue() + ")";
     }
 
     /**
      * Computes the hash code of a set of objects. Follows the algorithm
      * specified in List.hasCode().
-     * 
+     *
      * @param objects the objects to compute the hashCode
-     * 
+     *
      * @return The hash code of a set of objects.
      */
     public static int hashCode(final Object... objects) {
@@ -165,8 +172,7 @@ public class Parameter implements Comparable<Parameter> {
 
         if (objects != null) {
             for (final Object obj : objects) {
-                result = 31
-                        * result + (obj == null ? 0 : obj.hashCode());
+                result = 31 * result + (obj == null ? 0 : obj.hashCode());
             }
         }
 
@@ -175,7 +181,7 @@ public class Parameter implements Comparable<Parameter> {
 
     /**
      * Creates a parameter.
-     * 
+     *
      * @param name The parameter name buffer.
      * @param value The parameter value buffer (can be null).
      * @return The created parameter.
@@ -189,37 +195,26 @@ public class Parameter implements Comparable<Parameter> {
     }
 
     /**
-     * Preferred constructor.
-     * 
-     * @param name The name.
-     * @param value The value.
-     */
-    public Parameter(final String name, final String value) {
-        this.name = name;
-        this.value = value;
-    }
-
-    /**
      * Compares this object with the specified object for order.
-     * 
+     *
      * @param o The object to be compared.
      * @return A negative integer, zero, or a positive integer as this object is
      *         less than, equal to, or greater than the specified object.
      */
     @Override
-    public int compareTo(final Parameter o) {
+    public int compareTo(@Nonnull final Parameter o) {
         return getName().compareTo(o.getName());
     }
 
     /**
      * Encodes the parameter and appends the result to the given buffer. Uses
      * the standard URI encoding mechanism.
-     * 
+     *
      * @param buffer The buffer to append.
      * @param characterSet The supported character encoding
      * @throws IOException If a I/O error occurs.
      */
-    public void encode(final Appendable buffer, final String characterSet) throws IOException {
+    public void encode(@Nonnull final Appendable buffer, @Nullable final String characterSet) throws IOException {
         if (getName() != null) {
             buffer.append(encodeUrl(getName(), characterSet));
 
@@ -232,12 +227,12 @@ public class Parameter implements Comparable<Parameter> {
 
     /**
      * Encodes the parameter using the standard URI encoding mechanism.
-     * 
+     *
      * @param characterSet The supported character encoding.
      * @return The encoded string.
      * @throws IOException If a I/O error occurs.
      */
-    public String encode(final String characterSet) throws IOException {
+    public String encode(@Nonnull final String characterSet) throws IOException {
         final StringBuilder sb = new StringBuilder();
         encode(sb, characterSet);
         return sb.toString();
@@ -246,18 +241,18 @@ public class Parameter implements Comparable<Parameter> {
     /**
      * Decodes a given string using the standard URI encoding mechanism and the
      * UTF-8 character set.
-     * 
+     *
      * @param toDecode The string to decode.
      * @return The decoded string.
      */
-    public static String decode(final String toDecode) {
+    public static @Nullable String decode(@Nullable final String toDecode) {
         String result = null;
 
         if (toDecode != null) {
             try {
                 result = java.net.URLDecoder.decode(toDecode, "UTF-8");
             } catch (UnsupportedEncodingException uee) {
-                logger.warn("Unable to decode the string with the UTF-8 character set.", uee);
+                LOGGER.warn("Unable to decode the string with the UTF-8 character set.", uee);
             }
 
         }
@@ -272,18 +267,18 @@ public class Parameter implements Comparable<Parameter> {
      * href="http://www.w3.org/TR/html40/appendix/notes.html#non-ascii-chars">
      * World Wide Web Consortium Recommendation</a> states that UTF-8 should be
      * used. Not doing so may introduce incompatibilities.</em>
-     * 
+     *
      * @param toDecode The string to decode.
      * @param characterSet The name of a supported character encoding.
      * @return The decoded string or null if the named character encoding is not
      *         supported.
      */
-    public static String decodeUrl(final String toDecode, final String characterSet) {
+    public static @Nullable String decodeUrl(@Nonnull final String toDecode, @Nullable final String characterSet) {
         String result = null;
         try {
             result = characterSet == null ? toDecode : java.net.URLDecoder.decode(toDecode, characterSet);
         } catch (UnsupportedEncodingException uee) {
-            logger.warn("Unable to decode the string with the UTF-8 character set.", uee);
+            LOGGER.warn("Unable to decode the string with the UTF-8 character set.", uee);
         }
 
         return result;
@@ -292,18 +287,18 @@ public class Parameter implements Comparable<Parameter> {
     /**
      * Encodes a given string using the standard URI encoding mechanism and the
      * UTF-8 character set.
-     * 
+     *
      * @param toEncode The string to encode.
      * @return The encoded string.
      */
-    public static String encodeUrl(final String toEncode) {
+    public static @Nullable String encodeUrl(@Nullable final String toEncode) {
         String result = null;
 
         if (toEncode != null) {
             try {
                 result = java.net.URLEncoder.encode(toEncode, "UTF-8");
             } catch (UnsupportedEncodingException uee) {
-                logger.warn("Unable to encode the string with the UTF-8 character set.", uee);
+                LOGGER.warn("Unable to encode the string with the UTF-8 character set.", uee);
             }
 
         }
@@ -314,24 +309,24 @@ public class Parameter implements Comparable<Parameter> {
     /**
      * Encodes a given string using the standard URI encoding mechanism. If the
      * provided character set is null, the string is returned but not encoded.
-     * 
+     *
      * <em><strong>Note:</strong> The <a
      * href="http://www.w3.org/TR/html40/appendix/notes.html#non-ascii-chars">
      * World Wide Web Consortium Recommendation</a> states that UTF-8 should be
      * used. Not doing so may introduce incompatibilities.</em>
-     * 
+     *
      * @param toEncode The string to encode.
      * @param characterSet The supported character encoding.
      * @return The encoded string or null if the named character encoding is not
      *         supported.
      */
-    public static String encodeUrl(final String toEncode, final String characterSet) {
+    public static @Nullable String encodeUrl(@Nonnull final String toEncode, @Nullable final String characterSet) {
         String result = null;
 
         try {
             result = characterSet == null ? toEncode : java.net.URLEncoder.encode(toEncode, characterSet);
         } catch (UnsupportedEncodingException uee) {
-            logger.warn("Unable to encode the string with the UTF-8 character set.", uee);
+            LOGGER.warn("Unable to encode the string with the UTF-8 character set.", uee);
         }
 
         return result;

@@ -1,4 +1,6 @@
 /**
+ * Copyright 2014 devacfr<christophefriederich@mac.com>
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -13,7 +15,10 @@
  */
 package org.cfr.matcha.api.response;
 
+import javax.annotation.Nonnull;
 import javax.xml.bind.annotation.XmlType;
+
+import org.cfr.commons.util.Assert;
 
 /**
  * An item describing the error.
@@ -30,20 +35,17 @@ public class FieldMessage implements java.io.Serializable {
     /**
      * Field id.
      */
-    private String id;
+    private final String id;
 
     /**
      * Field msg.
      */
-    private String msg;
+    private final String msg;
 
-    public FieldMessage() {
-    }
-
-    public FieldMessage(String id, String msg) {
+    public FieldMessage(@Nonnull final String id, @Nonnull final String msg) {
         super();
-        this.id = id;
-        this.msg = msg;
+        this.id = Assert.hasText(id, "id parameter is required");
+        this.msg = Assert.hasText(msg, "msg parameter is required");
     }
 
     /**
@@ -62,24 +64,6 @@ public class FieldMessage implements java.io.Serializable {
      */
     public String getMsg() {
         return this.msg;
-    }
-
-    /**
-     * Set the id field.
-     *
-     * @param id
-     */
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    /**
-     * Set the msg field.
-     *
-     * @param msg
-     */
-    public void setMsg(String msg) {
-        this.msg = msg;
     }
 
 }

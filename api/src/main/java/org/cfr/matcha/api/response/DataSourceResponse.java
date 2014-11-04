@@ -1,4 +1,6 @@
 /**
+ * Copyright 2014 devacfr<christophefriederich@mac.com>
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -15,97 +17,157 @@ package org.cfr.matcha.api.response;
 
 import java.util.Collection;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import org.cfr.commons.util.Assert;
+
+/**
+ *
+ * @author devacfr<christophefriederich@mac.com>
+ *
+ * @param <T>
+ */
 @XmlRootElement()
 public final class DataSourceResponse<T> extends DefaultResourceResponse {
 
+    /**
+     *
+     */
     private boolean removable = true;
 
+    /**
+     *
+     */
     private boolean additable = true;
 
+    /**
+     *
+     */
     private boolean editable = true;
 
+    /**
+     *
+     */
     private transient CallbackDataSource<T> callbackDataSource;
 
-    private int dataSourceSize;
+    /**
+     *
+     */
+    private final DataSource<T> dataSource;
 
-    private int limit;
-
-    private int start;
-
-    private long totalCount;
-
-    private Collection<?> dataSource;
-
-    public DataSourceResponse(DataSource<T> dataSource) {
+    /**
+     *
+     * @param dataSource
+     */
+    public DataSourceResponse(@Nonnull final DataSource<T> dataSource) {
         this(dataSource, null);
     }
 
-    public DataSourceResponse(DataSource<T> dataSource, CallbackDataSource<T> callbackDataSource) {
+    /**
+     *
+     * @param dataSource
+     * @param callbackDataSource
+     */
+    public DataSourceResponse(@Nonnull final DataSource<T> dataSource,
+            @Nullable final CallbackDataSource<T> callbackDataSource) {
         this.callbackDataSource = callbackDataSource;
-        doPopulate(dataSource);
+        this.dataSource = Assert.notNull(dataSource);
     }
 
-    private void doPopulate(DataSource<T> dts) {
+    /**
+     *
+     * @return
+     */
+    public Collection<?> getData() {
         if (callbackDataSource != null) {
-            dataSource = callbackDataSource.populate(dts.list());
+            return callbackDataSource.populate(dataSource.list());
         } else {
-            dataSource = dts.list();
+            return dataSource.list();
         }
-
-        dataSourceSize = dts.size();
-        limit = dts.getPageSize();
-        start = dts.getStart();
-        totalCount = dts.getCountTotal();
-
     }
 
-    public Collection<?> getDataSource() {
-        return dataSource;
-    }
-
+    /**
+     *
+     * @return
+     */
     public int getDataSourceSize() {
-        return dataSourceSize;
+        return dataSource.size();
     }
 
+    /**
+     *
+     * @return
+     */
     public int getLimit() {
-        return limit;
+        return dataSource.getPageSize();
     }
 
+    /**
+     *
+     * @return
+     */
     public int getStart() {
-        return start;
+        return dataSource.getStart();
     }
 
+    /**
+     *
+     * @return
+     */
     public long getTotalCount() {
-        return totalCount;
+        return dataSource.getCountTotal();
     }
 
+    /**
+     *
+     * @return
+     */
     public boolean isAdditable() {
         return additable;
     }
 
+    /**
+     *
+     * @return
+     */
     public boolean isEditable() {
         return editable;
     }
 
+    /**
+     *
+     * @return
+     */
     public boolean isRemovable() {
         return removable;
     }
 
-    public void setAdditable(boolean adding) {
+    /**
+     *
+     * @param adding
+     */
+    public DataSourceResponse<T> additable(final boolean adding) {
         this.additable = adding;
+        return this;
     }
 
-    protected void setDataSource(Collection<?> dataSource) {
-        this.dataSource = dataSource;
-    }
-
-    public void setEditable(boolean editable) {
+    /**
+     *
+     * @param editable
+     */
+    public DataSourceResponse<T> editable(final boolean editable) {
         this.editable = editable;
+        return this;
     }
 
-    public void setRemovable(boolean removable) {
+    /**
+     *
+     * @param removable
+     */
+    public DataSourceResponse<T> removable(final boolean removable) {
         this.removable = removable;
+        return this;
     }
 }

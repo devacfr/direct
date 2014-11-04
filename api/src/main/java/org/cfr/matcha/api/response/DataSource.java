@@ -1,4 +1,6 @@
 /**
+ * Copyright 2014 devacfr<christophefriederich@mac.com>
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -16,22 +18,48 @@ package org.cfr.matcha.api.response;
 import java.util.Collection;
 import java.util.List;
 
+import javax.annotation.Nonnull;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import org.cfr.commons.util.Assert;
 
+/**
+ *
+ * @author devacfr<christophefriederich@mac.com>
+ *
+ * @param <T>
+ */
 @XmlRootElement()
 public class DataSource<T> {
 
+    /**
+     *
+     */
     private final long countTotal;
 
+    /**
+     *
+     */
     private final List<T> data;
 
+    /**
+     *
+     */
     private final int pageSize;
 
+    /**
+     *
+     */
     private final int start;
 
-    public DataSource(List<T> data, int pageSize, int start, long totalCount) {
+    /**
+     *
+     * @param data
+     * @param pageSize
+     * @param start
+     * @param totalCount
+     */
+    public DataSource(@Nonnull final List<T> data, final int pageSize, final int start, final long totalCount) {
         Assert.notNull(data);
         this.countTotal = totalCount;
         this.data = data;
@@ -39,26 +67,50 @@ public class DataSource<T> {
         this.start = start;
     }
 
+    /**
+     *
+     * @return
+     */
     public long getCountTotal() {
         return countTotal;
     }
 
-    public Collection<T> getData() {
+    /**
+     *
+     * @return
+     */
+    public @Nonnull Collection<T> getData() {
         return data;
     }
 
-    public List<T> list() {
+    /**
+     *
+     * @return
+     */
+    public @Nonnull List<T> list() {
         return this.data;
     }
 
+    /**
+     *
+     * @return
+     */
     public int getPageSize() {
         return pageSize;
     }
 
+    /**
+     *
+     * @return
+     */
     public int getStart() {
         return start;
     }
 
+    /**
+     *
+     * @return
+     */
     public int size() {
         return data.size();
     }

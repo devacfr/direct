@@ -1,4 +1,6 @@
 /**
+ * Copyright 2014 devacfr<christophefriederich@mac.com>
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -33,7 +35,7 @@ public class JSONFormResponse extends DefaultResourceResponse implements java.io
     private static final long serialVersionUID = 1L;
 
     /**
-     * 
+     *
      */
     private Object data;
 
@@ -57,7 +59,7 @@ public class JSONFormResponse extends DefaultResourceResponse implements java.io
 
     /**
      * Adds error message for a specific field of form.
-     * @param name the field name of form in error 
+     * @param name the field name of form in error
      * @param msg the error message
      */
     public void addFieldError(@Nonnull final String name, @Nonnull final String msg) {
@@ -82,7 +84,7 @@ public class JSONFormResponse extends DefaultResourceResponse implements java.io
     }
 
     /**
-     * 
+     *
      * @return
      */
     public boolean isSuccess() {
@@ -90,7 +92,7 @@ public class JSONFormResponse extends DefaultResourceResponse implements java.io
     }
 
     /**
-     * 
+     *
      * @return
      */
     public Object getData() {
@@ -98,23 +100,23 @@ public class JSONFormResponse extends DefaultResourceResponse implements java.io
     }
 
     /**
-     * 
+     *
      * @param data
      */
-    public void setData(Object data) {
+    public void setData(final Object data) {
         this.data = data;
     }
 
     /**
-     * 
+     *
      * @param message
      */
-    public void setMessage(String message) {
+    public void setMessage(final String message) {
         this.message = message;
     }
 
     /**
-     * 
+     *
      * @return
      */
     public String getMessage() {

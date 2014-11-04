@@ -1,4 +1,6 @@
 /**
+ * Copyright 2014 devacfr<christophefriederich@mac.com>
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -25,15 +27,21 @@ import org.apache.commons.lang.StringUtils;
  *
  */
 @XmlRootElement()
-public class XmlFormResponse extends DefaultResourceResponse implements java.io.Serializable {
+public class XmlFormResponse<T> extends DefaultResourceResponse implements java.io.Serializable {
 
     /**
      *
      */
     private static final long serialVersionUID = 1L;
 
-    private Object data;
+    /**
+     *
+     */
+    private T data;
 
+    /**
+     *
+     */
     private String message = null;
 
     /**
@@ -46,11 +54,11 @@ public class XmlFormResponse extends DefaultResourceResponse implements java.io.
      *
      * @param errorMessage
      */
-    public void addFieldError(FieldMessage errorMessage) {
+    public void addFieldError(final FieldMessage errorMessage) {
         getErrors().add(errorMessage);
     }
 
-    public void addFieldError(String id, String msg) {
+    public void addFieldError(final String id, final String msg) {
         getErrors().add(new FieldMessage(id, msg));
     }
 
@@ -72,12 +80,12 @@ public class XmlFormResponse extends DefaultResourceResponse implements java.io.
      *
      * @param errorMessage
      */
-    public void removeFieldError(FieldMessage errorMessage) {
+    public void removeFieldError(final FieldMessage errorMessage) {
         getErrors().remove(errorMessage);
     }
 
     /**
-     * 
+     *
      * @return
      */
     public boolean isSuccess() {
@@ -85,31 +93,31 @@ public class XmlFormResponse extends DefaultResourceResponse implements java.io.
     }
 
     /**
-     * 
+     *
      * @return
      */
-    public Object getData() {
+    public T getData() {
         return data;
     }
 
     /**
-     * 
+     *
      * @param data
      */
-    public void setData(Object data) {
+    public void setData(final T data) {
         this.data = data;
     }
 
     /**
-     * 
+     *
      * @param message
      */
-    public void setMessage(String message) {
+    public void setMessage(final String message) {
         this.message = message;
     }
 
     /**
-     * 
+     *
      * @return
      */
     public String getMessage() {
