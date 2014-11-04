@@ -19,15 +19,17 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 import org.cfr.commons.util.Assert;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import com.google.common.collect.Lists;
 
 /**
  * Form reader.
@@ -42,15 +44,17 @@ public class FormReader {
     private static final Logger LOGGER = LoggerFactory.getLogger(FormReader.class);
 
     /** The encoding to use, decoding is enabled, see {@link #decoding}. */
-    private volatile String characterSet;
+    private volatile String characterSet = null;
 
     /** Indicates if the parameters should be decoded. */
     private volatile boolean decoding;
 
     /** The form stream. */
+    @Nonnull
     private volatile InputStream stream;
 
     /** The separator character used between parameters. */
+    @Nonnull
     private volatile char separator;
 
     /**
@@ -62,20 +66,21 @@ public class FormReader {
     public FormReader(final String parametersString, final char separator) {
         this.decoding = false;
         this.stream = new ByteArrayInputStream(parametersString.getBytes());
-        this.characterSet = null;
         this.separator = separator;
     }
 
     /**
      * Constructor.
      *
-     * @param parameters The parameters string.
+     * @param parametersString The parameters string.
      * @param characterSet The supported character encoding. Set to null to leave the data encoded.
      * @param separator character separator.
      */
-    public FormReader(@Nonnull final String parameters, @Nonnull final String characterSet, final char separator) {
+    public FormReader(@Nonnull final String parametersString, @Nullable final String characterSet,
+            @Nonnull final char separator) {
         this.decoding = true;
-        this.stream = new ByteArrayInputStream(Assert.notNull(parameters, "parametersString is required").getBytes());
+        this.stream =
+                new ByteArrayInputStream(Assert.notNull(parametersString, "parametersString is required").getBytes());
         this.characterSet = Assert.notNull(characterSet, "characterSet is required");
         this.separator = separator;
     }
@@ -122,7 +127,7 @@ public class FormReader {
      * @return The form read.
      * @throws IOException If the parameters could not be read.
      */
-    public Form read() throws IOException {
+    public @Nonnull Form read() throws IOException {
         final Form result = new Form();
         Parameter param = readNextParameter();
 
@@ -142,7 +147,8 @@ public class FormReader {
      * @return The parameter value.
      * @throws IOException If I/O error occurs
      */
-    public Parameter readFirstParameter(final String name) throws IOException {
+    public @Nullable Parameter readFirstParameter(@Nonnull final String name) throws IOException {
+        Assert.notNull(name, "Parameter name is required");
         Parameter param = readNextParameter();
         Parameter result = null;
 
@@ -164,7 +170,7 @@ public class FormReader {
      * @return The next parameter available or null.
      * @throws IOException If the next parameter could not be read.
      */
-    public Parameter readNextParameter() throws IOException {
+    public @Nullable Parameter readNextParameter() throws IOException {
         Parameter result = null;
 
         try {
@@ -189,7 +195,7 @@ public class FormReader {
                         if (nameBuffer.length() > 0) {
                             result = Parameter.create(nameBuffer, null, this.decoding, this.characterSet);
                         } else if (nextChar == -1) {
-                            // Do nothing return null preference
+                            break;
                         } else {
                             LOGGER.info("Empty parameter name detected. Please check your form data");
                         }
@@ -209,7 +215,7 @@ public class FormReader {
                 }
             }
         } catch (UnsupportedEncodingException uee) {
-            throw new IOException("Unsupported encoding. Please contact the administrator");
+            throw new IOException("Unsupported encoding. Please contact the administrator", uee);
         }
 
         return result;
@@ -224,7 +230,8 @@ public class FormReader {
      * @throws IOException If the parameters could not be read.
      */
     @SuppressWarnings("unchecked")
-    public Object readParameter(final String name) throws IOException {
+    public @Nullable Object readParameter(@Nonnull final String name) throws IOException {
+        Assert.notNull(name, "Parameter name is required");
         Parameter param = readNextParameter();
         Object result = null;
 
@@ -239,7 +246,7 @@ public class FormReader {
                     } else {
                         // Second value found for this parameter
                         // Create a list of values
-                        values = new ArrayList<Object>();
+                        values = Lists.newArrayList();
                         values.add(result);
                         result = values;
                     }
@@ -274,7 +281,8 @@ public class FormReader {
      * @throws IOException If the parameters could not be read.
      */
     @SuppressWarnings("unchecked")
-    public void readParameters(final Map<String, Object> parameters) throws IOException {
+    public void readParameters(@Nonnull final Map<String, Object> parameters) throws IOException {
+        Assert.notNull(parameters, "parameters is required");
         Parameter param = readNextParameter();
         Object currentValue = null;
 
@@ -291,7 +299,7 @@ public class FormReader {
                     } else {
                         // Second value found for this parameter
                         // Create a list of values
-                        values = new ArrayList<Object>();
+                        values = Lists.newArrayList();
                         values.add(currentValue);
                         parameters.put(param.getName(), values);
                     }

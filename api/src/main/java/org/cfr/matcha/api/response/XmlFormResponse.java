@@ -27,7 +27,7 @@ import org.apache.commons.lang.StringUtils;
  *
  */
 @XmlRootElement()
-public class XmlFormResponse extends DefaultResourceResponse implements java.io.Serializable {
+public class XmlFormResponse<T> extends DefaultResourceResponse implements java.io.Serializable {
 
     /**
      *
@@ -35,12 +35,12 @@ public class XmlFormResponse extends DefaultResourceResponse implements java.io.
     private static final long serialVersionUID = 1L;
 
     /**
-     * 
+     *
      */
-    private Object data;
+    private T data;
 
     /**
-     * 
+     *
      */
     private String message = null;
 
@@ -96,7 +96,7 @@ public class XmlFormResponse extends DefaultResourceResponse implements java.io.
      *
      * @return
      */
-    public Object getData() {
+    public T getData() {
         return data;
     }
 
@@ -104,7 +104,7 @@ public class XmlFormResponse extends DefaultResourceResponse implements java.io.
      *
      * @param data
      */
-    public void setData(final Object data) {
+    public void setData(final T data) {
         this.data = data;
     }
 

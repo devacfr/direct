@@ -21,8 +21,8 @@
 		<module>direct-spring</module>
 		<module>testing</module>
 		<module>example</module>
-
 	</modules>
+
 	<developers>
 		<developer>
 			<id>devacfr</id>
@@ -35,20 +35,17 @@
 	<scm>
 		<connection>scm:git:git@github.com:devacfr/matcha.git</connection>
 		<developerConnection>scm:git:git@github.com:devacfr/matcha.git</developerConnection>
-		<url>http://github.com/devacfr/matcha/tree/master</url>
-		<tag>HEAD</tag>
+		<url>http://github.com/devacfr/matcha</url>
 	</scm>
 	<properties>
 
 		<!-- Enable report aggregation -->
 		<aggregate>true</aggregate>
 
-
 		<org.cfr.commons.version>1.0.1</org.cfr.commons.version>
 
 		<!-- External dependencies versions. -->
 		<directjngine.version>2.2</directjngine.version>
-		<javax.inject.version>1</javax.inject.version>
 		<gson.version>1.5</gson.version>
 		<yuicompressor.version>2.4.2</yuicompressor.version>
 
@@ -56,15 +53,17 @@
 		<!-- Set compiler source and target versions -->
 		<maven.compiler.target>1.7</maven.compiler.target>
 
+		<!-- Enable report aggregation -->
+		<aggregate>true</aggregate>
+		<site.url>http://devacfr.github.io/matcha</site.url>
+
 		<issue.url>https://github.com/devacfr/matcha/issues</issue.url>
 		<distribution.releaseRepositoryUrl>https://api.bintray.com/maven/devacfr/maven/matcha</distribution.releaseRepositoryUrl>
 		<ci.url>https://travis-ci.org/devacfr/matcha</ci.url>
-
-		<site.url>http://devacfr.github.io/matcha/</site.url>
-		<site.deploy.url>http://github.com/devacfr/matcha</site.deploy.url>
 	</properties>
 
 	<url>${site.url}</url>
+
 
 	<repositories>
 		<repository>
@@ -83,7 +82,6 @@
 			</snapshots>
 		</repository>
 	</repositories>
-
 	<dependencyManagement>
 		<dependencies>
 			<dependency>
@@ -101,11 +99,6 @@
 						<artifactId>log4j</artifactId>
 					</exclusion>
 				</exclusions>
-			</dependency>
-			<dependency>
-				<groupId>javax.inject</groupId>
-				<artifactId>javax.inject</artifactId>
-				<version>${javax.inject.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.google.code.gson</groupId>
@@ -143,56 +136,16 @@
 	</build>
 	<profiles>
 		<profile>
-			<id>reporting</id>
-			<reporting>
-				<plugins>
-					<plugin>
-						<groupId>org.apache.rat</groupId>
-						<artifactId>apache-rat-plugin</artifactId>
-						<version>${maven-rat-plugin.version}</version>
-						<configuration>
-							<excludeSubProjects>false</excludeSubProjects>
-							<useEclipseDefaultExcludes>true</useEclipseDefaultExcludes>
-							<useMavenDefaultExcludes>true</useMavenDefaultExcludes>
-							<excludes>
-								<exclude>.git/**</exclude>
-								<exclude>**/.*</exclude>
-								<exclude>**/.settings/**</exclude>
-								<exclude>**/target/**</exclude>
-								<exclude>**/site/**</exclude>
-								<exclude>**/MANIFEST.MF</exclude>
-								<exclude>**/src/test/**/*.json</exclude>
-								<exclude>**/src/test/**/*.xml</exclude>
-								<exclude>**/*.md</exclude>
-								<!-- exclude extjs in example module -->
-								<exclude>**/webapp/ext/**</exclude>
-							</excludes>
-						</configuration>
-					</plugin>
-				</plugins>
-			</reporting>
-		</profile>
-		<profile>
-			<id>stage</id>
-			<build>
-				<plugins>
-					<!-- Configure Maven site plugin to perform stage -> multi-modules -->
-					<plugin>
-						<groupId>org.apache.maven.plugins</groupId>
-						<artifactId>maven-site-plugin</artifactId>
-						<version>${maven-site-plugin.version}</version>
-						<executions>
-							<execution>
-								<id>stage</id>
-								<goals>
-									<goal>stage</goal>
-								</goals>
-								<phase>site</phase>
-							</execution>
-						</executions>
-					</plugin>
-				</plugins>
-			</build>
+			<id>github</id>
+			<activation>
+				<property>
+					<name>!deployGithubDisabled</name>
+				</property>
+			</activation>
+			<properties>
+				<site.deploy.id>github</site.deploy.id>
+				<site.deploy.url>git:ssh://git@github.com/devacfr/matcha.git?gh-pages#/</site.deploy.url>
+			</properties>
 		</profile>
 	</profiles>
 </project>

@@ -25,7 +25,6 @@ import javax.xml.bind.annotation.XmlRootElement;
 /**
  *
  * @author devacfr<christophefriederich@mac.com>
- * @since 1.0
  *
  * @param <T>
  */
@@ -46,9 +45,11 @@ public class PaginatedDataSource<T> extends DataSource<T> {
      */
     public PaginatedDataSource(final List<T> data, final int pageSize, final int start, final long totalCount) {
         super(data, pageSize, start, totalCount);
-        this.results = null;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Collection<T> getData() {
         return getPagingData(this.getStart());
@@ -62,21 +63,22 @@ public class PaginatedDataSource<T> extends DataSource<T> {
     protected synchronized Collection<T> getPagingData(final int start) {
         int length = list().size();
 
+        if (results != null) {
+            return results;
+        }
         if ((getPageSize() >= 0 || start >= 0) && length > 0) {
-            if (results == null) {
-                List<T> tmp = new ArrayList<T>(getPageSize());
-                int end = start + getPageSize();
 
-                if (end > length || end == 0) {
-                    end = length;
-                }
+            List<T> tmp = new ArrayList<T>(getPageSize());
+            int end = start + getPageSize();
 
-                for (int i = start; i < end; i++) {
-                    tmp.add(list().get(i));
-                }
-                results = Collections.unmodifiableCollection(tmp);
+            if (end > length || end == 0) {
+                end = length;
             }
 
+            for (int i = start; i < end; i++) {
+                tmp.add(list().get(i));
+            }
+            results = Collections.unmodifiableCollection(tmp);
             return results;
         }
 

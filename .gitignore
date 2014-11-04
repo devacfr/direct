@@ -2,4 +2,6 @@
 .classpath
 .settings/
 target/
+.settings/
 .DS_Store
+.checkstyle

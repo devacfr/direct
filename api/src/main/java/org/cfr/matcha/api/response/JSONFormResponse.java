@@ -62,11 +62,8 @@ public class JSONFormResponse extends DefaultResourceResponse implements java.io
 
     /**
      * Adds error message for a specific field of form.
-     * 
-     * @param name
-     *            the field name of form in error
-     * @param msg
-     *            the error message
+     * @param name the field name of form in error
+     * @param msg the error message
      */
     public void addFieldError(@Nonnull final String name, @Nonnull final String msg) {
         getErrors().put(name, msg);
@@ -110,7 +107,7 @@ public class JSONFormResponse extends DefaultResourceResponse implements java.io
      *
      * @param data
      */
-    public void setData(@Nullable final Object data) {
+    public void setData(final Object data) {
         this.data = data;
     }
 
@@ -118,7 +115,7 @@ public class JSONFormResponse extends DefaultResourceResponse implements java.io
      *
      * @param message
      */
-    public void setMessage(@Nullable final String message) {
+    public void setMessage(final String message) {
         this.message = message;
     }
 

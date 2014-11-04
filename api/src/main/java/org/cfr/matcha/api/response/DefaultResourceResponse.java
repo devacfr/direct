@@ -17,7 +17,7 @@ package org.cfr.matcha.api.response;
 
 /**
  *
- * @author devacfr
+ * @author devacfr<christophefriederich@mac.com>
  * @since 1.0
  */
 public class DefaultResourceResponse implements IResourceResponse {

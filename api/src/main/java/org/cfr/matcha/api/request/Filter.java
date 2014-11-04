@@ -15,10 +15,12 @@
  */
 package org.cfr.matcha.api.request;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 /**
  *
  * @author devacfr<christophefriederich@mac.com>
- * @since 1.0
  *
  */
 public class Filter {
@@ -26,42 +28,34 @@ public class Filter {
     /**
      *
      */
-    private String property;
+    private @Nonnull final String property;
 
     /**
      *
      */
-    private String value;
 
-    /**
-     *
-     * @return
-     */
-    public String getProperty() {
-        return property;
-    }
-
-    /**
-     *
-     * @return
-     */
-    public String getValue() {
-        return value;
-    }
+    private @Nullable final String value;
 
     /**
      *
      * @param property
+     * @param value
      */
-    public void setProperty(final String property) {
+    public Filter(@Nonnull final String property, @Nullable final String value) {
         this.property = property;
+        this.value = value;
     }
 
     /**
      *
-     * @param value
+     * @return
      */
-    public void setValue(final String value) {
-        this.value = value;
+    public @Nonnull String getProperty() {
+        return property;
     }
+
+    public @Nullable String getValue() {
+        return value;
+    }
+
 }

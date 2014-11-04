@@ -80,7 +80,7 @@ public class Form extends Parameters<Parameter> {
      *            The separator character to append between parameters.
      * @throws IOException
      */
-    public Form(@Nonnull final String parametersString, final char separator) {
+    public Form(@Nonnull final String parametersString, @Nonnull final char separator) {
         this(parametersString, "UTF-8", separator);
     }
 
@@ -103,7 +103,8 @@ public class Form extends Parameters<Parameter> {
      * @param separator The separator character to append between parameters.
      * @throws IOException
      */
-    public Form(@Nonnull final String parametersString, @Nonnull final String characterSet, final char separator) {
+    public Form(@Nonnull final String parametersString, @Nonnull final String characterSet,
+            @Nonnull final char separator) {
         parse(this, parametersString, characterSet, true, separator);
     }
 
@@ -113,7 +114,7 @@ public class Form extends Parameters<Parameter> {
     }
 
     @Override
-    public Parameters<Parameter> createSeries(@Nonnull final List<Parameter> delegate) {
+    public @Nonnull Parameters<Parameter> createSeries(@Nullable final List<Parameter> delegate) {
         if (delegate != null) {
             return new Form(delegate);
         }
@@ -128,7 +129,7 @@ public class Form extends Parameters<Parameter> {
      * @return The encoded form.
      * @throws IOException If I/O error occurs.
      */
-    public String encode() throws IOException {
+    public @Nonnull String encode() throws IOException {
         return encode("UTF-8");
     }
 
@@ -151,8 +152,9 @@ public class Form extends Parameters<Parameter> {
      * @return The encoded form.
      * @throws IOException If I/O error occurs.
      */
-    public String encode(@Nonnull final String characterSet, final char separator) throws IOException {
-        Assert.notNull(characterSet);
+    public String encode(@Nonnull final String characterSet, @Nonnull final char separator) throws IOException {
+        Assert.hasText(characterSet);
+        Assert.notNull(separator);
         final StringBuilder sb = new StringBuilder();
         for (int i = 0; i < size(); i++) {
             if (i > 0) {
@@ -172,7 +174,7 @@ public class Form extends Parameters<Parameter> {
      * @see <a href="http://www.w3.org/DesignIssues/MatrixURIs.html">Matrix URIs
      *      by Tim Berners Lee</a>
      */
-    public String getMatrixString() {
+    public @Nonnull String getMatrixString() {
         return getMatrixString("UTF-8");
     }
 
@@ -186,7 +188,7 @@ public class Form extends Parameters<Parameter> {
      */
     public String getMatrixString(@Nonnull final String characterSet) {
         try {
-            return encode(Assert.notNull(characterSet), ';');
+            return encode(characterSet, ';');
         } catch (IOException ioe) {
             return null;
         }
@@ -210,7 +212,7 @@ public class Form extends Parameters<Parameter> {
      */
     public String getQueryString(@Nonnull final String characterSet) {
         try {
-            return encode(Assert.notNull(characterSet));
+            return encode(characterSet);
         } catch (IOException ioe) {
             return null;
         }
@@ -227,7 +229,7 @@ public class Form extends Parameters<Parameter> {
      */
     public static void parse(@Nonnull final Form form, @Nullable final String parametersString,
                              @Nonnull final String characterSet, @Nonnull final boolean decode, final char separator) {
-        if (parametersString != null && !"".equals(parametersString)) {
+        if (!"".equals(parametersString)) {
             FormReader fr = null;
 
             if (decode) {

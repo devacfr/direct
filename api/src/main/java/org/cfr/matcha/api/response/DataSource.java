@@ -18,6 +18,7 @@ package org.cfr.matcha.api.response;
 import java.util.Collection;
 import java.util.List;
 
+import javax.annotation.Nonnull;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import org.cfr.commons.util.Assert;
@@ -25,7 +26,6 @@ import org.cfr.commons.util.Assert;
 /**
  *
  * @author devacfr<christophefriederich@mac.com>
- * @since 1.0
  *
  * @param <T>
  */
@@ -59,7 +59,7 @@ public class DataSource<T> {
      * @param start
      * @param totalCount
      */
-    public DataSource(final List<T> data, final int pageSize, final int start, final long totalCount) {
+    public DataSource(@Nonnull final List<T> data, final int pageSize, final int start, final long totalCount) {
         Assert.notNull(data);
         this.countTotal = totalCount;
         this.data = data;
@@ -79,7 +79,7 @@ public class DataSource<T> {
      *
      * @return
      */
-    public Collection<T> getData() {
+    public @Nonnull Collection<T> getData() {
         return data;
     }
 
@@ -87,7 +87,7 @@ public class DataSource<T> {
      *
      * @return
      */
-    public List<T> list() {
+    public @Nonnull List<T> list() {
         return this.data;
     }
 

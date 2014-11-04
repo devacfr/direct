@@ -15,27 +15,42 @@
  */
 package org.cfr.matcha.api.request;
 
-import java.util.Arrays;
-
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import org.apache.commons.lang.StringUtils;
+import org.cfr.commons.util.Assert;
 import org.cfr.matcha.api.request.Query.SortDirection;
-
-import com.google.gson.GsonBuilder;
 
 /**
  *
  * @author devacfr<christophefriederich@mac.com>
- * @since 1.0
+ *
  */
 @XmlRootElement()
 public class QueryRequest {
 
     /**
-     * global Gson builder.
+     *
+     * @param queryRequest
+     * @return
      */
-    private static GsonBuilder gson = new GsonBuilder();
+    public static @Nonnull Query createQuery(@Nonnull final QueryRequest queryRequest) {
+        Assert.notNull(queryRequest);
+        Query query = new Query(queryRequest.getQuery());
+        query.setStart(queryRequest.getStart());
+        query.setLimit(queryRequest.getLimit());
+        if (queryRequest.getSortDirection() != null) {
+            if ("ASC".equals(queryRequest.getSortDirection())) {
+                query.setSortDirection(SortDirection.Ascending);
+            } else {
+                query.setSortDirection(SortDirection.Descending);
+            }
+        }
+        query.setSortProperty(queryRequest.getSortProperty());
+        return query;
+    }
 
     /**
      * Field from.
@@ -67,27 +82,6 @@ public class QueryRequest {
      */
     private Filter[] filters;
 
-    /**
-     *
-     * @param queryRequest
-     * @return
-     */
-    public static Query createQuery(final QueryRequest queryRequest) {
-        Query query = new Query();
-        query.setQuery(queryRequest.getQuery());
-        query.setStart(queryRequest.getStart());
-        query.setLimit(queryRequest.getLimit());
-        if (queryRequest.getSortDirection() != null) {
-            if ("ASC".equals(queryRequest.getSortDirection())) {
-                query.setSortDirection(SortDirection.Ascending);
-            } else {
-                query.setSortDirection(SortDirection.Descending);
-            }
-        }
-        query.setSortProperty(queryRequest.getSortProperty());
-        return query;
-    }
-
     // TODO [devacfr] request restlet constructor, find better to remove restlet dependency
     // public QueryRequest(Request request) {
     // Form form = request.getResourceRef().getQueryAsForm();
@@ -112,26 +106,26 @@ public class QueryRequest {
     // sortProperty = form.getFirstValue("sort");
     // sortDirection = form.getFirstValue("dir");
     // }
+    //
+    // /**
+    // *
+    // * @param filter
+    // * @return
+    // */
+    // public static Filter[] jsonToFilter(final String filter) {
+    // if (StringUtils.isEmpty(filter)) {
+    // return null;
+    // }
+    //
+    // return gson.create().fromJson(filter, Filter[].class);
+    // }
 
     /**
      *
-     * @param filter
      * @return
      */
-    public static Filter[] jsonToFilter(final String filter) {
-        if (StringUtils.isEmpty(filter)) {
-            return null;
-        }
-
-        return gson.create().fromJson(filter, Filter[].class);
-    }
-
-    /**
-     *
-     * @return
-     */
-    public Iterable<Filter> getFilters() {
-        return Arrays.asList(filters);
+    public Filter[] getFilters() {
+        return filters;
     }
 
     /**
@@ -139,7 +133,7 @@ public class QueryRequest {
      * @param propertyName
      * @return
      */
-    public Filter getFilter(final String propertyName) {
+    public @Nullable Filter getFilter(final String propertyName) {
         if (filters == null || filters.length == 0 || StringUtils.isEmpty(propertyName)) {
             return null;
         }

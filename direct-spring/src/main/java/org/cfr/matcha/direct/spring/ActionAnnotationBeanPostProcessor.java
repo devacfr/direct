@@ -27,13 +27,13 @@ import org.springframework.beans.factory.support.RootBeanDefinition;
 class ActionAnnotationBeanPostProcessor implements MergedBeanDefinitionPostProcessor, BeanFactoryAware {
 
     /**
-     * 
+     *
      */
     // TODO [devacfr] create interface
     private final BaseDirectContext directContext;
 
     /**
-     * 
+     *
      */
     public ActionAnnotationBeanPostProcessor(@Nonnull final BaseDirectContext directContext) {
         this.directContext = directContext;

@@ -15,10 +15,15 @@
  */
 package org.cfr.matcha.api.request;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
+import org.cfr.commons.util.Assert;
+
 /**
  *
  * @author devacfr<christophefriederich@mac.com>
- * @since 1.0
+ *
  */
 public class Query {
 
@@ -62,17 +67,27 @@ public class Query {
     /**
      *
      */
-    private String query;
+    @Nonnull
+    private final String query;
 
     /**
      *
      */
+    @Nullable
     private String sortProperty;
 
     /**
      *
      */
+    @Nonnull
     private SortDirection sortDirection = SortDirection.Ascending;
+
+    /**
+     *
+     */
+    public Query(final String query) {
+        this.query = Assert.hasText(query, "query is required");
+    }
 
     /**
      *
@@ -94,7 +109,7 @@ public class Query {
      *
      * @return
      */
-    public String getQuery() {
+    public @Nonnull String getQuery() {
         return query;
     }
 
@@ -102,7 +117,7 @@ public class Query {
      *
      * @return
      */
-    public String getSortProperty() {
+    public @Nullable String getSortProperty() {
         return sortProperty;
     }
 
@@ -132,17 +147,9 @@ public class Query {
 
     /**
      *
-     * @param query
-     */
-    public void setQuery(final String query) {
-        this.query = query;
-    }
-
-    /**
-     *
      * @param sortProperty
      */
-    public void setSortProperty(final String sortProperty) {
+    public void setSortProperty(@Nullable final String sortProperty) {
         this.sortProperty = sortProperty;
     }
 
@@ -150,7 +157,7 @@ public class Query {
      *
      * @param sortDirection
      */
-    public void setSortDirection(final SortDirection sortDirection) {
+    public void setSortDirection(@Nonnull final SortDirection sortDirection) {
         this.sortDirection = sortDirection;
     }
 

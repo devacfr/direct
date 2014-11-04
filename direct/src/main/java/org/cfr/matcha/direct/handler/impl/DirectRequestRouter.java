@@ -84,7 +84,7 @@ public class DirectRequestRouter implements IRequestRouter {
      * {@inheritDoc}
      */
     @Override
-    public void processSimpleFormPostRequest(final Reader reader, final Writer writer) throws IOException {
+    public void processSimpleFormPostRequest(Reader reader, Writer writer) throws IOException {
         FormPostRequestProcessor processor =
                 new FormPostRequestProcessor(this.registry, this.dispatcher, this.globalConfiguration);
         processor.process(reader, writer);

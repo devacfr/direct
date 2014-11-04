@@ -74,8 +74,8 @@ public class JaxRsDirectApplication extends BaseDirectContext implements IJaxRsD
             reader = new BufferedReader(new StringReader(input));
             StringWriter stringWriter = new StringWriter();
             writer = new PrintWriter(stringWriter);
-            IDirectHandlerContext handlerContext = new DirectJaxRsHandlerContext(this, requestType, uriInfo.getPath(),
-                    reader, writer);
+            IDirectHandlerContext handlerContext =
+                    new DirectJaxRsHandlerContext(this, requestType, uriInfo.getPath(), reader, writer);
             for (IDirectHandler handler : getDirectHandlers()) {
                 handler.process(handlerContext);
             }

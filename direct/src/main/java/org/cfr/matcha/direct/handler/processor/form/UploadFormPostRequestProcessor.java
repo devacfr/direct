@@ -49,12 +49,6 @@ public class UploadFormPostRequestProcessor extends FormPostRequestProcessorBase
      */
     private static final Logger LOGGER = LoggerFactory.getLogger(UploadFormPostRequestProcessor.class);
 
-    /**
-     *
-     * @param registry
-     * @param dispatcher
-     * @param globalConfiguration
-     */
     public UploadFormPostRequestProcessor(Registry registry, Dispatcher dispatcher,
             GlobalConfiguration globalConfiguration) {
         super(registry, dispatcher, globalConfiguration);
@@ -161,7 +155,7 @@ public class UploadFormPostRequestProcessor extends FormPostRequestProcessorBase
     public void handleFileUploadException(@Nonnull final FileUploadException e) {
         Assert.notNull(e);
 
-        RuntimeException ex = com.softwarementors.extjs.djn.router.processor.standard.form.upload.FileUploadException
+        com.softwarementors.extjs.djn.router.processor.standard.form.upload.FileUploadException ex = com.softwarementors.extjs.djn.router.processor.standard.form.upload.FileUploadException
                 .forFileUploadException(e);
         LOGGER.error(ex.getMessage(), ex);
         throw ex;

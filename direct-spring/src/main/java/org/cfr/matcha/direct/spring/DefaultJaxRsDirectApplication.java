@@ -40,7 +40,7 @@ import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
 
 /**
- * 
+ *
  * @author devacfr
  * @since 1.0
  */

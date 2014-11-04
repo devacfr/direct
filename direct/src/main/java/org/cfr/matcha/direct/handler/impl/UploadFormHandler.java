@@ -49,6 +49,8 @@ public class UploadFormHandler extends BaseHandler {
      */
     private final ServletFileUpload uploader = UploadFormPostRequestProcessor.createFileUploader();
 
+    public final static List<RequestType> acceptedRequestTypeList =
+            Collections.unmodifiableList(Arrays.asList(RequestType.FORM_UPLOAD_POST));
 
     @Override
     public List<RequestType> getAcceptedRequestType() {

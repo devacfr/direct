@@ -17,13 +17,8 @@ package org.cfr.matcha.api.response;
 
 import java.util.Collection;
 
-/**
- *
- * @author devacfr<christophefriederich@mac.com>
- * @since 1.0
- *
- * @param <T>
- */
+import javax.annotation.Nonnull;
+
 public interface CallbackDataSource<T> {
 
     /**
@@ -31,5 +26,6 @@ public interface CallbackDataSource<T> {
      * @param source
      * @return
      */
-    Collection<?> populate(Collection<T> source);
+    @Nonnull
+    Collection<?> populate(@Nonnull Collection<T> source);
 }
