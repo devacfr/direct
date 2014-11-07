@@ -1,151 +1,157 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-	<modelVersion>4.0.0</modelVersion>
-	<groupId>org.cfr.matcha</groupId>
-	<artifactId>matcha-parent</artifactId>
-	<version>1.0.0-SNAPSHOT</version>
-	<packaging>pom</packaging>
-	<name>matcha Framework</name>
-	<description>Framework allowing work with Extjs.</description>
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>org.cfr.matcha</groupId>
+    <artifactId>matcha-parent</artifactId>
+    <version>1.0.0-SNAPSHOT</version>
+    <packaging>pom</packaging>
+    <name>matcha Framework</name>
+    <description>Framework allowing work with Extjs.</description>
 
-	<parent>
-		<groupId>org.cfr</groupId>
-		<artifactId>maven-config</artifactId>
-		<version>6</version>
-	</parent>
+    <parent>
+        <groupId>org.cfr</groupId>
+        <artifactId>maven-config</artifactId>
+        <version>6</version>
+    </parent>
 
-	<modules>
-		<module>api</module>
-		<module>direct</module>
-		<module>direct-guice</module>
-		<module>direct-spring</module>
-		<module>testing</module>
-		<module>example</module>
-	</modules>
+    <modules>
+        <module>matcha-api</module>
+        <module>matcha-core</module>
+        <module>matcha-guice</module>
+        <module>matcha-spring</module>
+        <module>matcha-testing</module>
+        <module>matcha-example</module>
+    </modules>
 
-	<developers>
-		<developer>
-			<id>devacfr</id>
-			<name>christophe friederich</name>
-			<email>christophefriederich@mac.com</email>
-			<timezone>Europe/Zurich</timezone>
-			<url>http://devacfr.github.io</url>
-		</developer>
-	</developers>
-	<scm>
-		<connection>scm:git:git@github.com:devacfr/matcha.git</connection>
-		<developerConnection>scm:git:git@github.com:devacfr/matcha.git</developerConnection>
-		<url>http://github.com/devacfr/matcha</url>
-	</scm>
-	<properties>
+    <developers>
+        <developer>
+            <id>devacfr</id>
+            <name>christophe friederich</name>
+            <email>christophefriederich@mac.com</email>
+            <timezone>Europe/Zurich</timezone>
+            <url>http://devacfr.github.io</url>
+        </developer>
+    </developers>
+    <scm>
+        <connection>scm:git:git@github.com:devacfr/matcha.git</connection>
+        <developerConnection>scm:git:git@github.com:devacfr/matcha.git</developerConnection>
+        <url>http://github.com/devacfr/matcha</url>
+    </scm>
+    <properties>
 
-		<!-- Enable report aggregation -->
-		<aggregate>true</aggregate>
+        <!-- Enable report aggregation -->
+        <aggregate>true</aggregate>
 
-		<org.cfr.commons.version>1.0.1</org.cfr.commons.version>
+        <org.cfr.commons.version>1.0.1</org.cfr.commons.version>
 
-		<!-- External dependencies versions. -->
-		<directjngine.version>2.2</directjngine.version>
-		<gson.version>1.5</gson.version>
-		<yuicompressor.version>2.4.2</yuicompressor.version>
-
-
-		<!-- Set compiler source and target versions -->
-		<maven.compiler.target>1.7</maven.compiler.target>
-
-		<!-- Enable report aggregation -->
-		<aggregate>true</aggregate>
-		<site.url>http://devacfr.github.io/matcha</site.url>
-
-		<issue.url>https://github.com/devacfr/matcha/issues</issue.url>
-		<distribution.releaseRepositoryUrl>https://api.bintray.com/maven/devacfr/maven/matcha</distribution.releaseRepositoryUrl>
-		<ci.url>https://travis-ci.org/devacfr/matcha</ci.url>
-	</properties>
-
-	<url>${site.url}</url>
+        <!-- External dependencies versions. -->
+        <directjngine.version>2.2</directjngine.version>
+        <guava.version>18.0</guava.version>
+        <gson.version>1.5</gson.version>
+        <yuicompressor.version>2.4.2</yuicompressor.version>
 
 
-	<repositories>
-		<repository>
-			<id>maven-restlet</id>
-			<name>Public online Restlet repository</name>
-			<url>http://maven.restlet.org</url>
-		</repository>
-		<repository>
-			<id>bintray</id>
-			<url>http://dl.bintray.com/devacfr/maven</url>
-			<releases>
-				<enabled>true</enabled>
-			</releases>
-			<snapshots>
-				<enabled>false</enabled>
-			</snapshots>
-		</repository>
-	</repositories>
-	<dependencyManagement>
-		<dependencies>
-			<dependency>
-				<groupId>org.cfr.commons</groupId>
-				<artifactId>commons-util</artifactId>
-				<version>${org.cfr.commons.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>com.softwarementors.extjs</groupId>
-				<artifactId>directjngine</artifactId>
-				<version>${directjngine.version}</version>
-				<exclusions>
-					<exclusion>
-						<groupId>log4j</groupId>
-						<artifactId>log4j</artifactId>
-					</exclusion>
-				</exclusions>
-			</dependency>
-			<dependency>
-				<groupId>com.google.code.gson</groupId>
-				<artifactId>gson</artifactId>
-				<version>${gson.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>javax.ws.rs</groupId>
-				<artifactId>jsr311-api</artifactId>
-				<version>${jsr311.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>com.yahoo.platform.yui</groupId>
-				<artifactId>yuicompressor</artifactId>
-				<version>${yuicompressor.version}</version>
-			</dependency>
-		</dependencies>
-	</dependencyManagement>
-	<build>
-		<plugins>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-surefire-plugin</artifactId>
-				<version>${maven-surefire-plugin.version}</version>
-				<configuration>
+        <!-- Set compiler source and target versions -->
+        <maven.compiler.target>1.7</maven.compiler.target>
 
-					<!-- BUGFIX in directjngine 2.2 in method RegisteredCode#getDebugCodeBuilder -->
-					<enableAssertions>false</enableAssertions>
-					<includes>
-						<include>**/*Test.java</include>
-					</includes>
-				</configuration>
-			</plugin>
-		</plugins>
-	</build>
-	<profiles>
-		<profile>
-			<id>github</id>
-			<activation>
-				<property>
-					<name>!deployGithubDisabled</name>
-				</property>
-			</activation>
-			<properties>
-				<site.deploy.id>github</site.deploy.id>
-				<site.deploy.url>git:ssh://git@github.com/devacfr/matcha.git?gh-pages#/</site.deploy.url>
-			</properties>
-		</profile>
-	</profiles>
+        <!-- Enable report aggregation -->
+        <aggregate>true</aggregate>
+        <site.url>http://devacfr.github.io/matcha</site.url>
+
+        <issue.url>https://github.com/devacfr/matcha/issues</issue.url>
+        <distribution.releaseRepositoryUrl>https://api.bintray.com/maven/devacfr/maven/matcha</distribution.releaseRepositoryUrl>
+        <ci.url>https://travis-ci.org/devacfr/matcha</ci.url>
+    </properties>
+
+    <url>${site.url}</url>
+
+
+    <repositories>
+        <repository>
+            <id>maven-restlet</id>
+            <name>Public online Restlet repository</name>
+            <url>http://maven.restlet.org</url>
+        </repository>
+        <repository>
+            <id>bintray</id>
+            <url>http://dl.bintray.com/devacfr/maven</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
+    </repositories>
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.cfr.commons</groupId>
+                <artifactId>commons-util</artifactId>
+                <version>${org.cfr.commons.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.softwarementors.extjs</groupId>
+                <artifactId>directjngine</artifactId>
+                <version>${directjngine.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>log4j</groupId>
+                        <artifactId>log4j</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+            <dependency>
+                <groupId>com.google.guava</groupId>
+                <artifactId>guava</artifactId>
+                <version>${guava.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.google.code.gson</groupId>
+                <artifactId>gson</artifactId>
+                <version>${gson.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>javax.ws.rs</groupId>
+                <artifactId>jsr311-api</artifactId>
+                <version>${jsr311.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.yahoo.platform.yui</groupId>
+                <artifactId>yuicompressor</artifactId>
+                <version>${yuicompressor.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>${maven-surefire-plugin.version}</version>
+                <configuration>
+
+                    <!-- BUGFIX in directjngine 2.2 in method RegisteredCode#getDebugCodeBuilder -->
+                    <enableAssertions>false</enableAssertions>
+                    <includes>
+                        <include>**/*Test.java</include>
+                    </includes>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+    <profiles>
+        <profile>
+            <id>github</id>
+            <activation>
+                <property>
+                    <name>!deployGithubDisabled</name>
+                </property>
+            </activation>
+            <properties>
+                <site.deploy.id>github</site.deploy.id>
+                <site.deploy.url>git:ssh://git@github.com/devacfr/matcha.git?gh-pages#/</site.deploy.url>
+            </properties>
+        </profile>
+    </profiles>
 </project>

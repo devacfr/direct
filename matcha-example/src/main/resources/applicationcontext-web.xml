@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:jaxws="http://cxf.apache.org/jaxws" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:util="http://www.springframework.org/schema/util" xmlns:soap="http://cxf.apache.org/bindings/soap"
+	xsi:schemaLocation="
+                http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+                http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd
+                http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+                http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd 
+			    http://cxf.apache.org/bindings/soap http://cxf.apache.org/schemas/configuration/soap.xsd
+			    http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd">
+
+	<context:annotation-config />
+    
+    <!--  Scan all actions -->
+	<context:component-scan base-package="org.cfr.web.direct.action" />
+
+    
+	<bean id="ServletDirectContext" class="org.cfr.matcha.direct.spring.DefaultServletDirectContext">
+		<property name="debug" value="true" />
+		<property name="jsApiPath" value="/" />
+		<property name="name" value="app" />
+		<property name="namespace" value="Ext" />
+		<property name="providersUrl" value="/service/direct" />
+        <property name="createSourceFiles" value="false"/>
+        <property name="minify" value="false" />
+	</bean>
+
+	<bean id="Direct" class="org.cfr.matcha.direct.spring.HttpDirectRequestHandler">
+		<constructor-arg ref="ServletDirectContext" />
+	</bean>
+
+
+</beans>
